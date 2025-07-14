@@ -1,0 +1,6 @@
+{
+	"workbench.activityBar.visible": true,
+	"workbench.activityBar.iconClickBehavior": "toggle",
+	"workbench.activityBar.location": "left",
+	"workbench.activityBar.experimental.hideRunAndDebug": true
+}

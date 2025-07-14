@@ -1,0 +1,21 @@
+{
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"serverstart": "node -r dotenv/config local/server.ts",
+		"start": "next start",
+		"lint": "next lint"
+	},
+	"dependencies": {
+		"dotenv": "^17.2.0",
+		"next": "^15.3.5",
+		"openai": "^5.9.0",
+		"react": "^19.1.0",
+		"react-dom": "^19.1.0"
+	},
+	"devDependencies": {
+		"@types/node": "^24.0.13",
+		"@types/react": "^19.1.8",
+		"typescript": "^5.8.3"
+	}
+}
