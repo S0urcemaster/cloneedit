@@ -5,33 +5,33 @@ import Requests from './view/requests'
 import MenuHead from './view/maskHead'
 import MaskList from './view/maskList'
 import Mask from './view/mask'
-import { emptyModel } from './model'
+import { defaultModel } from './model'
 import ModelHead from './view/requestHead'
 
 export default function App() {
 
-	const [state, setState] = useState(emptyModel)
+	const [state, setState] = useState(defaultModel)
 
 	useEffect(() => {
 		// query()
 	}, [])
 
 	function setName(name: string) {
-		state.systems[state.currentSystem].name = name
-		setState({ ...state })
+		// state.systems[state.currentSystem].name = name
+		// setState({ ...state })
 	}
 
 	const events = {
 		nameChanged: (value: string) => {
-			setName(value)
+			// setName(value)
 		},
 		definitionChanged: (value: string) => {
-			state.systems[state.currentSystem].definition = value
-			setState({ ...state })
+			// state.systems[state.currentSystem].definition = value
+			// setState({ ...state })
 		},
 		requestChanged: (value: string) => {
-			state.systems[state.currentSystem].requests[state.systems[state.currentSystem].currentRequest].text = value
-			setState({ ...state })
+			// state.systems[state.currentSystem].requests[state.systems[state.currentSystem].currentRequest].text = value
+			// setState({ ...state })
 		}
 	}
 

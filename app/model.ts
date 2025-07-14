@@ -1,62 +1,59 @@
+// Ganz oben weiter oben geht nicht
 export type App = {
-	currentSystem: number
-	systems: System[]
+	// Multi Document
+	editors: Editor[]
+	settings: Settings // Globale Einstellungen : Schriftart , Rand
+	// Filter werden hart kodiert
 }
 
-export type System = {
-	name: string
-	definition: string // AI instruction
-	currentRequest?: number
-	requests: Request[]
+export type Editor = {
+	name: String
+	text: String
+	fontSize: number
+	clones: Clone[]
 }
 
-export type Request = {
-	text: string
-	response: string
-	model: string
+export type Clone = {
+	id: number // unique id benötigt pro Objekt
+	source: number // id 0 für editor und 1 bis x für Klone
+	filter: Filter // Konstantenname / id da hart kodiert . K.A. wie das generalisiert / lass ich mich überraschen
 }
 
-export const emptyModel: App = {
-	currentSystem: 0,
-	systems: [
-		{
-			name: '',
-			definition: '',
-			requests: [
-				{
-					text: '',
-					response: '',
-					model: ''
-				}
-			]
-		}
-	]
+export type Filter = string
+
+export const CAESAR_FILTER = 'caesar'
+export const REPLACE_TEXT_FILTER = 'replaceText'
+export const REPLACE_LIST_FILTER = 'replaceList'
+
+export type Settings = {
 }
 
+// Und testen wir ob das ganze funktioniert im defaultModel
 export const defaultModel: App = {
-	currentSystem: 0,
-	systems: [
+	editors: [
 		{
-			name: 'default',
-			definition: 'default',
-			requests: [
+			name: 'Default',
+			text: '',
+			fontSize: 16,
+			clones: [
 				{
-					text: 'default',
-					response: 'default',
-					model: 'default'
+					id: 1,
+					source: 0,
+					filter: CAESAR_FILTER
+				},
+				{
+					id: 2,
+					source: 1,
+					filter: REPLACE_TEXT_FILTER
 				}
 			]
 		},
 		{
-			name: 'individual',
-			definition: 'default',
-			requests: [
-				{
-					text: 'default',
-					response: 'default',
-					model: 'default'
-				}
-			]
-		},
-	]
+			name: 'Editor 2',
+			text: 'Dies ist der Text des Editors 2.',
+			fontSize: 16,
+			clones: []
+		}
+	],
+	settings: {}
 }
