@@ -52,7 +52,8 @@ export default function App() {
 					<ModelHead appState={state} showConfig={() => setName('config')} />
 				</div>
 				<div style={{ display: 'grid', gridTemplateRows: '0fr 1fr', padding: 5, backgroundColor: '#25597C', marginTop: 1 }}>
-					<Requests appState={state} />
+					<Requests />
+					{/* <Requests appState={state} /> */}
 				</div>
 			</div>
 		</>
