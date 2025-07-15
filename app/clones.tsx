@@ -1,30 +1,21 @@
 import React, { useState } from 'react'
-import { App as AppState, Clone as CloneModel } from './model'
+import { Clone as CloneModel } from './model'
+import { useCloneEditContext } from './context'
 
-export default function Clones({ appState }: { appState: AppState }) {
+export default function Clones() {
 
-	const [clones, setClones] = useState(appState.editors[0].clones)
+	const { state } = useCloneEditContext()
 
 	function Controller() {
 		return (
-			<div style={{ display: 'flex', justifyContent: 'space-between', height: 25, overflow: 'hidden', paddingTop: 0, paddingBottom: 2 }}>
-				<h1 style={{ position: 'relative', top: -5, left: 1, fontSize: 28 }}>Controller</h1>
+			<div style={{ display: 'flex', justifyContent: 'space-between', height: 25, overflow: 'hidden', padding: '2px 5px 2px 5px' }}>
 				<div>
-					<button style={{ marginRight: 3, width: 35 }}>Del</button>
-					<button style={{ marginRight: 3, width: 50 }}>Dupl</button>
-					<button style={{ marginRight: 3, width: 55 }}>New</button>
-					<button style={{ marginRight: 3, width: 20 }}>I</button>
-				</div>
-				<div style={{ display: 'flex', justifyContent: 'space-between', height: 25, overflow: 'hidden', paddingTop: 3 }}>
-					<div>
-						<button style={{ marginRight: 3, width: 90 }}>Run</button>
-						<button style={{ marginRight: 3 }}>Delete</button>
-					</div>
-					<select>
-						<option value="gpt-2">Llama 3</option>
-						<option value="gpt-3">Vicuna-13B</option>
-						<option value="gpt-4">h2oGPT</option>
-					</select>
+					<button style={{ marginRight: 3 }}>New Clone</button>
+					<button style={{ marginRight: 3 }}>Selected Up</button>
+					<button style={{ marginRight: 3 }}>Selected Dn</button>
+					<button style={{ marginRight: 3 }}>Delete Selected</button>
+					<button style={{ marginRight: 3 }}></button>
+					<button style={{ marginRight: 3 }}>I</button>
 				</div>
 			</div>
 		)
@@ -32,18 +23,26 @@ export default function Clones({ appState }: { appState: AppState }) {
 
 	function Clone({ clone }: { clone: CloneModel }) {
 		return (
-			<div style={{ border: '1px solid #ccc', height: 50 }}>
-				{clone.id}
+			<div style={{ padding: 3, }}>
+				<div style={{
+					height: 50,
+					overflow: 'auto',
+					whiteSpace: 'pre-wrap',
+					wordBreak: 'break-word',
+					padding: 5, background: state.settings.editorBackgroundColor,
+					color: state.settings.textColor,
+				}}>
+					{clone.filter.update(state.editors[0].text)}
+				</div>
 			</div>
 		)
 	}
 
 	return (
-		<div>
-
+		<div style={{ backgroundColor: state.settings.componentColor }}>
 			<Controller />
 			<div style={{ display: 'flex', flexDirection: 'column' }}>
-				{clones.map((clone, ix) => (
+				{state.editors[0].clones.map((clone, ix) => (
 					<Clone key={ix} clone={clone} />
 				))}
 			</div>

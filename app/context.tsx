@@ -1,21 +1,19 @@
-import { createContext, ReactNode, useContext } from 'react'
-import { App as AppModel } from './model'
+import { createContext, ReactNode, useContext, useState } from 'react'
+import { App as AppModel, defaultState } from './model'
 
-export type LocalStorage = {
+type LocalStorage = {
 	download: Function
 	upload: Function
-	// setWorktime: (worktime: Worktime) => void
-	// downloadWorktime: (year: number) => void
-	// uploadWorktime: (file: any, year: number) => void
 	storageLoaded: boolean
+	state: AppModel
 }
 
 type StorageState = {
-	worktime: any
+	state: AppModel
 }
 
 const initialStorageState: StorageState = {
-	worktime: { 2023: { year: 2023, months: [] } },
+	state: defaultState
 }
 
 function loadStorage() {
@@ -24,13 +22,6 @@ function loadStorage() {
 		saveStorage(initialStorageState)
 		storage = JSON.parse(localStorage.getItem('cloneedit')!)
 	} else {
-		if (!storage.worktime) {
-			storage.worktime = initialStorageState.worktime
-		} else {
-			if ('year' in storage.worktime) {
-				storage.worktime = initialStorageState.worktime
-			}
-		}
 		saveStorage(storage)
 	}
 	return storage
@@ -47,8 +38,11 @@ export type CloneEditContext = {
 const CloneEditContext = createContext<CloneEditContext>({} as CloneEditContext)
 
 export function CloneEditContextProvider({ initialState, children }: { initialState: AppModel, children: ReactNode }) {
+
+	const [state, setState] = useState(initialState)
+
 	return (
-		<CloneEditContext.Provider value={{ state: initialState }}>
+		<CloneEditContext.Provider value={{ state: state }}>
 			{children}
 		</CloneEditContext.Provider>
 	)

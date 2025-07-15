@@ -7,6 +7,7 @@ body {
 	justify-content: center;
 	align-items: center;
 	background-color: #222;
+	color: #cbdeff;
 	letter-spacing: 0em;
 }
 
@@ -21,7 +22,7 @@ select option {
 	/* Inherit the letter spacing from the parent element */
 	font-size: larger;
 	background-color: #1d1a22;
-	color: #f5efff;
+	color: inherit;
 	border: none;
 	padding-left: 6px;
 }
@@ -39,7 +40,7 @@ h4,
 h5,
 h6,
 p {
-	color: #fff;
+	color: inherit;
 	margin: 0;
 	padding: 0;
 	letter-spacing: inherit;
@@ -50,14 +51,8 @@ p {
 	font-size: larger;
 }
 
-h1 {
-	color: #ffd8d8;
-}
+h1 {}
 
-h2 {
-	color: #fababa;
-}
+h2 {}
 
-h3 {
-	color: #ffa9a9;
-}
+h3 {}
