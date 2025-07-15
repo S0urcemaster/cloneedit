@@ -1,9 +1,9 @@
 {
 	"scripts": {
-		"dev": "next dev -p 3002",
+		"dev": "next dev -p 3010",
 		"build": "next build",
 		"serverstart": "node -r dotenv/config local/server.ts",
-		"start": "next start -p 3002",
+		"start": "next start -p 3010",
 		"lint": "next lint"
 	},
 	"dependencies": {
