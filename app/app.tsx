@@ -1,12 +1,9 @@
 'use client'
 import React, { CSSProperties, ReactElement, useEffect, useState } from 'react'
-import Results from './view/results'
-import Requests from './view/requests'
-import MenuHead from './view/maskHead'
-import MaskList from './view/maskList'
-import Mask from './view/mask'
 import { defaultModel } from './model'
-import ModelHead from './view/requestHead'
+import Editor from './editor'
+import Clones from './clones'
+import { CloneEditContextProvider } from './context'
 
 export default function App() {
 
@@ -36,26 +33,9 @@ export default function App() {
 	}
 
 	return (
-		<>
-			<div style={{ display: 'grid', gridTemplateRows: '3fr 1fr' }}>
-				<div style={{ display: 'grid', gridTemplateRows: '1fr 0fr', padding: 5, backgroundColor: '#25597C' }}>
-					<Mask appState={state} appEvents={events} />
-					<MenuHead appState={state} showConfig={() => setName('config')} />
-				</div>
-				<div style={{ marginTop: 1, backgroundColor: '#25597C' }}>
-					<MaskList appState={state} />
-				</div>
-			</div>
-			<div style={{ display: 'grid', gridTemplateRows: '3fr 1fr', paddingLeft: 1 }}>
-				<div style={{ display: 'grid', gridTemplateRows: '1fr 0fr', padding: 5, backgroundColor: '#25597C' }}>
-					<Results appState={state} appEvents={events} />
-					<ModelHead appState={state} showConfig={() => setName('config')} />
-				</div>
-				<div style={{ display: 'grid', gridTemplateRows: '0fr 1fr', padding: 5, backgroundColor: '#25597C', marginTop: 1 }}>
-					<Requests />
-					{/* <Requests appState={state} /> */}
-				</div>
-			</div>
-		</>
+		<CloneEditContextProvider initialState={state}>
+			<Editor appState={state} />
+			<Clones appState={state} />
+		</CloneEditContextProvider>
 	)
 }
