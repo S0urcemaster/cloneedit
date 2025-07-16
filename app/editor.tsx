@@ -2,10 +2,16 @@ import { useState } from 'react';
 import { TabBar } from './components/TabBar';
 import * as constants from './constants'
 import { useCloneEditContext } from './context';
+import { Document } from './model';
 
 export default function Editor() {
 
-	const { state } = useCloneEditContext()
+	const {
+		currentDocument, settings,
+		availableFolders, availableFiles,
+		folderChanged,
+		fileChanged
+	} = useCloneEditContext()
 	const [tab, setTab] = useState('Edit')
 
 	// unique inside each editor so we can share the editor state by placing this component inside Editor
@@ -74,13 +80,11 @@ export default function Editor() {
 								</div>
 							</div>
 						</fieldset>
-						<select size={4}>
-							<option>Option 1</option>
-							<option>Option 2</option>
-							<option>Option 3</option>
-							<option>Option 4</option>
-							<option>Option 5</option>
-							<option>Option 6</option>
+
+						<select size={4} value={currentDocument.name} onChange={(e) => fileChanged(e.target.value)}>
+							{availableFiles.map((file, index) => (
+								<option key={index} value={file}>{file}</option>
+							))}
 						</select>
 
 						<fieldset style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 5, paddingLeft: 4 }}>
@@ -95,14 +99,10 @@ export default function Editor() {
 							</div>
 						</fieldset>
 
-
-						<select size={3}>
-							<option>Option 1</option>
-							<option>Option 2</option>
-							<option>Option 3</option>
-							<option>Option 4</option>
-							<option>Option 5</option>
-							<option>Option 6</option>
+						<select size={3} value={currentDocument.folder} onChange={(e) => folderChanged(e.target.value)}>
+							{availableFolders.map((folder, index) => (
+								<option key={index} value={folder}>{folder}</option>
+							))}
 						</select>
 					</div>
 				}
@@ -147,17 +147,18 @@ export default function Editor() {
 			<>
 				<div className={constants.fonts[constants.FONT_LEXEND].font.className} style={{ display: 'flex', flexDirection: 'column', height: 300 }}>
 					<textarea
-						value={state.documents[0].editor.text}
+						value={currentDocument.editor.text}
 						// rows={14}
 						placeholder={'Guess what'}
 						style={{
 							height: '100%',
 							resize: 'none',
-							background: state.settings.editorBackgroundColor, // Gradient background
-							color: state.settings.editorTextColor, // Text color
-							border: 'none', // Remove border
-							padding: '6px', // Padding
-							margin: 0, fontSize: state.settings.editorFontSize
+							background: settings.editorBackgroundColor, // Gradient background
+							color: settings.editorTextColor, // Text color
+							// border: 'none', // Remove border
+							padding: '6px 12px 6px 12px', // Padding
+							margin: 0, fontSize: settings.editorFontSize,
+							border: `1px solid ${'black'}`, // Border color
 						}}
 					/>
 				</div>
@@ -166,7 +167,7 @@ export default function Editor() {
 	}
 	return (
 		<>
-			<div style={{ display: 'grid', gridTemplateColumns: '3fr 7fr', padding: 5, gap: 5, backgroundColor: state.settings.componentColor }}>
+			<div style={{ display: 'grid', gridTemplateColumns: '3fr 7fr', padding: 5, gap: 5, backgroundColor: settings.componentColor }}>
 				<Head />
 				<Source />
 			</div>

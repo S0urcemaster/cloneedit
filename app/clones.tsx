@@ -5,7 +5,7 @@ import { TabBar } from './components/TabBar'
 
 export default function Clones() {
 
-	const { state, effectChanged } = useCloneEditContext()
+	const { settings, currentDocument, effectChanged } = useCloneEditContext()
 
 	function Controller() {
 		return (
@@ -44,26 +44,31 @@ export default function Clones() {
 					</div>
 					<TabBar vertical buttonNames={['Up', 'St', 'FX']} onTabClick={(tabName) => console.log(`Tab clicked: ${tabName}`)} />
 				</div>
-				<div style={{
-					overflow: 'auto',
-					whiteSpace: 'pre-wrap',
-					wordBreak: 'break-word',
-					padding: 5, background: state.settings.editorBackgroundColor,
-					color: state.settings.editorTextColor,
-					font: state.settings.editorFont,
-					fontSize: state.settings.cloneFontSize,
-				}}>
-					{clone.effect.update(state.documents[0].editor.text)}
-				</div>
+				<textarea
+					value={clone.effect.update(currentDocument.editor.text)}
+					// rows={14}
+					placeholder={'Guess what'}
+					style={{
+						height: '100%',
+						resize: 'none',
+						background: settings.editorBackgroundColor, // Gradient background
+						color: settings.editorTextColor, // Text color
+						// border: 'none', // Remove border
+						padding: '0px 12px 0px 6px', // Padding
+						margin: 0, fontSize: settings.editorFontSize,
+						border: `1px solid ${'black'}`, // Border color
+					}}
+					readOnly
+				/>
 			</div>
 		)
 	}
 
 	return (
-		<div style={{ backgroundColor: state.settings.componentColor }}>
+		<div style={{ backgroundColor: settings.componentColor }}>
 			<Controller />
 			<div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-				{state.documents[0].clones.map((clone, ix) => (
+				{currentDocument.clones.map((clone, ix) => (
 					<Clone key={ix} clone={clone} />
 				))}
 			</div>
