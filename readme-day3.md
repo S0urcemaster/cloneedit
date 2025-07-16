@@ -61,3 +61,5 @@ function filterChanged(clone: CloneModel, filterName: string) {
 		const updatedDocument = { ...state.documents[0], clones: updatedClones }
 	}
 ```
+Die Tabs oben funktionieren schon
+![alt text](readme/image2.png)
