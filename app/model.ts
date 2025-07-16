@@ -1,17 +1,22 @@
 // Ganz oben weiter oben geht nicht
 export type App = {
 	// Multi Document
-	editors: Editor[]
+	documents: Document[]
 	settings: Settings // Globale Einstellungen : Schriftart , Rand
 	// Filter werden hart kodiert
 }
 
-export type Editor = {
+export type Document = {
 	name: string
-	text: string
-	fontSize: number
+	folder: string
+	editor: Editor
 	clones: Clone[]
+}
 
+export type Editor = {
+	text: string
+	memory: string[]
+	snippets: string[]
 }
 
 export type Clone = {
@@ -19,10 +24,6 @@ export type Clone = {
 	source: number // id 0 für editor und 1 bis x für Klone
 	filter: Filter // Konstantenname / id da hart kodiert . K.A. wie das generalisiert / lass ich mich überraschen
 }
-
-export const fonts = [
-	'Arial',
-]
 
 export type Filter = {
 	name: string
@@ -89,11 +90,15 @@ export const filters: Record<string, Filter> = {
 
 // Und testen wir ob das ganze funktioniert im defaultModel
 export const defaultState: App = {
-	editors: [
+	documents: [
 		{
 			name: 'Default',
-			text: 'Let me work with some example text . I hope AI cann fill this with 300 words . so here it goes : Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-			fontSize: 16,
+			folder: 'default',
+			editor: {
+				text: 'Let me work with some example text . I hope AI cann fill this with 300 words . so here it goes : Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+				memory: [],
+				snippets: []
+			},
 			clones: [
 				{
 					id: 1,
@@ -120,18 +125,22 @@ export const defaultState: App = {
 	],
 
 	settings: {
-		font: 'Arial',
 		border: 0,
-		textColor: '#c7c7c7ff',
 		componentColor: '#25597C',
-		editorBackgroundColor: 'linear-gradient(to top, #1d1a22, #425c76ff)'
+		editorBackgroundColor: 'linear-gradient(to top, #1d1a22, #425c76ff)',
+		editorFont: 'Funnel Sans',
+		editorTextColor: '#deffcbff',
+		editorFontSize: 26,
+		cloneFontSize: 22,
 	}
 }
 
 export type Settings = {
-	font: string
 	border: number // probably percent
-	textColor: string
 	componentColor: string
 	editorBackgroundColor: string
+	editorTextColor: string
+	editorFont: string
+	editorFontSize: number
+	cloneFontSize: number
 }

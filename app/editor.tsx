@@ -1,8 +1,12 @@
+import { useState } from 'react';
+import { TabBar } from './components/TabBar';
+import * as constants from './constants'
 import { useCloneEditContext } from './context';
 
 export default function Editor() {
 
 	const { state } = useCloneEditContext()
+	const [tab, setTab] = useState('Edit')
 
 	// unique inside each editor so we can share the editor state by placing this component inside Editor
 	// instead of passing the appState as a prop
@@ -10,19 +14,130 @@ export default function Editor() {
 		return (
 			<div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', overflow: 'hidden', paddingTop: 0, paddingBottom: 2 }}>
 				<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-					<h1 style={{ position: 'relative', top: -5, left: 1, fontSize: 28, color: 'black' }}>Clone Edit</h1>
-					<div style={{ display: 'flex', gap: 5 }}>
-						<button>Tab1</button>
-						<button>Tab2</button>
-						<button>Tab3</button>
+					<h1 className={constants.fonts[constants.FONT_GEMUNU_LIBRE].font.className} style={{ position: 'relative', top: -5, left: 1, fontSize: 28, color: 'black' }}>Clone Edit</h1>
+					<TabBar
+						buttonNames={['Edit', 'Files', 'Settings']}
+						onTabClick={(tabName: string) => setTab(tabName)}
+					/>
+				</div>
+				{tab === 'Edit' &&
+					<div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+
+						<div id={'memory'} style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
+							<button style={{}}>Undo</button>
+							<button style={{}}>Redo</button>
+						</div>
+						<fieldset style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 5, paddingLeft: 4 }}>
+
+							<label htmlFor="letters">Letters</label>
+							<span>10,546</span>
+							<label htmlFor="words">Words</label>
+							<span>1984</span>
+
+							<label htmlFor="memory">Memory</label>
+							<div id={'memory'} style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
+								<button style={{}}>M1</button>
+								<button style={{}}>M2</button>
+								<button style={{}}>M3</button>
+								<button style={{}}>M4</button>
+								<button style={{}}>M5</button>
+								<button style={{}}>M6</button>
+							</div>
+
+							<label htmlFor="snippets">Snippets</label>
+							<div id={'snippets'} style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
+								<button style={{}}>S1</button>
+								<button style={{}}>S2</button>
+								<button style={{}}>S3</button>
+								<button style={{}}>S4</button>
+								<button style={{}}>S5</button>
+								<button style={{}}>S6</button>
+							</div>
+
+						</fieldset>
 					</div>
-				</div>
-				<div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-					<button style={{}}>Del</button>
-					<button style={{}}>Dupl</button>
-					<button style={{}}>New</button>
-					<button style={{}}>I</button>
-				</div>
+				}
+				{tab === 'Files' &&
+					<div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+						<div style={{ display: 'flex', gap: 5 }}>
+							<button style={{ flex: 1 }}>Backup</button>
+							<button style={{ flex: 1 }}>Restore</button>
+						</div>
+						<fieldset style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 5, paddingLeft: 4 }}>
+							<label htmlFor="folder">Folder</label>
+							<div style={{ display: 'flex', gap: 3 }}>
+								<input type="text" id="folder" />
+								<div style={{ display: 'flex', gap: 3 }}>
+									<button style={{}}>New</button>
+									<button style={{}}>Ren</button>
+									<button style={{}}>Del</button>
+								</div>
+							</div>
+						</fieldset>
+						<select size={4}>
+							<option>Option 1</option>
+							<option>Option 2</option>
+							<option>Option 3</option>
+							<option>Option 4</option>
+							<option>Option 5</option>
+							<option>Option 6</option>
+						</select>
+
+						<fieldset style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 5, paddingLeft: 4 }}>
+							<label htmlFor="folder">Folder</label>
+							<div style={{ display: 'flex', gap: 3 }}>
+								<input type="text" id="folder" />
+								<div style={{ display: 'flex', gap: 3 }}>
+									<button style={{}}>New</button>
+									<button style={{}}>Ren</button>
+									<button style={{}}>Del</button>
+								</div>
+							</div>
+						</fieldset>
+
+
+						<select size={3}>
+							<option>Option 1</option>
+							<option>Option 2</option>
+							<option>Option 3</option>
+							<option>Option 4</option>
+							<option>Option 5</option>
+							<option>Option 6</option>
+						</select>
+					</div>
+				}
+				{tab === 'Settings' &&
+					<fieldset style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 5, paddingLeft: 4 }}>
+						<label htmlFor="material">App Color</label>
+						<input type="text" id="material" />
+
+						<label htmlFor="editorFont">Editor Font</label>
+						<div id={'editorFont'} style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+							<select>
+								{Object.values(constants.fonts).map((font) => (
+									<option key={font.name} value={font.name}>{font.name}</option>
+								))}
+							</select>
+						</div>
+						<label htmlFor="editorTextColor">Editor Textcolor</label>
+						<input type="text" id="editorTextColor" />
+						<label htmlFor="editorTextSize">Editor Textsize</label>
+						<input type="text" id="editorTextSize" />
+
+						<label htmlFor="cloneFont">Clone Font</label>
+						<div id={'cloneFont'} style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+							<select>
+								{Object.values(constants.fonts).map((font) => (
+									<option key={font.name} value={font.name}>{font.name}</option>
+								))}
+							</select>
+						</div>
+						<label htmlFor="cloneTextColor">Clone Color</label>
+						<input type="text" id="cloneTextColor" />
+						<label htmlFor="cloneTextSize">Clone Color</label>
+						<input type="text" id="cloneTextSize" />
+					</fieldset>
+				}
 			</div>
 		)
 	}
@@ -30,20 +145,19 @@ export default function Editor() {
 	function Source() {
 		return (
 			<>
-				<div style={{ display: 'flex', flexDirection: 'column' }}>
+				<div className={constants.fonts[constants.FONT_LEXEND].font.className} style={{ display: 'flex', flexDirection: 'column', height: 300 }}>
 					<textarea
-						value={state.editors[0].text}
-						rows={4}
-						cols={50}
+						value={state.documents[0].editor.text}
+						// rows={14}
 						placeholder={'Guess what'}
 						style={{
 							height: '100%',
 							resize: 'none',
 							background: state.settings.editorBackgroundColor, // Gradient background
-							color: state.settings.textColor, // Text color
+							color: state.settings.editorTextColor, // Text color
 							border: 'none', // Remove border
 							padding: '6px', // Padding
-							margin: 0
+							margin: 0, fontSize: state.settings.editorFontSize
 						}}
 					/>
 				</div>

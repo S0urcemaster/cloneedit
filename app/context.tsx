@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext, useState } from 'react'
-import { App as AppModel, defaultState } from './model'
+import { App as AppModel, Clone as CloneModel, defaultState } from './model'
 
 type LocalStorage = {
 	download: Function
@@ -33,6 +33,7 @@ function saveStorage(storage: StorageState) {
 
 export type CloneEditContext = {
 	state: AppModel
+	filterChanged: (clone: CloneModel, filterName: string) => void
 }
 
 const CloneEditContext = createContext<CloneEditContext>({} as CloneEditContext)
@@ -41,10 +42,24 @@ export function CloneEditContextProvider({ initialState, children }: { initialSt
 
 	const [state, setState] = useState(initialState)
 
+	function filterChanged(clone: CloneModel, filterName: string) {
+		// find the clone / update its value and update the state
+		const updatedClones = state.documents[0].clones.map(c => {
+			if (c.id === clone.id) {
+				return { ...c, filter: filterName }
+			}
+			return c
+		})
+		const updatedDocument = { ...state.documents[0], clones: updatedClones }
+	}
+
 	return (
-		<CloneEditContext.Provider value={{ state: state }}>
+		<CloneEditContext.Provider value={{
+			state: state,
+			filterChanged: filterChanged
+		}}>
 			{children}
-		</CloneEditContext.Provider>
+		</ CloneEditContext.Provider>
 	)
 }
 export function useCloneEditContext() {

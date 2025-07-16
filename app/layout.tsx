@@ -1,8 +1,4 @@
-import { Gemunu_Libre as FontDefault } from 'next/font/google'
-
-const font3 = FontDefault({
-	subsets: ['latin'],
-})
+import * as constants from './constants'
 
 export default function RootLayout({
 	children,
@@ -10,7 +6,7 @@ export default function RootLayout({
 	children: React.ReactNode
 }) {
 	return (
-		<html lang="en" className={font3.className}>
+		<html lang="en" className={constants.fonts[constants.FONT_FUNNEL_SANS].font.className}>
 			<body>{children}</body>
 		</html>
 	)
