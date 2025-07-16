@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { Clone as CloneModel, filters } from './model'
+import { Clone as CloneModel, effects } from './model'
 import { useCloneEditContext } from './context'
 import { TabBar } from './components/TabBar'
 
 export default function Clones() {
 
-	const { state, filterChanged } = useCloneEditContext()
+	const { state, effectChanged } = useCloneEditContext()
 
 	function Controller() {
 		return (
@@ -29,10 +29,10 @@ export default function Clones() {
 				<div style={{ display: 'grid', gridTemplateColumns: '9fr 1fr', gap: 5 }}>
 					<div>
 						<fieldset style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 5, paddingLeft: 4 }}>
-							<label htmlFor="filter">Filter</label>
-							<select onChange={(e) => filterChanged(clone, e.target.value)} id="filter">
-								{Object.values(filters).map((filter, index) => (
-									<option key={index} value={filter.name}>{filter.name}</option>
+							<label htmlFor="effect">Effect</label>
+							<select onChange={(e) => effectChanged(clone, e.target.value)} id="effect">
+								{Object.values(effects).map((effect, index) => (
+									<option key={index} value={effect.name}>{effect.name}</option>
 								))}
 							</select>
 
@@ -42,7 +42,7 @@ export default function Clones() {
 							<input type="text" id="editorTextSize" />
 						</fieldset>
 					</div>
-					<TabBar vertical buttonNames={['S', 'F']} onTabClick={(tabName) => console.log(`Tab clicked: ${tabName}`)} />
+					<TabBar vertical buttonNames={['Up', 'St', 'FX']} onTabClick={(tabName) => console.log(`Tab clicked: ${tabName}`)} />
 				</div>
 				<div style={{
 					overflow: 'auto',
@@ -53,7 +53,7 @@ export default function Clones() {
 					font: state.settings.editorFont,
 					fontSize: state.settings.cloneFontSize,
 				}}>
-					{clone.filter.update(state.documents[0].editor.text)}
+					{clone.effect.update(state.documents[0].editor.text)}
 				</div>
 			</div>
 		)

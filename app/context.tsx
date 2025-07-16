@@ -33,7 +33,7 @@ function saveStorage(storage: StorageState) {
 
 export type CloneEditContext = {
 	state: AppModel
-	filterChanged: (clone: CloneModel, filterName: string) => void
+	effectChanged: (clone: CloneModel, effectName: string) => void
 }
 
 const CloneEditContext = createContext<CloneEditContext>({} as CloneEditContext)
@@ -42,11 +42,11 @@ export function CloneEditContextProvider({ initialState, children }: { initialSt
 
 	const [state, setState] = useState(initialState)
 
-	function filterChanged(clone: CloneModel, filterName: string) {
+	function effectChanged(clone: CloneModel, effectName: string) {
 		// find the clone / update its value and update the state
 		const updatedClones = state.documents[0].clones.map(c => {
 			if (c.id === clone.id) {
-				return { ...c, filter: filterName }
+				return { ...c, effect: effectName }
 			}
 			return c
 		})
@@ -56,7 +56,7 @@ export function CloneEditContextProvider({ initialState, children }: { initialSt
 	return (
 		<CloneEditContext.Provider value={{
 			state: state,
-			filterChanged: filterChanged
+			effectChanged: effectChanged
 		}}>
 			{children}
 		</ CloneEditContext.Provider>

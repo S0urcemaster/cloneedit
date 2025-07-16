@@ -3,7 +3,7 @@ export type App = {
 	// Multi Document
 	documents: Document[]
 	settings: Settings // Globale Einstellungen : Schriftart , Rand
-	// Filter werden hart kodiert
+	// Effect werden hart kodiert
 }
 
 export type Document = {
@@ -22,23 +22,23 @@ export type Editor = {
 export type Clone = {
 	id: number // unique id benötigt pro Objekt
 	source: number // id 0 für editor und 1 bis x für Klone
-	filter: Filter // Konstantenname / id da hart kodiert . K.A. wie das generalisiert / lass ich mich überraschen
+	effect: Effect // Konstantenname / id da hart kodiert . K.A. wie das generalisiert / lass ich mich überraschen
 }
 
-export type Filter = {
+export type Effect = {
 	name: string
 	params: string[]
 	update: (text: string, ...args: string[]) => string
 }
 
-export const CAESAR_FILTER = 'caesar'
-export const REPLACE_TEXT_FILTER = 'replaceText'
-export const REPLACE_LIST_FILTER = 'replaceList'
-export const NO_WHITESPACE_FILTER = 'noWhitespace'
+export const CAESAR_EFFECT = 'caesar'
+export const REPLACE_TEXT_EFFECT = 'replaceText'
+export const REPLACE_LIST_EFFECT = 'replaceList'
+export const NO_WHITESPACE_EFFECT = 'noWhitespace'
 
-// dann ein hart kodiertes Filter Objekt
-export const filters: Record<string, Filter> = {
-	[CAESAR_FILTER]: {
+// dann ein hart kodierter Effekt Objekt
+export const effects: Record<string, Effect> = {
+	[CAESAR_EFFECT]: {
 		name: 'Caesar Cipher',
 		params: ['shift'],
 		update: (text: string, shift: string) => {
@@ -53,7 +53,7 @@ export const filters: Record<string, Filter> = {
 			// }).join('');
 		}
 	},
-	[REPLACE_TEXT_FILTER]: {
+	[REPLACE_TEXT_EFFECT]: {
 		name: 'Replace Text',
 		params: ['search', 'replace'],
 		update: (text: string, search: string, replace: string) => {
@@ -61,7 +61,7 @@ export const filters: Record<string, Filter> = {
 			// return text.replace(new RegExp(search, 'g'), replace);
 		}
 	},
-	[REPLACE_LIST_FILTER]: {
+	[REPLACE_LIST_EFFECT]: {
 		name: 'Replace List',
 		params: ['searchList', 'replaceList'],
 		update: (text: string, searchList: string, replaceList: string) => {
@@ -79,7 +79,7 @@ export const filters: Record<string, Filter> = {
 			// return updatedText;
 		}
 	},
-	[NO_WHITESPACE_FILTER]: {
+	[NO_WHITESPACE_EFFECT]: {
 		name: 'No Whitespace',
 		params: [],
 		update: (text: string) => {
@@ -103,22 +103,22 @@ export const defaultState: App = {
 				{
 					id: 1,
 					source: 0,
-					filter: filters[NO_WHITESPACE_FILTER]
+					effect: effects[NO_WHITESPACE_EFFECT]
 				},
 				{
 					id: 2,
 					source: 0,
-					filter: filters[CAESAR_FILTER]
+					effect: effects[CAESAR_EFFECT]
 				},
 				{
 					id: 3,
 					source: 0,
-					filter: filters[REPLACE_TEXT_FILTER]
+					effect: effects[REPLACE_TEXT_EFFECT]
 				},
 				{
 					id: 4,
 					source: 0,
-					filter: filters[REPLACE_LIST_FILTER]
+					effect: effects[REPLACE_LIST_EFFECT]
 				}
 			]
 		},

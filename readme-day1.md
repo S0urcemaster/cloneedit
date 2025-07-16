@@ -57,9 +57,9 @@ export type Clone = {
 
 export type Filter = string
 
-export const CAESAR_FILTER = 'caesar'
-export const REPLACE_TEXT_FILTER = 'replaceText'
-export const REPLACE_LIST_FILTER = 'replaceList'
+export const CAESAR_EFFECT = 'caesar'
+export const REPLACE_TEXT_EFFECT = 'replaceText'
+export const REPLACE_LIST_EFFECT = 'replaceList'
 
 export type Settings = {
 }
@@ -75,12 +75,12 @@ export const defaultModel: App = {
 				{
 					id: 1,
 					source: 0,
-					filter: CAESAR_FILTER
+					filter: CAESAR_EFFECT
 				},
 				{
 					id: 2,
 					source: 1,
-					filter: REPLACE_TEXT_FILTER
+					filter: REPLACE_TEXT_EFFECT
 				}
 			]
 		},
