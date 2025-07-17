@@ -27,6 +27,16 @@ select {
 	padding-left: 6px;
 }
 
+button:disabled {
+	background-color: #6a7f93;
+	cursor: wait;
+}
+
+input:disabled {
+	background-color: #6a7f93;
+	cursor: wait;
+}
+
 /* Explicitly set font for select options */
 select option {
 	font-family: inherit;

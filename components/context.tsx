@@ -10,6 +10,7 @@ export type CloneEditContext = {
 	currentFolder: string
 	availableFiles: string[]
 	currentFile: string
+	source: string
 	effectChanged: (clone: CloneModel, effectName: string) => void
 	folderChanged: (folder: string) => void
 	fileChanged: (file: string) => void
@@ -31,12 +32,13 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 	const [availableFiles, setAvailableFiles] = useState<string[]>([])
 	const [currentFile, setCurrentFile] = useState<string>(currentDocument.name)
 
+	const [source, setSource] = useState<string>(currentDocument.editor.text)
+
 	useEffect(() => {
 		console.log('✅ useEffect: mounted');
 
 		console.log('currentDocument []', currentDocument)
 		setAvailableFolders(lib.extractFolders(state))
-		// setCurrentFolder(state.documents[0].folder)
 		folderChanged(state.documents[0].folderName)
 		fileChanged(state.documents[0].name)
 
@@ -46,10 +48,10 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 	}, [])
 
 	useEffect(() => {
-		console.log('currentDocument', currentDocument)
-		console.log('Current folder:', currentFolder)
-		console.log('Available folders:', availableFolders)
-		console.log('Available files:', availableFiles)
+		// console.log('currentDocument', currentDocument)
+		// console.log('Current folder:', currentFolder)
+		// console.log('Available folders:', availableFolders)
+		// console.log('Available files:', availableFiles)
 	}, [availableFiles])
 
 	useEffect(() => {
@@ -83,6 +85,8 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 	function fileChanged(file: string) {
 		// set currentDocument to document from state with keys folder and name
 		setCurrentDocument(state.documents.find(doc => doc.folderName === currentDocument.folderName && doc.name === file))
+		setCurrentFile(file)
+		// setSource(currentDocument.editor.text)
 	}
 
 	function sourceChanged(source: string) {
@@ -98,6 +102,7 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 			currentFolder: currentFolder,
 			availableFiles: availableFiles,
 			currentFile: currentFile,
+			source: source,
 			effectChanged: effectChanged,
 			folderChanged: folderChanged,
 			fileChanged: fileChanged,

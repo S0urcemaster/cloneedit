@@ -43,3 +43,7 @@ const {
 
 > ### Deswegen React Komponenten immer getrennt halten und nicht eine innerhalb einer anderen
 
+- Folder Steuerung deaktiviert (optional)
+- File Steuerung über select funktioniert
+- Texteingabe funktioniert
+- Update - Intervall 1s vorprogrammiert
