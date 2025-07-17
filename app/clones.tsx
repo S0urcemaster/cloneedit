@@ -1,7 +1,8 @@
+'use client'
 import React, { useState } from 'react'
 import { Clone as CloneModel, effects } from './model'
-import { useCloneEditContext } from './context'
-import { TabBar } from './components/TabBar'
+import { useCloneEditContext } from '../components/context'
+import { TabBar } from '../components/TabBar'
 
 export default function Clones() {
 

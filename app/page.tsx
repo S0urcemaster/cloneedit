@@ -1,5 +1,7 @@
+'use client'
 import './globals.css'
 import App from './app'
+import { useEffect } from 'react';
 
 export default function Page() {
 	return (

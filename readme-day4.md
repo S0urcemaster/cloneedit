@@ -38,3 +38,8 @@ const {
 		fileChanged
 	} = useCloneEditContext()
 ```
+
+- Schwer zu findender Fehler weil ich länger raus bin aus React : Wenn man react Funktionen verschachtelt bekommen sie ein unnötiges Update und value <-> onChange funktioniert nicht richtig
+
+> ### Deswegen React Komponenten immer getrennt halten und nicht eine innerhalb einer anderen
+
