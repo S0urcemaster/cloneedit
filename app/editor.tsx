@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import { TabBar } from '../components/TabBar';
-import * as constants from '../components/constants'
-import { useCloneEditContext } from '../components/context';
+import * as constants from './constants'
+import { useCloneEditContext } from './context';
 import { FilesForm } from '../editor/filesForm';
 import { EditForm } from '../editor/editForm';
 import { SettingsForm } from '../editor/settingsForm';
+import { InfoForm } from '../editor/infoForm';
 
-// unique inside each editor so we can share the editor state by placing this component inside Editor
-// instead of passing the appState as a prop
 function Head() {
 	const {
 
@@ -16,11 +15,12 @@ function Head() {
 	const [tab, setTab] = useState('Edit')
 
 	return (
-		<div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', overflow: 'hidden', paddingTop: 0, paddingBottom: 2 }}>
+		<div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', paddingTop: 0, paddingBottom: 2 }}>
 			<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-				<h1 className={constants.fonts[constants.FONT_GEMUNU_LIBRE].font.className} style={{ position: 'relative', top: -5, left: 1, fontSize: 28, color: 'black' }}>Clone Edit</h1>
+				<h1 className={constants.fonts[constants.FONT_GEMUNU_LIBRE].font.className + ' cloneedit-color'}
+					style={{ position: 'relative', top: -5, left: 1, fontSize: 28 }}>Clone Edit</h1>
 				<TabBar
-					buttonNames={['Edit', 'Files', 'Settings']}
+					buttonNames={['Edit', 'Files', 'Settings', 'Info']}
 					onTabClick={(tabName: string) => setTab(tabName)}
 				/>
 			</div>
@@ -32,6 +32,9 @@ function Head() {
 			}
 			{tab === 'Settings' &&
 				<SettingsForm />
+			}
+			{tab === 'Info' &&
+				<InfoForm />
 			}
 		</div>
 	)
@@ -45,13 +48,12 @@ function Source() {
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			sourceChanged(text)
-		}, 1000); // 1 Sekunde warten
+		}, 500); // 1 Sekunde warten
 
 		return () => clearTimeout(timer); // Reset bei erneutem Tippen
 	}, [text]);
 
 	useEffect(() => {
-		console.log('source changed', currentDocument.editor.text)
 		setText(currentDocument.editor.text)
 	}, [currentDocument])
 
@@ -87,7 +89,7 @@ export default function Editor() {
 
 	return (
 		<>
-			<div style={{ display: 'grid', gridTemplateColumns: '3fr 7fr', padding: 5, gap: 5, backgroundColor: settings.componentColor }}>
+			<div style={{ display: 'grid', gridTemplateColumns: '3fr 7fr', padding: 5, gap: 5, background: settings.componentColor }}>
 				<Head />
 				<Source />
 			</div>

@@ -1,4 +1,4 @@
-import { App as AppModel } from '../app/model'
+import { App as AppModel } from './model'
 
 export const lib = {
 

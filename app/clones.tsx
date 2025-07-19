@@ -1,8 +1,9 @@
 'use client'
 import React, { useState } from 'react'
-import { Clone as CloneModel, effects } from './model'
-import { useCloneEditContext } from '../components/context'
+import { Clone as CloneModel } from './model'
+import { useCloneEditContext } from './context'
 import { TabBar } from '../components/TabBar'
+import { effects } from './constants'
 
 export default function Clones() {
 
@@ -56,8 +57,9 @@ export default function Clones() {
 						color: settings.editorTextColor, // Text color
 						// border: 'none', // Remove border
 						padding: '0px 12px 0px 6px', // Padding
-						margin: 0, fontSize: settings.editorFontSize,
+						margin: 0,
 						border: `1px solid ${'black'}`, // Border color
+						fontSize: settings.cloneFontSize,
 					}}
 					readOnly
 				/>
@@ -66,7 +68,7 @@ export default function Clones() {
 	}
 
 	return (
-		<div style={{ backgroundColor: settings.componentColor }}>
+		<div style={{ background: settings.componentColor }}>
 			<Controller />
 			<div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
 				{currentDocument.clones.map((clone, ix) => (

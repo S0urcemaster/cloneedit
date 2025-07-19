@@ -1,4 +1,4 @@
-import * as constants from '../components/constants'
+import * as constants from '../app/constants'
 
 export function SettingsForm() {
 	return (

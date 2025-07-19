@@ -1,4 +1,5 @@
-import { App as AppModel, defaultState } from './model'
+import { defaultState } from './constants'
+import { App as AppModel } from './model'
 
 type LocalStorage = {
 	download: Function

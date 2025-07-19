@@ -1,7 +1,8 @@
 'use client'
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react'
-import { Clone as CloneModel, defaultState, Document, Settings } from '../app/model'
+import { Clone as CloneModel, Document, Settings } from './model'
 import { lib } from './lib'
+import { defaultState } from './constants'
 
 export type CloneEditContext = {
 	currentDocument: Document

@@ -1,4 +1,4 @@
-import * as constants from '../components/constants'
+import * as constants from './constants'
 
 export default function RootLayout({
 	children,

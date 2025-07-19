@@ -1,7 +1,7 @@
 'use client'
 import Editor from './editor'
 import Clones from './clones'
-import { CloneEditContextProvider } from '../components/context'
+import { CloneEditContextProvider } from './context'
 
 export default function App() {
 
