@@ -49,15 +49,29 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 	}, [])
 
 	useEffect(() => {
+		console.log('currentDocument', currentDocument.folderName, currentDocument.name)
+		setCurrentFile(currentDocument.name)
+	}, [currentDocument])
+
+	useEffect(() => {
+		console.log('currentFolder', currentFolder)
+		// set available files based on the selected folder
+		const files = new Set<string>()
+		state.documents.forEach(doc => {
+			if (doc.folderName === currentFolder) {
+				files.add(doc.name)
+			}
+		})
+		setAvailableFiles(Array.from(files))
+	}, [currentFolder])
+
+	useEffect(() => {
 		// console.log('currentDocument', currentDocument)
 		// console.log('Current folder:', currentFolder)
 		// console.log('Available folders:', availableFolders)
 		// console.log('Available files:', availableFiles)
+		setCurrentFile(availableFiles[0])
 	}, [availableFiles])
-
-	useEffect(() => {
-		console.log('currentFolder', currentFolder)
-	}, [currentFolder])
 
 	function effectChanged(clone: CloneModel, effectName: string) {
 		// find the clone / update its value and update the state
@@ -71,23 +85,20 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 	}
 
 	function folderChanged(folder: string) {
-		// set available files based on the selected folder
-		const files = new Set<string>()
-		state.documents.forEach(doc => {
-			if (doc.folderName === folder) {
-				files.add(doc.name)
-			}
-		})
-		setAvailableFiles(Array.from(files))
 		setCurrentFolder(folder)
 		console.log('Folder changed to:', folder)
 	}
 
 	function fileChanged(file: string) {
 		// set currentDocument to document from state with keys folder and name
-		setCurrentDocument(state.documents.find(doc => doc.folderName === currentDocument.folderName && doc.name === file))
-		setCurrentFile(file)
-		// setSource(currentDocument.editor.text)
+		console.log('currDoc', currentDocument)
+		const doc = state.documents.find(doc => {
+			const equalsFolder = doc.folderName === currentFolder
+			const equalsFile = doc.name === file
+			return equalsFolder && equalsFile
+		})
+		console.log('changing doc to', doc)
+		setCurrentDocument(doc)
 	}
 
 	function sourceChanged(source: string) {

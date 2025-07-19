@@ -11,7 +11,7 @@ export const SUBSTRING_EFFECT = 'substring'
 export const effects: Record<string, Effect> = {
 	[CAESAR_EFFECT]: {
 		name: 'Caesar Cipher',
-		params: ['shift'],
+		params: [{ name: 'shift' }],
 		update: (text: string, shift: string) => {
 			return 'Caesar Cipher not implemented yet'; // Implementierung fehlt
 			// return text.split('').map(char => {
@@ -26,7 +26,7 @@ export const effects: Record<string, Effect> = {
 	},
 	[REPLACE_TEXT_EFFECT]: {
 		name: 'Replace Text',
-		params: ['search', 'replace'],
+		params: [{ name: 'search' }, { name: 'replace' }],
 		update: (text: string, search: string, replace: string) => {
 			return 'Replace Text not implemented yet'; // Implementierung fehlt
 			// return text.replace(new RegExp(search, 'g'), replace);
@@ -34,7 +34,7 @@ export const effects: Record<string, Effect> = {
 	},
 	[REPLACE_LIST_EFFECT]: {
 		name: 'Replace List',
-		params: ['searchList', 'replaceList'],
+		params: [{ name: 'searchList' }, { name: 'replaceList' }],
 		update: (text: string, searchList: string, replaceList: string) => {
 			return 'Replace List not implemented yet'; // Implementierung fehlt
 			// const searches = searchList.split('\n');
@@ -59,7 +59,7 @@ export const effects: Record<string, Effect> = {
 	},
 	[SUBSTRING_EFFECT]: {
 		name: 'Substring',
-		params: ['Start', 'End'],
+		params: [{ name: 'Start' }, { name: 'End' }],
 		update: (text: string, start: string, end: string) => {
 			const startIndex = parseInt(start, 10);
 			const endIndex = parseInt(end, 10);
@@ -116,15 +116,15 @@ export const defaultState: App = {
 				{
 					id: 1,
 					source: 0,
-					effect: effects[NO_WHITESPACE_EFFECT]
+					effect: { ...effects[SUBSTRING_EFFECT], }
 				},
 			]
 		},
 		{
-			name: 'Default',
+			name: 'Text Split',
 			folderName: 'Examples',
 			editor: {
-				text: 'Let me work with some example text . I hope AI cann fill this with 300 words . so here it goes : Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+				text: 'AI cann fill this with 300 words . so here it goes : Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
 				memory: [],
 				snippets: []
 			},
@@ -132,7 +132,34 @@ export const defaultState: App = {
 				{
 					id: 1,
 					source: 0,
-					effect: effects[NO_WHITESPACE_EFFECT]
+					effect: {
+						...effects[NO_WHITESPACE_EFFECT], params: [{ name: 'Start', value: '0' }, { name: 'End', value: '10' }]
+					},
+				}
+			]
+		},
+		{
+			name: 'Text Split1',
+			folderName: 'Examples',
+			editor: {
+				text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+				memory: [],
+				snippets: []
+			},
+			clones: [
+				{
+					id: 1,
+					source: 0,
+					effect: {
+						...effects[NO_WHITESPACE_EFFECT], params: [{ name: 'Start', value: '0' }, { name: 'End', value: '10' }]
+					},
+				},
+				{
+					id: 1,
+					source: 0,
+					effect: {
+						...effects[NO_WHITESPACE_EFFECT], params: [{ name: 'Start', value: '0' }, { name: 'End', value: '10' }]
+					},
 				},
 			]
 		},

@@ -1,4 +1,3 @@
-'use client'
 import { useEffect, useState } from "react"
 import { useCloneEditContext } from "../app/context"
 
@@ -10,6 +9,8 @@ export function FilesForm() {
 	const [folderName, setFolderName] = useState(currentFolder)
 	const [fileName, setFileName] = useState(currentFile)
 
+	// const [selectedFile, setSelectedFile] = useState(currentFile)
+
 	useEffect(() => {
 		setFolderName(currentFolder)
 	}, [currentFolder])
@@ -17,6 +18,11 @@ export function FilesForm() {
 	useEffect(() => {
 		setFileName(currentFile)
 	}, [currentFile])
+
+	// function updateFile() {
+	// 	console.log('update', selectedFile)
+	// 	fileChanged(selectedFile)
+	// }
 
 	return (
 		<div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
@@ -30,7 +36,7 @@ export function FilesForm() {
 
 				<label htmlFor="file">File</label>
 				<div style={{ display: 'flex', gap: 3 }}>
-
+					{/* TODO : Bug reset auf 0 manchmal */}
 					<input type="text" id="file" value={fileName} onChange={e => setFileName(e.target.value)} />
 					<div style={{ display: 'flex', gap: 3 }}>
 						<button style={{}}>New</button>
@@ -40,7 +46,7 @@ export function FilesForm() {
 				</div>
 			</fieldset>
 
-			<select size={4} value={currentFile} onChange={(e) => fileChanged(e.target.value)}>
+			<select size={4} value={currentFile} onChange={e => fileChanged(e.target.value)}>
 				{availableFiles.map((file, index) => (
 					<option key={index} value={file}>{file}</option>
 				))}
