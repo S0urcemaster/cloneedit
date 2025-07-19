@@ -7,7 +7,7 @@ import { effects } from './constants'
 
 export default function Clones() {
 
-	const { settings, currentDocument, effectChanged } = useCloneEditContext()
+	const { settings, currentDocument, source, effectChanged } = useCloneEditContext()
 
 	function Controller() {
 		return (
@@ -32,22 +32,24 @@ export default function Clones() {
 					<div>
 						<fieldset style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 5, paddingLeft: 4 }}>
 							<label htmlFor="effect">Effect</label>
-							<select onChange={(e) => effectChanged(clone, e.target.value)} id="effect">
+							<select value={clone.effect.name} onChange={(e) => effectChanged(clone, e.target.value)} id="effect">
 								{Object.values(effects).map((effect, index) => (
 									<option key={index} value={effect.name}>{effect.name}</option>
 								))}
 							</select>
+							{clone.effect.params.map((param, ix) => (
+								<>
+									<label htmlFor="editorTextColor">{param.name}</label>
+									<input type="text" id="editorTextColor" value={param.value} />
+								</>
 
-							<label htmlFor="editorTextColor">Editor Textcolor</label>
-							<input type="text" id="editorTextColor" />
-							<label htmlFor="editorTextSize">Editor Textsize</label>
-							<input type="text" id="editorTextSize" />
+							))}
 						</fieldset>
 					</div>
 					<TabBar vertical buttonNames={['Up', 'St', 'FX']} onTabClick={(tabName) => console.log(`Tab clicked: ${tabName}`)} />
 				</div>
 				<textarea
-					value={clone.effect.update(currentDocument.editor.text)}
+					value={clone.effect.update(source, ...clone.effect.params)}
 					// rows={14}
 					placeholder={'Guess what'}
 					style={{

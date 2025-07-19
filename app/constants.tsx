@@ -1,6 +1,6 @@
 
 import { Gemunu_Libre, Funnel_Sans, Lexend } from 'next/font/google'
-import { App, Effect } from './model'
+import { App, Effect, EffectParam } from './model'
 
 export const CAESAR_EFFECT = 'caesar'
 export const REPLACE_TEXT_EFFECT = 'replaceText'
@@ -12,7 +12,7 @@ export const effects: Record<string, Effect> = {
 	[CAESAR_EFFECT]: {
 		name: 'Caesar Cipher',
 		params: [{ name: 'shift' }],
-		update: (text: string, shift: string) => {
+		update: (text: string, shift: EffectParam) => {
 			return 'Caesar Cipher not implemented yet'; // Implementierung fehlt
 			// return text.split('').map(char => {
 			// 	if (char.match(/[a-z]/i)) {
@@ -27,7 +27,7 @@ export const effects: Record<string, Effect> = {
 	[REPLACE_TEXT_EFFECT]: {
 		name: 'Replace Text',
 		params: [{ name: 'search' }, { name: 'replace' }],
-		update: (text: string, search: string, replace: string) => {
+		update: (text: string, search: EffectParam, replace: EffectParam) => {
 			return 'Replace Text not implemented yet'; // Implementierung fehlt
 			// return text.replace(new RegExp(search, 'g'), replace);
 		}
@@ -35,7 +35,7 @@ export const effects: Record<string, Effect> = {
 	[REPLACE_LIST_EFFECT]: {
 		name: 'Replace List',
 		params: [{ name: 'searchList' }, { name: 'replaceList' }],
-		update: (text: string, searchList: string, replaceList: string) => {
+		update: (text: string, searchList: EffectParam, replaceList: EffectParam) => {
 			return 'Replace List not implemented yet'; // Implementierung fehlt
 			// const searches = searchList.split('\n');
 			// const replaces = replaceList.split('\n');
@@ -60,12 +60,14 @@ export const effects: Record<string, Effect> = {
 	[SUBSTRING_EFFECT]: {
 		name: 'Substring',
 		params: [{ name: 'Start' }, { name: 'End' }],
-		update: (text: string, start: string, end: string) => {
-			const startIndex = parseInt(start, 10);
-			const endIndex = parseInt(end, 10);
+		update: (text: string, start: EffectParam, end: EffectParam) => {
+			console.log('update substring', text, start, end)
+			const startIndex = parseInt(start.value, 10);
+			const endIndex = parseInt(end.value, 10);
 			if (isNaN(startIndex) || isNaN(endIndex)) {
 				return text; // Invalid indices, return original text
 			}
+			console.log('startend', startIndex, endIndex)
 			return text.substring(startIndex, endIndex);
 		}
 	}
@@ -116,7 +118,7 @@ export const defaultState: App = {
 				{
 					id: 1,
 					source: 0,
-					effect: { ...effects[SUBSTRING_EFFECT], }
+					effect: { ...effects[NO_WHITESPACE_EFFECT] }
 				},
 			]
 		},
@@ -133,9 +135,23 @@ export const defaultState: App = {
 					id: 1,
 					source: 0,
 					effect: {
-						...effects[NO_WHITESPACE_EFFECT], params: [{ name: 'Start', value: '0' }, { name: 'End', value: '10' }]
+						...effects[SUBSTRING_EFFECT], params: [{ name: 'Start', value: '0' }, { name: 'End', value: '279' }]
 					},
-				}
+				},
+				{
+					id: 2,
+					source: 0,
+					effect: {
+						...effects[SUBSTRING_EFFECT], params: [{ name: 'Start', value: '280' }, { name: 'End', value: '559' }]
+					},
+				},
+				{
+					id: 3,
+					source: 0,
+					effect: {
+						...effects[SUBSTRING_EFFECT], params: [{ name: 'Start', value: '560' }, { name: 'End', value: '839' }]
+					},
+				},
 			]
 		},
 		{
@@ -151,14 +167,14 @@ export const defaultState: App = {
 					id: 1,
 					source: 0,
 					effect: {
-						...effects[NO_WHITESPACE_EFFECT], params: [{ name: 'Start', value: '0' }, { name: 'End', value: '10' }]
+						...effects[SUBSTRING_EFFECT], params: [{ name: 'Start', value: '0' }, { name: 'End', value: '10' }]
 					},
 				},
 				{
 					id: 1,
 					source: 0,
 					effect: {
-						...effects[NO_WHITESPACE_EFFECT], params: [{ name: 'Start', value: '0' }, { name: 'End', value: '10' }]
+						...effects[SUBSTRING_EFFECT], params: [{ name: 'Start', value: '0' }, { name: 'End', value: '10' }]
 					},
 				},
 			]
@@ -184,7 +200,7 @@ export const defaultState: App = {
 	settings: {
 		border: 0,
 		// componentColor: '#447a9eff',
-		componentColor: 'linear-gradient(to right, #4f6675ff, #6ba2c6ff)',
+		componentColor: 'linear-gradient(to right, #5d7c8fff, #6ba2c6ff)',
 		editorBackgroundColor: 'linear-gradient(to top, #1d1a22, #425c76ff)',
 		editorFont: 'Funnel Sans',
 		editorTextColor: '#deffcbff',

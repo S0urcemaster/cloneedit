@@ -37,24 +37,18 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 
 	useEffect(() => {
 		console.log('✅ useEffect: mounted');
-
-		console.log('currentDocument []', currentDocument)
 		setAvailableFolders(lib.extractFolders(state))
 		folderChanged(state.documents[0].folderName)
-		fileChanged(state.documents[0].name)
-
 		return () => {
 			console.log('❌ useEffect: unmounted');
 		};
 	}, [])
 
-	useEffect(() => {
-		console.log('currentDocument', currentDocument.folderName, currentDocument.name)
-		setCurrentFile(currentDocument.name)
-	}, [currentDocument])
+	function folderChanged(folder: string) {
+		setCurrentFolder(folder)
+	}
 
 	useEffect(() => {
-		console.log('currentFolder', currentFolder)
 		// set available files based on the selected folder
 		const files = new Set<string>()
 		state.documents.forEach(doc => {
@@ -66,12 +60,27 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 	}, [currentFolder])
 
 	useEffect(() => {
-		// console.log('currentDocument', currentDocument)
-		// console.log('Current folder:', currentFolder)
-		// console.log('Available folders:', availableFolders)
-		// console.log('Available files:', availableFiles)
 		setCurrentFile(availableFiles[0])
 	}, [availableFiles])
+
+	useEffect(() => {
+		fileChanged(currentFile)
+	}, [currentFile])
+
+	function fileChanged(file: string) {
+		// set currentDocument to document from state with keys folder and name
+		const doc = state.documents.find(doc => {
+			const equalsFolder = doc.folderName === currentFolder
+			const equalsFile = doc.name === file
+			return equalsFolder && equalsFile
+		})
+		setCurrentDocument(doc)
+	}
+
+	useEffect(() => {
+		setCurrentFile(currentDocument.name)
+		setSource(currentDocument.editor.text)
+	}, [currentDocument])
 
 	function effectChanged(clone: CloneModel, effectName: string) {
 		// find the clone / update its value and update the state
@@ -82,23 +91,6 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 		// 	return c
 		// })
 		// const updatedDocument = { ...currentDocument, clones: updatedClones }
-	}
-
-	function folderChanged(folder: string) {
-		setCurrentFolder(folder)
-		console.log('Folder changed to:', folder)
-	}
-
-	function fileChanged(file: string) {
-		// set currentDocument to document from state with keys folder and name
-		console.log('currDoc', currentDocument)
-		const doc = state.documents.find(doc => {
-			const equalsFolder = doc.folderName === currentFolder
-			const equalsFile = doc.name === file
-			return equalsFolder && equalsFile
-		})
-		console.log('changing doc to', doc)
-		setCurrentDocument(doc)
 	}
 
 	function sourceChanged(source: string) {

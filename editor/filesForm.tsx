@@ -6,23 +6,16 @@ export function FilesForm() {
 	const { availableFolders, currentFolder, availableFiles, currentFile, currentDocument,
 		folderChanged, fileChanged, setCurrentFile } = useCloneEditContext()
 
-	const [folderName, setFolderName] = useState(currentFolder)
-	const [fileName, setFileName] = useState(currentFile)
-
-	// const [selectedFile, setSelectedFile] = useState(currentFile)
+	const [folderInputText, setFolderInputText] = useState(currentFolder)
+	const [fileInputText, setFileInputText] = useState(currentFile)
 
 	useEffect(() => {
-		setFolderName(currentFolder)
+		setFolderInputText(currentFolder)
 	}, [currentFolder])
 
 	useEffect(() => {
-		setFileName(currentFile)
+		setFileInputText(currentFile)
 	}, [currentFile])
-
-	// function updateFile() {
-	// 	console.log('update', selectedFile)
-	// 	fileChanged(selectedFile)
-	// }
 
 	return (
 		<div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
@@ -37,7 +30,7 @@ export function FilesForm() {
 				<label htmlFor="file">File</label>
 				<div style={{ display: 'flex', gap: 3 }}>
 					{/* TODO : Bug reset auf 0 manchmal */}
-					<input type="text" id="file" value={fileName} onChange={e => setFileName(e.target.value)} />
+					<input type="text" id="file" value={fileInputText} onChange={e => setFileInputText(e.target.value)} />
 					<div style={{ display: 'flex', gap: 3 }}>
 						<button style={{}}>New</button>
 						<button style={{}}>Ren</button>
@@ -58,7 +51,7 @@ export function FilesForm() {
 				<label htmlFor="folder">Folder</label>
 				<div style={{ display: 'flex', gap: 3 }}>
 
-					<input type="text" id="folder" value={folderName} onChange={e => setFolderName(e.target.value)} disabled />
+					<input type="text" id="folder" value={folderInputText} onChange={e => setFolderInputText(e.target.value)} disabled />
 					<div style={{ display: 'flex', gap: 3 }}>
 						<button style={{}} disabled>New</button>
 						<button style={{}} disabled>Ren</button>
