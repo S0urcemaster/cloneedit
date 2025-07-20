@@ -21,6 +21,7 @@ export type Editor = {
 
 export type Clone = {
 	id: number // unique id benötigt pro Objekt
+	name: string
 	source: number // id 0 für editor und 1 bis x für Klone
 	effect: Effect // Konstantenname / id da hart kodiert . K.A. wie das generalisiert / lass ich mich überraschen
 }
@@ -44,4 +45,6 @@ export type Settings = {
 	editorFont: string
 	editorFontSize: number
 	cloneFontSize: number
+	inputColor: string
+	inputBackgroundColor: string
 }

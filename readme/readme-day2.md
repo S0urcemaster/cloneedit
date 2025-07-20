@@ -6,7 +6,7 @@
 - Context mit LocalStorage kopiert von dc3
 - Weitere UI - Anpassungen und Entwurf möglicher Funktionen
 
-![alt text](readme/image.png)
+![alt text](image0.png)
 
 app.tsx delegiert nur
 ```
@@ -48,4 +48,4 @@ return (
 	)
 ```
 Es spricht nichts dagegen dass auch kleine Komponenten vollen Zugriff auf den State - Tree haben denn es ist eine Referenz auf ein einziges Originalobjekt - *eine* " Source of Truth " . Die Regel ist jedoch dass keine Komponente den State selbstständig ändern darf sondern Änderungen nur an den Context meldet der dann entscheidet was mit dieser Meldung zu tun ist
-![alt text](readme/image1.png)
+![alt text](image1.png)

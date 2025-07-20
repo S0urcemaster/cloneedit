@@ -3,7 +3,7 @@ import { useCloneEditContext } from "../app/context"
 
 export function FilesForm() {
 
-	const { availableFolders, currentFolder, availableFiles, currentFile, currentDocument,
+	const { availableFolders, currentFolder, availableFiles, currentFile, currentDocument, settings,
 		folderChanged, fileChanged, setCurrentFile } = useCloneEditContext()
 
 	const [folderInputText, setFolderInputText] = useState(currentFolder)
@@ -14,6 +14,7 @@ export function FilesForm() {
 	}, [currentFolder])
 
 	useEffect(() => {
+		console.log(`${FilesForm.name}/useEffect/currentFile \t\t\t\t\t\t\t\t\t\t ${currentFile}`);
 		setFileInputText(currentFile)
 	}, [currentFile])
 
@@ -41,7 +42,7 @@ export function FilesForm() {
 
 			<select size={4} value={currentFile} onChange={e => fileChanged(e.target.value)}>
 				{availableFiles.map((file, index) => (
-					<option key={index} value={file}>{file}</option>
+					<option key={index} value={file} style={{ backgroundColor: settings.inputBackgroundColor, color: settings.inputColor }}>{file}</option>
 				))}
 			</select>
 
@@ -62,7 +63,7 @@ export function FilesForm() {
 
 			<select size={3} value={currentFolder} onChange={e => folderChanged(e.target.value)}>
 				{availableFolders.map((folder, index) => (
-					<option key={index} value={folder}>{folder}</option>
+					<option key={index} value={folder} style={{ backgroundColor: settings.inputBackgroundColor, color: settings.inputColor }}>{folder}</option>
 				))}
 			</select>
 		</div>

@@ -6,16 +6,14 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background-color: #222;
-	color: #08090a;
+	background-color: #222222;
+	color: #b3d1e3;
 	letter-spacing: 0em;
 	overflow-x: scroll;
 }
 
-input,
 textarea,
-button,
-select {
+button {
 	font-family: inherit;
 	/* Inherit the font from the parent element */
 	letter-spacing: inherit;
@@ -23,6 +21,19 @@ select {
 	font-size: medium;
 	background-color: #1d1a22;
 	color: rgb(196, 214, 255);
+	border: none;
+	padding-left: 6px;
+}
+
+input,
+select {
+	font-family: inherit;
+	/* Inherit the font from the parent element */
+	letter-spacing: inherit;
+	/* Inherit the letter spacing from the parent element */
+	font-size: medium;
+	background-color: rgb(229, 228, 201);
+	color: rgb(15, 25, 30);
 	border: none;
 	padding-left: 6px;
 }
@@ -64,7 +75,8 @@ h3,
 h4,
 h5,
 h6,
-p {
+p,
+span {
 	color: inherit;
 	margin: 0;
 	padding: 0;

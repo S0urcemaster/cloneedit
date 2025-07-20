@@ -15,8 +15,8 @@ Das Projekt sieht zu dem Zeitpunkt einigermaßen sauber aus :
 
 Nichts Besonderes eigentlich . Ein - würde ich sagen - Standard React auf Next Projektentwurf
 
-![alt text](readme/image3.png)
+![alt text](image3.png)
 
 Und ein verändertes UI
 
-![alt text](readme/image4.png)
+![alt text](image4.png)

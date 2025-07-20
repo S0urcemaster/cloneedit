@@ -1,6 +1,5 @@
 # Clone Edit
 Use the text force Luke !
 
-Die readme - Dateien entsprechen den Entwicklungstagen
-Man kann sie jeweils auschecken über die branches day1 - dayX
+The readme -files represent days of development . Checkout with day1 - dayx
 

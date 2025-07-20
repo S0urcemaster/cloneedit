@@ -86,21 +86,25 @@ export const defaultState: App = {
 			clones: [
 				{
 					id: 1,
+					name: 'whitespace whitespace whitespace whitespace ',
 					source: 0,
 					effect: effects[NO_WHITESPACE_EFFECT]
 				},
 				{
 					id: 2,
+					name: 'blackspace blackspace blackspace ',
 					source: 0,
 					effect: effects[CAESAR_EFFECT]
 				},
 				{
 					id: 3,
+					name: 'blackspace blackspace blackspace ',
 					source: 0,
 					effect: effects[REPLACE_TEXT_EFFECT]
 				},
 				{
 					id: 4,
+					name: 'blackspace blackspace blackspace ',
 					source: 0,
 					effect: effects[REPLACE_LIST_EFFECT]
 				}
@@ -117,6 +121,7 @@ export const defaultState: App = {
 			clones: [
 				{
 					id: 1,
+					name: 'Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct ',
 					source: 0,
 					effect: { ...effects[NO_WHITESPACE_EFFECT] }
 				},
@@ -133,6 +138,7 @@ export const defaultState: App = {
 			clones: [
 				{
 					id: 1,
+					name: 'Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct ',
 					source: 0,
 					effect: {
 						...effects[SUBSTRING_EFFECT], params: [{ name: 'Start', value: '0' }, { name: 'End', value: '279' }]
@@ -140,6 +146,7 @@ export const defaultState: App = {
 				},
 				{
 					id: 2,
+					name: 'Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct ',
 					source: 0,
 					effect: {
 						...effects[SUBSTRING_EFFECT], params: [{ name: 'Start', value: '280' }, { name: 'End', value: '559' }]
@@ -147,6 +154,7 @@ export const defaultState: App = {
 				},
 				{
 					id: 3,
+					name: 'Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct ',
 					source: 0,
 					effect: {
 						...effects[SUBSTRING_EFFECT], params: [{ name: 'Start', value: '560' }, { name: 'End', value: '839' }]
@@ -165,6 +173,7 @@ export const defaultState: App = {
 			clones: [
 				{
 					id: 1,
+					name: 'Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct ',
 					source: 0,
 					effect: {
 						...effects[SUBSTRING_EFFECT], params: [{ name: 'Start', value: '0' }, { name: 'End', value: '10' }]
@@ -172,6 +181,7 @@ export const defaultState: App = {
 				},
 				{
 					id: 1,
+					name: 'Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct ',
 					source: 0,
 					effect: {
 						...effects[SUBSTRING_EFFECT], params: [{ name: 'Start', value: '0' }, { name: 'End', value: '10' }]
@@ -206,6 +216,8 @@ export const defaultState: App = {
 		editorTextColor: '#deffcbff',
 		editorFontSize: 22,
 		cloneFontSize: 18,
+		inputColor: '#000000',
+		inputBackgroundColor: 'rgb(229, 228, 201)',
 	}
 }
 

@@ -62,4 +62,4 @@ function filterChanged(clone: CloneModel, filterName: string) {
 	}
 ```
 Die Tabs oben funktionieren schon
-![alt text](readme/image2.png)
+![alt text](image2.png)

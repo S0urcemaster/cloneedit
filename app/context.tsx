@@ -12,6 +12,7 @@ export type CloneEditContext = {
 	availableFiles: string[]
 	currentFile: string
 	source: string
+	selectedClone: CloneModel
 	effectChanged: (clone: CloneModel, effectName: string) => void
 	folderChanged: (folder: string) => void
 	fileChanged: (file: string) => void
@@ -34,14 +35,12 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 	const [currentFile, setCurrentFile] = useState<string>(currentDocument.name)
 
 	const [source, setSource] = useState<string>(currentDocument.editor.text)
+	const [selectedClone, setSelectedClone] = useState<CloneModel>(currentDocument.clones[0])
 
 	useEffect(() => {
 		console.log('✅ useEffect: mounted');
 		setAvailableFolders(lib.extractFolders(state))
 		folderChanged(state.documents[0].folderName)
-		return () => {
-			console.log('❌ useEffect: unmounted');
-		};
 	}, [])
 
 	function folderChanged(folder: string) {
@@ -107,6 +106,7 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 			availableFiles: availableFiles,
 			currentFile: currentFile,
 			source: source,
+			selectedClone: selectedClone,
 			effectChanged: effectChanged,
 			folderChanged: folderChanged,
 			fileChanged: fileChanged,
