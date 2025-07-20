@@ -216,8 +216,8 @@ export const defaultState: App = {
 		editorTextColor: '#deffcbff',
 		editorFontSize: 22,
 		cloneFontSize: 18,
-		inputColor: '#000000',
-		inputBackgroundColor: 'rgb(229, 228, 201)',
+		brightColor: '#b3d1e3',
+		darkColor: '#1d1a22',
 	}
 }
 

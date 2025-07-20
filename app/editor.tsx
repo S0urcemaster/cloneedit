@@ -72,7 +72,7 @@ function Source() {
 						// border: 'none', // Remove border
 						padding: '6px 12px 6px 12px', // Padding
 						margin: 0, fontSize: settings.editorFontSize,
-						border: `1px solid ${'black'}`, // Border color
+						border: `1px solid ${settings.brightColor}`, // Border color
 					}}
 					onChange={e => setText(e.target.value)}
 				/>

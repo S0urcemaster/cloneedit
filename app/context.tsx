@@ -18,6 +18,7 @@ export type CloneEditContext = {
 	fileChanged: (file: string) => void
 	setCurrentFile: (file: string) => void
 	sourceChanged: (source: string) => void
+	setSelectedClone: (clone: CloneModel) => void
 }
 
 const CloneEditContext = createContext<CloneEditContext>({} as CloneEditContext)
@@ -112,6 +113,7 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 			fileChanged: fileChanged,
 			setCurrentFile: setCurrentFile,
 			sourceChanged: sourceChanged,
+			setSelectedClone: setSelectedClone,
 		}}>
 			{children}
 		</ CloneEditContext.Provider>

@@ -2,7 +2,7 @@
 
 - Clone selectability : Um Platz zu sparen wird der Clone Controller direkt über dem jeweilig ausgewählten Klon angezeigt
 - Klone haben einen Namen um sich bei größeren Projekten besser zu orientieren
+- Clone UI features approach
+- select clone working : Die Anzahl der Klone könnte groß sein / da sollte das Kontextmenü immer oben vom Klon sein
 
-next :
-- select clone
-- Clone UI features
+![alt text](image5.png)

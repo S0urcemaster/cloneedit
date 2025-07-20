@@ -5,41 +5,51 @@ import { useCloneEditContext } from './context'
 import { TabBar } from '../components/TabBar'
 import { effects } from './constants'
 
-export default function Clones() {
 
-	const { settings, currentDocument, source, selectedClone, effectChanged } = useCloneEditContext()
+function Controller() {
+	const { selectedClone } = useCloneEditContext()
 
-	function Controller() {
-		return (
-			<div style={{ display: 'flex', justifyContent: 'space-between', height: 25, overflow: 'hidden', padding: '2px 5px 2px 5px' }}>
-				<div>
-					<input style={{ marginRight: 3 }} type='text' value={selectedClone.name} />
-					<button style={{ marginRight: 3 }}>New Clone</button>
-					<button style={{ marginRight: 3 }}>Selected Up</button>
-					<button style={{ marginRight: 3 }}>Selected Dn</button>
-					<button style={{ marginRight: 3 }}>Ctrl - Delete</button>
-					<button style={{ marginRight: 3 }}>Copy to Clipboard</button>
-					<button style={{ marginRight: 3 }}>Download</button>
-				</div>
-			</div>
-		)
-	}
-
-	function Clone({ clone }: { clone: CloneModel }) {
-		return (
+	return (
+		<div style={{ display: 'flex', justifyContent: 'space-between', height: 25, overflow: 'hidden', padding: '2px 5px 2px 5px' }}>
 			<div>
-				<span style={{ marginTop: -5, paddingLeft: 7, fontSize: 'small' }}>{clone.name}</span>
-				{clone.id === selectedClone.id &&
-					<Controller />
-				}
-				<div style={{ display: 'grid', gridTemplateColumns: '4fr 7fr', padding: '0px 3px 0px 3px', gap: 5, height: 90, cursor: 'pointer', zIndex: 0 }}>
-					<div style={{ display: 'grid', gridTemplateColumns: '9fr 1fr', gap: 5, zIndex: 2 }}>
+				<input style={{ marginRight: 3 }} type='text' value={selectedClone.name} />
+				<button style={{ marginRight: 3 }}>Ren</button>
+				<button style={{ marginRight: 3 }}>New</button>
+				<button style={{ marginRight: 3 }}>Del</button>
+				#
+				<input type="number" min="0" max="100" step="1" value="0" />
+				<button style={{ marginRight: 3 }}>Copy to Clipboard</button>
+				<button style={{ marginRight: 3 }}>Download</button>
+			</div>
+		</div>
+	)
+}
+
+function Clone({ clone }: { clone: CloneModel }) {
+	const { settings, source, selectedClone, effectChanged, setSelectedClone } = useCloneEditContext()
+
+	return (
+		<div>
+			{clone.id === selectedClone.id &&
+				<Controller />
+			}
+			<div style={{ display: 'grid', gridTemplateColumns: '0fr auto', cursor: 'pointer' }} onClick={() => setSelectedClone(clone)}>
+				<div style={{ marginTop: 0, padding: '0 7px 0 5px', overflow: 'hidden', width: 20 }}>
+					<p style={{
+						fontSize: 'small', backgroundColor: settings.brightColor, color: settings.darkColor,
+						padding: '1px 0 3px 5px', margin: '0px 0 0px 0', pointerEvents: 'none',
+						transform: 'rotate(-90deg)', transformOrigin: 'left top', whiteSpace: 'nowrap', display: 'inline-block',
+						position: 'relative', bottom: -80
+					}}>{clone.name}</p>
+				</div>
+				<div style={{ display: 'grid', gridTemplateColumns: '4fr 7fr', padding: '0px 3px 0px 3px', gap: 5, height: 90 }}>
+					<div style={{ display: 'grid', gridTemplateColumns: '9fr 1fr', gap: 5 }}>
 						<div>
 							<fieldset style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 5, paddingLeft: 4 }}>
 								<label htmlFor="effect">Effect</label>
 								<select value={clone.effect.name} onChange={(e) => effectChanged(clone, e.target.value)} id="effect">
 									{Object.values(effects).map((effect, index) => (
-										<option key={index} value={effect.name} style={{ backgroundColor: settings.inputBackgroundColor, color: settings.inputColor }}>{effect.name}</option>
+										<option key={index} value={effect.name}>{effect.name}</option>
 									))}
 								</select>
 								{clone.effect.params.map((param, ix) => (
@@ -65,16 +75,21 @@ export default function Clones() {
 							// border: 'none', // Remove border
 							padding: '0px 12px 0px 6px', // Padding
 							margin: 0,
-							border: `1px solid ${'black'}`, // Border color
+							border: `1px solid ${settings.brightColor}`, // Border color
 							fontSize: settings.cloneFontSize,
 						}}
 						readOnly
 					/>
 				</div>
-
 			</div>
-		)
-	}
+
+		</div>
+	)
+}
+
+export default function Clones() {
+
+	const { settings, currentDocument } = useCloneEditContext()
 
 	return (
 		<div style={{ background: settings.componentColor }}>

@@ -1,15 +1,24 @@
+:root {
+	--cloneedit-color: #88caff;
+	--dark-color: #1d1a22;
+	--bright-color: #b3d1e3;
+	--bright-lum-color: #b7e7ff;
+}
+
 html,
 body {
+	color: #c4d6ff;
 	margin: 0;
 	padding: 0;
 	width: 100vw;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background-color: #222222;
+	background-color: var(--dark-color);
 	color: #b3d1e3;
 	letter-spacing: 0em;
 	overflow-x: scroll;
+	/* overflow-y: hidden */
 }
 
 textarea,
@@ -19,8 +28,8 @@ button {
 	letter-spacing: inherit;
 	/* Inherit the letter spacing from the parent element */
 	font-size: medium;
-	background-color: #1d1a22;
-	color: rgb(196, 214, 255);
+	background-color: var(--dark-color);
+	color: var(--bright-lum-color);
 	border: none;
 	padding-left: 6px;
 }
@@ -32,29 +41,33 @@ select {
 	letter-spacing: inherit;
 	/* Inherit the letter spacing from the parent element */
 	font-size: medium;
-	background-color: rgb(229, 228, 201);
-	color: rgb(15, 25, 30);
+	background-color: var(--bright-color);
+	color: var(--dark-color);
 	border: none;
 	padding-left: 6px;
 }
 
-button:disabled {
-	background-color: #6a7f93;
-	cursor: wait;
-}
-
-input:disabled {
-	background-color: #6a7f93;
-	cursor: wait;
-}
-
-/* Explicitly set font for select options */
 select option {
 	font-family: inherit;
 	letter-spacing: inherit;
 	font-size: medium;
-	background-color: #1d1a22;
-	color: inherit;
+	background-color: var(--bright-color);
+	color: var(--dark-color);
+}
+
+label {
+	color: var(--dark-color);
+	pointer-events: none;
+}
+
+button:disabled {
+	background-color: var(--bright-color);
+	cursor: wait;
+}
+
+input:disabled {
+	background-color: var(--bright-color);
+	cursor: wait;
 }
 
 input:focus,
@@ -82,10 +95,6 @@ span {
 	padding: 0;
 	letter-spacing: inherit;
 	/* Inherit the letter spacing from the parent element */
-}
-
-:root {
-	--cloneedit-color: #88caff;
 }
 
 .cloneedit-color {

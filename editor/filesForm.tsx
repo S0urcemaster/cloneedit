@@ -42,7 +42,7 @@ export function FilesForm() {
 
 			<select size={4} value={currentFile} onChange={e => fileChanged(e.target.value)}>
 				{availableFiles.map((file, index) => (
-					<option key={index} value={file} style={{ backgroundColor: settings.inputBackgroundColor, color: settings.inputColor }}>{file}</option>
+					<option key={index} value={file}>{file}</option>
 				))}
 			</select>
 
@@ -63,7 +63,7 @@ export function FilesForm() {
 
 			<select size={3} value={currentFolder} onChange={e => folderChanged(e.target.value)}>
 				{availableFolders.map((folder, index) => (
-					<option key={index} value={folder} style={{ backgroundColor: settings.inputBackgroundColor, color: settings.inputColor }}>{folder}</option>
+					<option key={index} value={folder}>{folder}</option>
 				))}
 			</select>
 		</div>

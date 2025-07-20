@@ -45,6 +45,6 @@ export type Settings = {
 	editorFont: string
 	editorFontSize: number
 	cloneFontSize: number
-	inputColor: string
-	inputBackgroundColor: string
+	brightColor: string
+	darkColor: string
 }
