@@ -1,4 +1,5 @@
 :root {
+	--body-background: #144e32;
 	--cloneedit-color: #88caff;
 	--dark-color: #1d1a22;
 	--bright-color: #b3d1e3;
@@ -16,12 +17,9 @@ body {
 	margin: 0;
 	padding: 0;
 	width: 100%;
-	height: 100%;
-	background-color: var(--dark-color);
+	/* min-height: 100vh; */
+	background-color: var(--body-background);
 	color: #b3d1e3;
-	display: flex;
-	justify-content: center;
-	align-items: start;
 	box-sizing: border-box;
 }
 
@@ -29,8 +27,10 @@ body {
 	display: flex;
 	flex-direction: row;
 	width: 100%;
+	height: 100vh;
 	justify-content: center;
-	align-items: center;
+	justify-content: center;
+	align-items: start;
 }
 
 .page {
@@ -43,16 +43,24 @@ body {
 	box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.2);
 }
 
+.editorFlexDirection {
+	flex-direction: row;
+}
+
 .screenFlexDirection {
 	flex-direction: row;
 }
 
-.screenGridDirection {
+.clonesGridDirection {
 	grid-template-columns: 4fr 7fr;
 	grid-template-rows: 1fr;
 }
 
 @media (max-width: 1280px) {
+	.editorFlexDirection {
+		flex-direction: column-reverse;
+	}
+
 	.screenFlexDirection {
 		flex-direction: column;
 	}

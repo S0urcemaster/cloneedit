@@ -91,7 +91,7 @@ export default function Editor() {
 
 	return (
 		<>
-			<div className='screenFlexDirection' style={{ display: 'flex', gridTemplateColumns: '3fr 7fr', padding: 5, gap: 5, background: settings.componentColor }}>
+			<div className='editorFlexDirection' style={{ display: 'flex', gridTemplateColumns: '3fr 7fr', padding: 5, gap: 5, background: settings.componentColor }}>
 				<Head />
 				<Source />
 			</div>
