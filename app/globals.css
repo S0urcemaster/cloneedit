@@ -5,20 +5,69 @@
 	--bright-lum-color: #b7e7ff;
 }
 
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
 html,
 body {
-	color: #c4d6ff;
 	margin: 0;
 	padding: 0;
-	width: 100vw;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	width: 100%;
+	height: 100%;
 	background-color: var(--dark-color);
 	color: #b3d1e3;
-	letter-spacing: 0em;
-	overflow-x: scroll;
-	/* overflow-y: hidden */
+	display: flex;
+	justify-content: center;
+	align-items: start;
+	box-sizing: border-box;
+}
+
+.layout {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+}
+
+.page {
+	display: grid;
+	grid-template-rows: 1fr auto;
+	background-color: #25293C;
+	width: 1280px;
+	min-width: 1280px;
+	overflow-y: hidden;
+	box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.2);
+}
+
+.screenFlexDirection {
+	flex-direction: row;
+}
+
+.screenGridDirection {
+	grid-template-columns: 4fr 7fr;
+	grid-template-rows: 1fr;
+}
+
+@media (max-width: 1280px) {
+	.screenFlexDirection {
+		flex-direction: column;
+	}
+
+	.screenGridDirection {
+		grid-template-columns: 1fr;
+		grid-template-rows: 1fr 1fr;
+	}
+
+	.page {
+		width: 100vw;
+		min-width: unset;
+		width: unset;
+		box-shadow: none;
+	}
 }
 
 textarea,

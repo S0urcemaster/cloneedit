@@ -28,21 +28,27 @@ function Controller() {
 function Clone({ clone }: { clone: CloneModel }) {
 	const { settings, source, selectedClone, effectChanged, setSelectedClone } = useCloneEditContext()
 
+	function CloneName() {
+		return (
+			<div style={{ marginTop: 0, padding: '0 7px 0 5px', overflow: 'hidden', width: 20 }}>
+				<p style={{
+					fontSize: 'small', backgroundColor: settings.brightColor, color: settings.darkColor,
+					padding: '1px 0 3px 5px', margin: '0px 0 0px 0', pointerEvents: 'none',
+					transform: 'rotate(-90deg)', transformOrigin: 'left top', whiteSpace: 'nowrap', display: 'inline-block',
+					position: 'relative', bottom: -80
+				}}>{clone.name}</p>
+			</div>
+		)
+	}
+
 	return (
 		<div>
 			{clone.id === selectedClone.id &&
 				<Controller />
 			}
-			<div style={{ display: 'grid', gridTemplateColumns: '0fr auto', cursor: 'pointer' }} onClick={() => setSelectedClone(clone)}>
-				<div style={{ marginTop: 0, padding: '0 7px 0 5px', overflow: 'hidden', width: 20 }}>
-					<p style={{
-						fontSize: 'small', backgroundColor: settings.brightColor, color: settings.darkColor,
-						padding: '1px 0 3px 5px', margin: '0px 0 0px 0', pointerEvents: 'none',
-						transform: 'rotate(-90deg)', transformOrigin: 'left top', whiteSpace: 'nowrap', display: 'inline-block',
-						position: 'relative', bottom: -80
-					}}>{clone.name}</p>
-				</div>
-				<div style={{ display: 'grid', gridTemplateColumns: '4fr 7fr', padding: '0px 3px 0px 3px', gap: 5, height: 90 }}>
+			<div className='screenGridDirection' style={{ display: 'grid' }}>
+				<div style={{ display: 'grid', gridTemplateColumns: '0fr auto', cursor: 'pointer' }} onClick={() => setSelectedClone(clone)}>
+					<CloneName />
 					<div style={{ display: 'grid', gridTemplateColumns: '9fr 1fr', gap: 5 }}>
 						<div>
 							<fieldset style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 5, paddingLeft: 4 }}>
@@ -63,12 +69,15 @@ function Clone({ clone }: { clone: CloneModel }) {
 						</div>
 						<TabBar vertical buttonNames={['Up', 'St', 'FX']} onTabClick={(tabName) => console.log(`Tab clicked: ${tabName}`)} />
 					</div>
+				</div>
+				<div style={{ flexGrow: 1 }}>
 					<textarea
 						value={clone.effect.update(source, ...clone.effect.params)}
 						// rows={14}
 						placeholder={'Guess what'}
 						style={{
 							height: '100%',
+							width: '100%',
 							resize: 'none',
 							background: settings.editorBackgroundColor, // Gradient background
 							color: settings.editorTextColor, // Text color
@@ -93,7 +102,6 @@ export default function Clones() {
 
 	return (
 		<div style={{ background: settings.componentColor }}>
-			{/* <Controller /> */}
 			<div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
 				{currentDocument.clones.map((clone, ix) => (
 					<Clone key={ix} clone={clone} />

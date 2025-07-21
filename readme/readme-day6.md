@@ -5,4 +5,8 @@
 - Clone UI features approach
 - select clone working : Die Anzahl der Klone könnte groß sein / da sollte das Kontextmenü immer oben vom Klon sein
 
+- responsive
+-> Smileys
+-> example für bluesky und x
+
 ![alt text](image5.png)

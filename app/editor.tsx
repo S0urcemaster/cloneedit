@@ -59,13 +59,15 @@ function Source() {
 
 	return (
 		<>
-			<div className={constants.fonts[constants.FONT_LEXEND].font.className} style={{ display: 'flex', flexDirection: 'column', height: 300 }}>
+			<div className={constants.fonts[constants.FONT_LEXEND].font.className}
+				style={{ height: 300, flexGrow: 1 }}>
 				<textarea
 					value={text}
 					// rows={14}
 					placeholder={'Guess what'}
 					style={{
 						height: '100%',
+						width: '100%',
 						resize: 'none',
 						background: settings.editorBackgroundColor, // Gradient background
 						color: settings.editorTextColor, // Text color
@@ -89,7 +91,7 @@ export default function Editor() {
 
 	return (
 		<>
-			<div style={{ display: 'grid', gridTemplateColumns: '3fr 7fr', padding: 5, gap: 5, background: settings.componentColor }}>
+			<div className='screenFlexDirection' style={{ display: 'flex', gridTemplateColumns: '3fr 7fr', padding: 5, gap: 5, background: settings.componentColor }}>
 				<Head />
 				<Source />
 			</div>

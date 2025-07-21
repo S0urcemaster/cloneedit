@@ -7,7 +7,11 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en" className={constants.fonts[constants.FONT_FUNNEL_SANS].font.className}>
-			<body>{children}</body>
+			<body>
+				<div className='layout'>
+					{children}
+				</div>
+			</body>
 		</html>
 	)
 }
