@@ -47,4 +47,5 @@ export type Settings = {
 	cloneFontSize: number
 	brightColor: string
 	darkColor: string
+	buttonColor: string
 }

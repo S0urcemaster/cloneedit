@@ -2,6 +2,12 @@
 import { Gemunu_Libre, Funnel_Sans, Lexend } from 'next/font/google'
 import { App, Effect, EffectParam } from './model'
 
+export const smileys = [
+	'🪱', '😀', '😅', '😂', '🤣', '😋', '🥳',
+	'🫤', '🤨', '🤔', '🤫', '🥱', '🥹', '🥺',
+	'😢', '😭', '🤩', '😍', '🥰', '🤮', '🤢',
+]
+
 export const CAESAR_EFFECT = 'caesar'
 export const REPLACE_TEXT_EFFECT = 'replaceText'
 export const REPLACE_LIST_EFFECT = 'replaceList'
@@ -218,6 +224,7 @@ export const defaultState: App = {
 		cloneFontSize: 18,
 		brightColor: '#b3d1e3',
 		darkColor: '#1d1a22',
+		buttonColor: '#252935',
 	}
 }
 

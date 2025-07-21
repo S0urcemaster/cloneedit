@@ -7,11 +7,11 @@ import { effects } from './constants'
 
 
 function Controller() {
-	const { selectedClone } = useCloneEditContext()
+	const { settings, selectedClone } = useCloneEditContext()
 
 	return (
-		<div style={{ height: 25, overflow: 'hidden', padding: '2px 5px 2px 5px' }}>
-			<input style={{ marginRight: 3 }} type='text' value={selectedClone.name} />
+		<div style={{ height: 30, overflow: 'hidden', padding: '0px 0px 0px 0px', backgroundColor: settings.darkColor, marginBottom: 1 }}>
+			<input style={{ marginRight: 3, height: '100%' }} type='text' value={selectedClone.name} />
 			<button style={{ marginRight: 3 }}>Ren</button>
 			<button style={{ marginRight: 3 }}>New</button>
 			<button style={{ marginRight: 3 }}>Del</button>
@@ -43,8 +43,8 @@ function Clone({ clone }: { clone: CloneModel }) {
 		<div>
 			{clone.id === selectedClone.id ?
 				<Controller /> :
-				<div style={{ height: 25, overflow: 'hidden', padding: '2px 5px 2px 5px' }}>
-					<input style={{ marginRight: 3, width: '100%' }} type='text' value={selectedClone.name} />
+				<div style={{ height: 25, overflow: 'hidden', padding: '0px 0px 0px 0px' }}>
+					<input style={{ marginRight: 3, width: '100%', backgroundColor: settings.buttonColor, color: settings.brightColor, paddingBottom: 5 }} type='text' value={selectedClone.name} />
 				</div>
 			}
 			<div className='clonesGridDirection' style={{ display: clone.id === selectedClone.id ? 'grid' : 'block' }}>
@@ -74,17 +74,16 @@ function Clone({ clone }: { clone: CloneModel }) {
 					<textarea onClick={() => setSelectedClone(clone)}
 						value={clone.effect.update(source, ...clone.effect.params)}
 						// rows={14}
-						placeholder={'Guess what'}
+						placeholder={'source empty'}
 						style={{
 							height: '100%',
 							width: '100%',
 							resize: 'none',
 							background: settings.editorBackgroundColor, // Gradient background
 							color: settings.editorTextColor, // Text color
-							// border: 'none', // Remove border
 							padding: '0px 12px 0px 6px', // Padding
 							margin: 0,
-							border: `1px solid ${settings.brightColor}`, // Border color
+							// border: `1px solid ${settings.brightColor}`, // Border color
 							fontSize: settings.cloneFontSize,
 						}}
 						readOnly

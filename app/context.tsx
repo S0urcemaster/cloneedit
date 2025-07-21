@@ -13,12 +13,15 @@ export type CloneEditContext = {
 	currentFile: string
 	source: string
 	selectedClone: CloneModel
+	sourceSelection: { start: number, end: number }
 	effectChanged: (clone: CloneModel, effectName: string) => void
 	folderChanged: (folder: string) => void
 	fileChanged: (file: string) => void
 	setCurrentFile: (file: string) => void
 	sourceChanged: (source: string) => void
 	setSelectedClone: (clone: CloneModel) => void
+	setSourceSelection: (selection: { start: number, end: number }) => void
+	insertSmiley: (smiley: string) => void
 }
 
 const CloneEditContext = createContext<CloneEditContext>({} as CloneEditContext)
@@ -36,6 +39,7 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 	const [currentFile, setCurrentFile] = useState<string>(currentDocument.name)
 
 	const [source, setSource] = useState<string>(currentDocument.editor.text)
+	const [sourceSelection, setSourceSelection] = useState({ start: 0, end: 0 })
 	const [selectedClone, setSelectedClone] = useState<CloneModel>(currentDocument.clones[0])
 
 	useEffect(() => {
@@ -98,6 +102,10 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 		setCurrentDocument({ ...currentDocument })
 	}
 
+	function insertSmiley(smiley: string) {
+		setSource(source.substring(0, sourceSelection.start) + smiley + source.substring(sourceSelection.start))
+	}
+
 	return (
 		<CloneEditContext.Provider value={{
 			currentDocument: currentDocument,
@@ -108,12 +116,15 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 			currentFile: currentFile,
 			source: source,
 			selectedClone: selectedClone,
+			sourceSelection,
 			effectChanged: effectChanged,
 			folderChanged: folderChanged,
 			fileChanged: fileChanged,
 			setCurrentFile: setCurrentFile,
 			sourceChanged: sourceChanged,
 			setSelectedClone: setSelectedClone,
+			setSourceSelection: setSourceSelection,
+			insertSmiley: insertSmiley,
 		}}>
 			{children}
 		</ CloneEditContext.Provider>

@@ -19,20 +19,20 @@ export function FilesForm() {
 	}, [currentFile])
 
 	return (
-		<div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-			<div style={{ display: 'flex', gap: 5 }}>
+		<div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+			<div style={{ display: 'flex', gap: 2 }}>
 				<button style={{ flex: 1 }}>Backup</button>
 				<button style={{ flex: 1 }}>Restore</button>
 			</div>
 
 			{/* file */}
-			<fieldset style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 5, paddingLeft: 4 }}>
+			<fieldset style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 2, paddingLeft: 4 }}>
 
 				<label htmlFor="file">File</label>
-				<div style={{ display: 'flex', gap: 3 }}>
+				<div style={{ display: 'flex', gap: 2 }}>
 					{/* TODO : Bug reset auf 0 manchmal */}
 					<input type="text" id="file" value={fileInputText} onChange={e => setFileInputText(e.target.value)} />
-					<div style={{ display: 'flex', gap: 3 }}>
+					<div style={{ display: 'flex', gap: 2 }}>
 						<button style={{}}>New</button>
 						<button style={{}}>Ren</button>
 						<button style={{}}>Del</button>
@@ -47,13 +47,13 @@ export function FilesForm() {
 			</select>
 
 			{/* folder */}
-			<fieldset style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 5, paddingLeft: 4 }}>
+			<fieldset style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 2, paddingLeft: 4 }}>
 
 				<label htmlFor="folder">Folder</label>
-				<div style={{ display: 'flex', gap: 3 }}>
+				<div style={{ display: 'flex', gap: 2 }}>
 
 					<input type="text" id="folder" value={folderInputText} onChange={e => setFolderInputText(e.target.value)} disabled />
-					<div style={{ display: 'flex', gap: 3 }}>
+					<div style={{ display: 'flex', gap: 2 }}>
 						<button style={{}} disabled>New</button>
 						<button style={{}} disabled>Ren</button>
 						<button style={{}} disabled>Del</button>

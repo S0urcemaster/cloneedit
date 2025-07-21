@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { TabBar } from '../components/TabBar';
 import * as constants from './constants'
 import { useCloneEditContext } from './context';
@@ -15,10 +15,10 @@ function Head() {
 	const [tab, setTab] = useState('Edit')
 
 	return (
-		<div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', paddingTop: 0, paddingBottom: 2 }}>
+		<div className='headWidth' style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', paddingTop: 0, paddingBottom: 2 }}>
 			<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
 				<h1 className={constants.fonts[constants.FONT_GEMUNU_LIBRE].font.className + ' cloneedit-color'}
-					style={{ position: 'relative', top: -5, left: 1, fontSize: 28 }}>Clone Edit</h1>
+					style={{ position: 'relative', top: -1, left: 5, fontSize: 28 }}>Clone Edit</h1>
 				<TabBar
 					buttonNames={['Edit', 'Files', 'Settings', 'Info']}
 					onTabClick={(tabName: string) => setTab(tabName)}
@@ -41,9 +41,11 @@ function Head() {
 }
 function Source() {
 	const {
-		currentDocument, settings, sourceChanged
+		currentDocument, settings, source, sourceChanged, setSourceSelection
 	} = useCloneEditContext()
 	const [text, setText] = useState(currentDocument.editor.text)
+
+	const textareaRef = useRef<HTMLTextAreaElement>(null);
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
@@ -57,9 +59,22 @@ function Source() {
 		setText(currentDocument.editor.text)
 	}, [currentDocument])
 
+	useEffect(() => {
+		console.log('source: ', source);
+		setText(source)
+	}, [source])
+
+	function handleSelect() {
+		if (textareaRef.current) {
+			const start = textareaRef.current.selectionStart;
+			const end = textareaRef.current.selectionEnd;
+			// const selectedText = textareaRef.current.value.substring(start, end);
+			setSourceSelection({ start: textareaRef.current.selectionStart, end: textareaRef.current.selectionEnd })
+		}
+	}
 	return (
 		<>
-			<div className={constants.fonts[constants.FONT_LEXEND].font.className}
+			<div className={constants.fonts[constants.FONT_LEXEND].font.className + ' sourceWidth'}
 				style={{ height: 300, flexGrow: 1 }}>
 				<textarea
 					value={text}
@@ -72,11 +87,13 @@ function Source() {
 						background: settings.editorBackgroundColor, // Gradient background
 						color: settings.editorTextColor, // Text color
 						// border: 'none', // Remove border
-						padding: '6px 12px 6px 12px', // Padding
+						// padding: '6px 12px 6px 12px', // Padding
 						margin: 0, fontSize: settings.editorFontSize,
-						border: `1px solid ${settings.brightColor}`, // Border color
+						// border: `1px solid ${settings.brightColor}`, // Border color
 					}}
+					ref={textareaRef}
 					onChange={e => setText(e.target.value)}
+					onSelect={handleSelect}
 				/>
 			</div>
 		</>
@@ -91,7 +108,7 @@ export default function Editor() {
 
 	return (
 		<>
-			<div className='editorFlexDirection' style={{ display: 'flex', gridTemplateColumns: '3fr 7fr', padding: 5, gap: 5, background: settings.componentColor }}>
+			<div className='editorFlexDirection' style={{ display: 'flex', gridTemplateColumns: '3fr 7fr', padding: '0px 0 5px 0', gap: 2, background: settings.componentColor, width: '100%' }}>
 				<Head />
 				<Source />
 			</div>
