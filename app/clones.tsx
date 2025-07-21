@@ -6,12 +6,11 @@ import { TabBar } from '../components/TabBar'
 import { effects } from './constants'
 
 
-function Controller() {
-	const { settings, selectedClone } = useCloneEditContext()
-
+function Controller({ clone }: { clone: CloneModel }) {
+	const { settings } = useCloneEditContext()
 	return (
 		<div style={{ height: 30, overflow: 'hidden', padding: '0px 0px 0px 0px', backgroundColor: settings.darkColor, marginBottom: 1 }}>
-			<input style={{ marginRight: 3, height: '100%' }} type='text' value={selectedClone.name} />
+			<input style={{ marginRight: 3, height: '100%' }} type='text' value={clone.name} />
 			<button style={{ marginRight: 3 }}>Ren</button>
 			<button style={{ marginRight: 3 }}>New</button>
 			<button style={{ marginRight: 3 }}>Del</button>
@@ -42,9 +41,9 @@ function Clone({ clone }: { clone: CloneModel }) {
 	return (
 		<div>
 			{clone.id === selectedClone.id ?
-				<Controller /> :
+				<Controller clone={clone} /> :
 				<div style={{ height: 25, overflow: 'hidden', padding: '0px 0px 0px 0px' }}>
-					<input style={{ marginRight: 3, width: '100%', backgroundColor: settings.buttonColor, color: settings.brightColor, paddingBottom: 5 }} type='text' value={selectedClone.name} />
+					<input style={{ marginRight: 3, width: '100%', backgroundColor: settings.buttonColor, color: settings.brightColor, paddingBottom: 5 }} type='text' value={clone.name} />
 				</div>
 			}
 			<div className='clonesGridDirection' style={{ display: clone.id === selectedClone.id ? 'grid' : 'block' }}>

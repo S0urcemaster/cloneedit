@@ -65,7 +65,7 @@ export const effects: Record<string, Effect> = {
 	},
 	[SUBSTRING_EFFECT]: {
 		name: 'Substring',
-		params: [{ name: 'Start' }, { name: 'End' }],
+		params: [{ name: '[Start' }, { name: ']End' }],
 		update: (text: string, start: EffectParam, end: EffectParam) => {
 			console.log('update substring', text, start, end)
 			const startIndex = parseInt(start.value, 10);
@@ -82,7 +82,7 @@ export const effects: Record<string, Effect> = {
 export const defaultState: App = {
 	documents: [
 		{
-			name: 'Default',
+			name: 'X and Bluesky',
 			folderName: 'User',
 			editor: {
 				text: '',
@@ -92,28 +92,52 @@ export const defaultState: App = {
 			clones: [
 				{
 					id: 1,
-					name: 'whitespace whitespace whitespace whitespace ',
+					name: 'X Part 1',
 					source: 0,
-					effect: effects[NO_WHITESPACE_EFFECT]
+					effect: {
+						...effects[SUBSTRING_EFFECT], params: [{ name: 'Start', value: '0' }, { name: 'End', value: '280' }]
+					},
 				},
 				{
 					id: 2,
-					name: 'blackspace blackspace blackspace ',
+					name: 'X Part 2',
 					source: 0,
-					effect: effects[CAESAR_EFFECT]
+					effect: {
+						...effects[SUBSTRING_EFFECT], params: [{ name: 'Start', value: '280' }, { name: 'End', value: '560' }]
+					},
 				},
 				{
 					id: 3,
-					name: 'blackspace blackspace blackspace ',
+					name: 'X Part 3',
 					source: 0,
-					effect: effects[REPLACE_TEXT_EFFECT]
+					effect: {
+						...effects[SUBSTRING_EFFECT], params: [{ name: 'Start', value: '560' }, { name: 'End', value: '840' }]
+					},
 				},
 				{
 					id: 4,
-					name: 'blackspace blackspace blackspace ',
+					name: 'Bluesky Part 1',
 					source: 0,
-					effect: effects[REPLACE_LIST_EFFECT]
-				}
+					effect: {
+						...effects[SUBSTRING_EFFECT], params: [{ name: 'Start', value: '0' }, { name: 'End', value: '300' }]
+					},
+				},
+				{
+					id: 5,
+					name: 'Bluesky Part 2',
+					source: 0,
+					effect: {
+						...effects[SUBSTRING_EFFECT], params: [{ name: 'Start', value: '300' }, { name: 'End', value: '600' }]
+					},
+				},
+				{
+					id: 6,
+					name: 'Bluesky Part 3',
+					source: 0,
+					effect: {
+						...effects[SUBSTRING_EFFECT], params: [{ name: 'Start', value: '600' }, { name: 'End', value: '900' }]
+					},
+				},
 			]
 		},
 		{
