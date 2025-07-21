@@ -11,8 +11,6 @@
 
 ![alt text](image6.png)
 
--> Smileys
+- Smileys
 
--> example für bluesky und x
-
--> Klick auf Clone Edit schließt Menü
+- example für bluesky und x

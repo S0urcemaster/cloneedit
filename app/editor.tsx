@@ -87,7 +87,7 @@ function Source() {
 						background: settings.editorBackgroundColor, // Gradient background
 						color: settings.editorTextColor, // Text color
 						// border: 'none', // Remove border
-						// padding: '6px 12px 6px 12px', // Padding
+						padding: '0px 0px 0px 5px', // Padding
 						margin: 0, fontSize: settings.editorFontSize,
 						// border: `1px solid ${settings.brightColor}`, // Border color
 					}}
@@ -108,7 +108,7 @@ export default function Editor() {
 
 	return (
 		<>
-			<div className='editorFlexDirection' style={{ display: 'flex', gridTemplateColumns: '3fr 7fr', padding: '0px 0 5px 0', gap: 2, background: settings.componentColor, width: '100%' }}>
+			<div className='editorFlexDirection' style={{ display: 'flex', gridTemplateColumns: '3fr 7fr', padding: '0px 0px 0px 0px', gap: 2, background: settings.componentColor, width: '100%' }}>
 				<Head />
 				<Source />
 			</div>

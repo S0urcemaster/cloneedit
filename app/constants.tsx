@@ -6,6 +6,7 @@ export const smileys = [
 	'🪱', '😀', '😅', '😂', '🤣', '😋', '🥳',
 	'🫤', '🤨', '🤔', '🤫', '🥱', '🥹', '🥺',
 	'😢', '😭', '🤩', '😍', '🥰', '🤮', '🤢',
+	'😊', '☺️'
 ]
 
 export const CAESAR_EFFECT = 'caesar'
@@ -248,7 +249,8 @@ export const defaultState: App = {
 		cloneFontSize: 18,
 		brightColor: '#b3d1e3',
 		darkColor: '#1d1a22',
-		buttonColor: '#252935',
+		mezzoDarkColor: '#252935',
+		cloneeditColor: '#88caff'
 	}
 }
 

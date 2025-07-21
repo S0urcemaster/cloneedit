@@ -9,13 +9,13 @@ import { effects } from './constants'
 function Controller({ clone }: { clone: CloneModel }) {
 	const { settings } = useCloneEditContext()
 	return (
-		<div style={{ height: 30, overflow: 'hidden', padding: '0px 0px 0px 0px', backgroundColor: settings.darkColor, marginBottom: 1 }}>
-			<input style={{ marginRight: 3, height: '100%' }} type='text' value={clone.name} />
+		<div style={{ display: 'flex', overflow: 'hidden', padding: '1px 0px 2px 0px', backgroundColor: settings.cloneeditColor, color: settings.darkColor }}>
+			<input style={{ marginRight: 3, padding: '0px 0px 1px 5px', marginBottom: 1 }} type='text' value={clone.name} />
 			<button style={{ marginRight: 3 }}>Ren</button>
 			<button style={{ marginRight: 3 }}>New</button>
 			<button style={{ marginRight: 3 }}>Del</button>
 			#
-			<input type="number" min="0" max="100" step="1" value="0" />
+			<input type="number" min="0" max="100" step="1" value="0" style={{ padding: '0px 0px 0px 5px', marginRight: 5, marginBottom: 1 }} />
 			<button style={{ marginRight: 3 }}>Copy to Clipboard</button>
 			<button style={{ marginRight: 3 }}>Download</button>
 		</div>
@@ -27,7 +27,7 @@ function Clone({ clone }: { clone: CloneModel }) {
 
 	function HorizontalCloneName() { // maybe use some time
 		return (
-			<div style={{ marginTop: 0, padding: '0 7px 0 5px', overflow: 'hidden', width: 20, backgroundColor: settings.darkColor }}>
+			<div style={{ marginTop: 0, padding: '0 7px 0 5px', overflow: 'hidden', width: 20, backgroundColor: settings.brightColor }}>
 				<p style={{
 					fontSize: 'small', backgroundColor: settings.brightColor, color: settings.darkColor,
 					padding: '1px 0 3px 5px', margin: '0px 0 0px 0', pointerEvents: 'none',
@@ -43,7 +43,7 @@ function Clone({ clone }: { clone: CloneModel }) {
 			{clone.id === selectedClone.id ?
 				<Controller clone={clone} /> :
 				<div style={{ height: 25, overflow: 'hidden', padding: '0px 0px 0px 0px' }}>
-					<input style={{ marginRight: 3, width: '100%', backgroundColor: settings.buttonColor, color: settings.brightColor, paddingBottom: 5 }} type='text' value={clone.name} />
+					<input style={{ marginRight: 3, width: '100%', backgroundColor: settings.mezzoDarkColor, color: settings.brightColor, paddingBottom: 5 }} type='text' value={clone.name} />
 				</div>
 			}
 			<div className='clonesGridDirection' style={{ display: clone.id === selectedClone.id ? 'grid' : 'block' }}>
@@ -73,7 +73,7 @@ function Clone({ clone }: { clone: CloneModel }) {
 					<textarea onClick={() => setSelectedClone(clone)}
 						value={clone.effect.update(source, ...clone.effect.params)}
 						// rows={14}
-						placeholder={'source empty'}
+						placeholder={'zero effect'}
 						style={{
 							height: '100%',
 							width: '100%',
@@ -100,7 +100,7 @@ export default function Clones() {
 
 	return (
 		<div style={{ background: settings.componentColor }}>
-			<div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+			<div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
 				{currentDocument.clones.map((clone, ix) => (
 					<Clone key={ix} clone={clone} />
 				))}

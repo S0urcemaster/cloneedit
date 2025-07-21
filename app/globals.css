@@ -4,8 +4,8 @@
 	--dark-color: #1d1a22;
 	--bright-color: #b3d1e3;
 	--bright-lum-color: #b7e7ff;
+	--mezzo-dark-color: #252935;
 
-	--button-color: #252935;
 	--button-font-size: 17px
 }
 
@@ -106,7 +106,7 @@ textarea {
 	letter-spacing: inherit;
 	/* Inherit the letter spacing from the parent element */
 	font-size: medium;
-	background-color: var(--button-color);
+	background-color: var(--mezzo-dark-color);
 	color: var(--bright-lum-color);
 	border: none;
 }
@@ -114,11 +114,12 @@ textarea {
 button {
 	font-family: inherit;
 	letter-spacing: inherit;
-	background-color: var(--button-color);
+	background-color: var(--mezzo-dark-color);
 	color: var(--bright-lum-color);
 	border: none;
 	font-size: var(--button-font-size);
-	padding: 3px 12px 6px 12px;
+	padding: 0px 12px 3px 12px;
+	height: 30,
 }
 
 input,
