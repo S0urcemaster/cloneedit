@@ -1,5 +1,6 @@
 # Clone Edit Tag 7
 
+-> Responsive Layout
 -> Klick auf Clone Edit schließt Menü
 -> button highlight light blue
 -> Mouse down wo geht

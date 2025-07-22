@@ -5,7 +5,7 @@ export function SettingsForm() {
 	const { settings } = useCloneEditContext()
 
 	return (
-		<fieldset style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 5, paddingLeft: 4 }}>
+		<fieldset style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 1, paddingLeft: 4 }}>
 			<label htmlFor="material">App Color</label>
 			<input type="text" id="material" />
 

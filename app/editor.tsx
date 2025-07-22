@@ -15,10 +15,10 @@ function Head() {
 	const [tab, setTab] = useState('Edit')
 
 	return (
-		<div className='headWidth' style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', paddingTop: 0, paddingBottom: 2 }}>
-			<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+		<div className='headWidth' style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', paddingTop: 0, paddingBottom: 0 }}>
+			<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: 1 }}>
 				<h1 className={constants.fonts[constants.FONT_GEMUNU_LIBRE].font.className + ' cloneedit-color'}
-					style={{ position: 'relative', top: -1, left: 5, fontSize: 28 }}>Clone Edit</h1>
+					style={{ fontSize: 28, paddingLeft: 5, height: 25, marginTop: -5 }}>Clone Edit</h1>
 				<TabBar
 					buttonNames={['Edit', 'Files', 'Settings', 'Info']}
 					onTabClick={(tabName: string) => setTab(tabName)}
@@ -60,7 +60,7 @@ function Source() {
 	}, [currentDocument])
 
 	useEffect(() => {
-		console.log('source: ', source);
+		// console.log('source: ', source);
 		setText(source)
 	}, [source])
 
@@ -108,7 +108,7 @@ export default function Editor() {
 
 	return (
 		<>
-			<div className='editorFlexDirection' style={{ display: 'flex', gridTemplateColumns: '3fr 7fr', padding: '0px 0px 0px 0px', gap: 2, background: settings.componentColor, width: '100%' }}>
+			<div className='editorFlexDirection' style={{ display: 'flex', gridTemplateColumns: '3fr 7fr', padding: '0px 0px 1px 0px', gap: 2, background: settings.componentColor, width: '100%' }}>
 				<Head />
 				<Source />
 			</div>

@@ -2,7 +2,7 @@ import * as constants from '../app/constants'
 
 export function InfoForm() {
 	return (
-		<div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+		<div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
 			<p>
 				Clone Edit is a DTW / Digital Text Workstation where you can apply multiple Effects
 				to a source text for use in Social Media or with AI . Walk through the examples folder

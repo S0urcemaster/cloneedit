@@ -14,6 +14,7 @@ export const REPLACE_TEXT_EFFECT = 'replaceText'
 export const REPLACE_LIST_EFFECT = 'replaceList'
 export const NO_WHITESPACE_EFFECT = 'noWhitespace'
 export const SUBSTRING_EFFECT = 'substring'
+export const TLDR_EFFECT = 'tldr'
 
 export const effects: Record<string, Effect> = {
 	[CAESAR_EFFECT]: {
@@ -68,14 +69,21 @@ export const effects: Record<string, Effect> = {
 		name: 'Substring',
 		params: [{ name: '[Start' }, { name: ']End' }],
 		update: (text: string, start: EffectParam, end: EffectParam) => {
-			console.log('update substring', text, start, end)
+			// console.log('update substring', text, start, end)
 			const startIndex = parseInt(start.value, 10);
 			const endIndex = parseInt(end.value, 10);
 			if (isNaN(startIndex) || isNaN(endIndex)) {
 				return text; // Invalid indices, return original text
 			}
-			console.log('startend', startIndex, endIndex)
+			// console.log('startend', startIndex, endIndex)
 			return text.substring(startIndex, endIndex);
+		}
+	},
+	[TLDR_EFFECT]: {
+		name: 'TLDR',
+		params: [],
+		update: () => {
+			return 'not implemented'
 		}
 	}
 }
@@ -220,22 +228,28 @@ export const defaultState: App = {
 				},
 			]
 		},
-		// {
-		// 	name: 'Default',
-		// 	folderName: 'Multi AI',
-		// 	editor: {
-		// 		text: 'Let me work with some example text . I hope AI cann fill this with 300 words . so here it goes : Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-		// 		memory: [],
-		// 		snippets: []
-		// 	},
-		// 	clones: [
-		// 		{
-		// 			id: 1,
-		// 			source: 0,
-		// 			effect: effects[NO_WHITESPACE_EFFECT]
-		// 		},
-		// 	]
-		// },
+		{
+			name: 'Introduction',
+			folderName: 'Documentation',
+			editor: {
+				text: `Clone Edit Documentation
+Introduction
+Clone Edit is a DTW - Digital Text Workstation ( from DAW : Digital Audio Workstation)
+				`,
+				memory: [],
+				snippets: []
+			},
+			clones: [
+				{
+					id: 1,
+					name: ';tldr',
+					source: 0,
+					effect: {
+						...effects[TLDR_EFFECT], params: [{ name: 'Start', value: '0' }, { name: 'End', value: '10' }]
+					},
+				},
+			]
+		},
 	],
 
 	settings: {

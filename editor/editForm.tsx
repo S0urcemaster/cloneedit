@@ -5,7 +5,7 @@ export function EditForm() {
 
 	const { insertSmiley } = useCloneEditContext()
 	return (
-		<div style={{ display: 'flex', flexDirection: 'column', gap: 2, paddingLeft: 4 }}>
+		<div style={{ display: 'flex', flexDirection: 'column', gap: 1, paddingLeft: 5 }}>
 
 			<div id={'memory'} style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
 				<button style={{}}>Undo</button>

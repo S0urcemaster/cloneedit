@@ -6,7 +6,7 @@ export function TabBar({
 	onTabClick: (tabName: string) => void
 }) {
 	return (
-		<div style={vertical ? { display: 'flex', flexDirection: 'column', gap: 2 } : { display: 'flex', gap: 2 }}>
+		<div style={vertical ? { display: 'flex', flexDirection: 'column', gap: 1 } : { display: 'flex', gap: 1 }}>
 			{buttonNames.map((name, index) => (
 				<button key={index} onMouseDown={() => onTabClick(name)} style={{}}>
 					{name}

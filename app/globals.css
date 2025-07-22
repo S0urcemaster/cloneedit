@@ -119,7 +119,7 @@ button {
 	border: none;
 	font-size: var(--button-font-size);
 	padding: 0px 12px 3px 12px;
-	height: 30,
+	height: 30;
 }
 
 input,

@@ -14,12 +14,11 @@ export function FilesForm() {
 	}, [currentFolder])
 
 	useEffect(() => {
-		console.log(`${FilesForm.name}/useEffect/currentFile \t\t\t\t\t\t\t\t\t\t ${currentFile}`);
 		setFileInputText(currentFile)
 	}, [currentFile])
 
 	return (
-		<div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+		<div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
 			<div style={{ display: 'flex', gap: 2 }}>
 				<button style={{ flex: 1 }}>Backup</button>
 				<button style={{ flex: 1 }}>Restore</button>
