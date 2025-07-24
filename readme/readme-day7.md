@@ -1,5 +1,8 @@
 # Clone Edit Tag 7
 
+- Geändertes Layout : Editor immer oben / alles wie Mobile
+
+
 -> Responsive Layout
 -> Klick auf Clone Edit schließt Menü
 -> button highlight light blue

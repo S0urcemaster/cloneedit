@@ -15,7 +15,7 @@ function Head() {
 	const [tab, setTab] = useState('Edit')
 
 	return (
-		<div className='headWidth' style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', paddingTop: 0, paddingBottom: 0 }}>
+		<div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', paddingTop: 0, paddingBottom: 0 }}>
 			<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: 1 }}>
 				<h1 className={constants.fonts[constants.FONT_GEMUNU_LIBRE].font.className + ' cloneedit-color'}
 					style={{ fontSize: 28, paddingLeft: 5, height: 25, marginTop: -5 }}>Clone Edit</h1>
@@ -74,8 +74,8 @@ function Source() {
 	}
 	return (
 		<>
-			<div className={constants.fonts[constants.FONT_LEXEND].font.className + ' sourceWidth'}
-				style={{ height: 300, flexGrow: 1 }}>
+			<div className={constants.fonts[constants.FONT_LEXEND].font.className} 
+					style={{ minHeight: 300, flexGrow: 1 }}>
 				<textarea
 					value={text}
 					// rows={14}
@@ -108,9 +108,9 @@ export default function Editor() {
 
 	return (
 		<>
-			<div className='editorFlexDirection' style={{ display: 'flex', gridTemplateColumns: '3fr 7fr', padding: '0px 0px 1px 0px', gap: 2, background: settings.componentColor, width: '100%' }}>
-				<Head />
+			<div style={{ display: 'flex', flexDirection: 'column', padding: '0px 0px 1px 0px', gap: 2, background: settings.componentColor, width: '100%' }}>
 				<Source />
+				<Head />
 			</div>
 		</>
 	)

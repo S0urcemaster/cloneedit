@@ -33,71 +33,25 @@ body {
 	height: 100vh;
 	justify-content: center;
 	justify-content: center;
-	align-items: start;
+	align-items: flex-start;
 }
 
 .page {
-	display: grid;
-	grid-template-rows: 1fr auto;
+	/* display: grid; */
+	/* grid-template-rows: 1fr auto; */
 	background-color: #25293C;
-	width: 1280px;
-	min-width: 1280px;
+	width: 800;
+	max-width: 800px;
 	box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.2);
 }
 
-.editorFlexDirection {
-	flex-direction: row;
-}
+@media (max-width: 800) {
 
-.headWidth {
-	width: 34%;
-}
-
-.sourceWidth {
-	width: 66%;
-}
-
-.screenFlexDirection {
-	flex-direction: row;
-}
-
-.clonesGridDirection {
-	grid-template-columns: 34% 66%;
-	grid-template-rows: 1fr;
-}
-
-@media (max-width: 1280px) {
-
-
-	.headWidth {
-		/* editor/head */
-		width: 100%;
-	}
-
-	.sourceWidth {
-		/* source/head */
-		width: 100%;
-	}
-
-	.editorFlexDirection {
-		flex-direction: column-reverse;
-	}
-
-	.screenFlexDirection {
-		flex-direction: column;
-	}
-
-	.screenGridDirection {
-		grid-template-columns: 1fr;
-		grid-template-rows: 1fr 1fr;
-	}
-
-	.page {
+	/* .page {
 		width: 100vw;
-		min-width: unset;
 		width: unset;
 		box-shadow: none;
-	}
+	} */
 }
 
 textarea {
@@ -133,6 +87,7 @@ select {
 	color: var(--dark-color);
 	border: none;
 	padding-left: 6px;
+	min-width: none;
 }
 
 select option {
@@ -204,7 +159,7 @@ a:hover {
 }
 
 a:visited {
-	/* color: inherit; */
+	color: inherit;
 }
 
 a:focus {

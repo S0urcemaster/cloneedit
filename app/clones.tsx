@@ -9,15 +9,43 @@ import { effects } from './constants'
 function Controller({ clone }: { clone: CloneModel }) {
 	const { settings } = useCloneEditContext()
 	return (
-		<div style={{ display: 'flex', overflow: 'hidden', padding: '1px 0px 2px 0px', backgroundColor: settings.cloneeditColor, color: settings.darkColor }}>
+		<div style={{ display: 'flex', padding: '1px 0px 1px 0px', backgroundColor: settings.cloneeditColor, color: settings.darkColor, flexWrap: 'wrap' }}>
 			<input style={{ marginRight: 3, padding: '0px 0px 1px 5px', marginBottom: 1 }} type='text' value={clone.name} />
 			<button style={{ marginRight: 3 }}>Ren</button>
 			<button style={{ marginRight: 3 }}>New</button>
 			<button style={{ marginRight: 3 }}>Del</button>
-			#
-			<input type="number" min="0" max="100" step="1" value="0" style={{ padding: '0px 0px 0px 5px', marginRight: 5, marginBottom: 1 }} />
-			<button style={{ marginRight: 3 }}>Copy to Clipboard</button>
+			<div style={{whiteSpace: 'nowrap'}}>
+				#
+				<input type="number" min="0" max="100" step="1" value="0" style={{ padding: '0px 0px 0px 5px', marginRight: 5, marginBottom: 1 }} />
+			</div>
+			<button style={{ marginRight: 3 }}>Cpy</button>
 			<button style={{ marginRight: 3 }}>Download</button>
+		</div>
+	)
+}
+
+function CloneForm({ clone }: { clone: CloneModel }) {
+	const { effectChanged } = useCloneEditContext()
+	return (
+		<div style={{ display: 'grid', gridTemplateColumns: 'auto 0fr' }}>
+			<div>
+				<fieldset style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 5, paddingLeft: 4, overflowY: 'auto' }}>
+					<label htmlFor="effect">Effect</label>
+					<select value={clone.effect.name} onChange={(e) => effectChanged(clone, e.target.value)} id="effect">
+						{Object.values(effects).map((effect, index) => (
+							<option key={index} value={effect.name}>{effect.name}</option>
+						))}
+					</select>
+					{clone.effect.params.map((param, ix) => (
+						<>
+							<label htmlFor="editorTextColor">{param.name}</label>
+							<input type="text" id="editorTextColor" value={param.value} />
+						</>
+
+					))}
+				</fieldset>
+			</div>
+			<TabBar vertical buttonNames={['Up', 'St', 'FX']} onTabClick={(tabName) => console.log(`Tab clicked: ${tabName}`)} />
 		</div>
 	)
 }
@@ -46,28 +74,10 @@ function Clone({ clone }: { clone: CloneModel }) {
 					<input style={{ marginRight: 3, width: '100%', backgroundColor: settings.mezzoDarkColor, color: settings.brightColor, paddingBottom: 5 }} type='text' value={clone.name} />
 				</div>
 			}
-			<div className='clonesGridDirection' style={{ display: clone.id === selectedClone.id ? 'grid' : 'block' }}>
-				{clone.id === selectedClone.id &&
-					<div style={{ display: 'grid', gridTemplateColumns: 'auto 0fr' }}>
-						<div>
-							<fieldset style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 5, paddingLeft: 4, overflowY: 'auto' }}>
-								<label htmlFor="effect">Effect</label>
-								<select value={clone.effect.name} onChange={(e) => effectChanged(clone, e.target.value)} id="effect">
-									{Object.values(effects).map((effect, index) => (
-										<option key={index} value={effect.name}>{effect.name}</option>
-									))}
-								</select>
-								{clone.effect.params.map((param, ix) => (
-									<>
-										<label htmlFor="editorTextColor">{param.name}</label>
-										<input type="text" id="editorTextColor" value={param.value} />
-									</>
+			<div style={{ display: clone.id === selectedClone.id ? 'grid' : 'block', gridTemplateColumns: '50% 50%' }}>
 
-								))}
-							</fieldset>
-						</div>
-						<TabBar vertical buttonNames={['Up', 'St', 'FX']} onTabClick={(tabName) => console.log(`Tab clicked: ${tabName}`)} />
-					</div>
+				{clone.id === selectedClone.id &&
+					<CloneForm clone={clone} />
 				}
 				<div style={{ flexGrow: 1 }}>
 					<textarea onClick={() => setSelectedClone(clone)}
