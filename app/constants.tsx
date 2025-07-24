@@ -19,17 +19,19 @@ export const TLDR_EFFECT = 'tldr'
 export const effects: Record<string, Effect> = {
 	[CAESAR_EFFECT]: {
 		name: 'Caesar Cipher',
-		params: [{ name: 'shift' }],
-		update: (text: string, shift: EffectParam) => {
-			return 'Caesar Cipher not implemented yet'; // Implementierung fehlt
-			// return text.split('').map(char => {
-			// 	if (char.match(/[a-z]/i)) {
-			// 		const code = char.charCodeAt(0);
-			// 		const base = code >= 65 && code <= 90 ? 65 : 97;
-			// 		return String.fromCharCode(((code - base + Number(shift)) % 26) + base);
-			// 	}
-			// 	return char;
-			// }).join('');
+		params: [{ name: 'Offset' }],
+		update: (text: string, offset: EffectParam) => {
+			const shiftValue = Number(offset.value)
+			return text.split('').map(char => {
+				if (char.match(/[a-z]/i)) {
+					const code = char.charCodeAt(0)
+					const base = code >= 65 && code <= 90 ? 65 : 97
+					// Ensure positive result for negative shifts
+					const shiftedCode = (code - base + shiftValue) % 26
+					return String.fromCharCode((shiftedCode < 0 ? shiftedCode + 26 : shiftedCode) + base)
+				}
+				return char;
+			}).join('')
 		}
 	},
 	[REPLACE_TEXT_EFFECT]: {
@@ -150,19 +152,213 @@ export const defaultState: App = {
 			]
 		},
 		{
-			name: 'X',
+			name: 'Caesar Cypher',
 			folderName: 'User',
 			editor: {
-				text: 'Let me work with some example text . I hope AI cann fill this with 300 words . so here it goes : Lorem ipsum dolor sit amet, consectetur adipiscing elit.la pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+				text: '',
 				memory: [],
 				snippets: []
 			},
 			clones: [
 				{
 					id: 1,
-					name: 'Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct ',
+					name: '1',
 					source: 0,
-					effect: { ...effects[NO_WHITESPACE_EFFECT] }
+					effect: {
+						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '1' }],
+					},
+				},
+				{
+					id: 2,
+					name: '2',
+					source: 0,
+					effect: {
+						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '2' }],
+					},
+				},
+				{
+					id: 3,
+					name: '3',
+					source: 0,
+					effect: {
+						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '3' }],
+					},
+				},
+				{
+					id: 4,
+					name: '4',
+					source: 0,
+					effect: {
+						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '4' }],
+					},
+				},
+				{
+					id: 5,
+					name: '5',
+					source: 0,
+					effect: {
+						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '5' }],
+					},
+				},
+				{
+					id: 6,
+					name: '6',
+					source: 0,
+					effect: {
+						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '6' }],
+					},
+				},
+				{
+					id: 7,
+					name: '7',
+					source: 0,
+					effect: {
+						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '7' }],
+					},
+				},
+				{
+					id: 8,
+					name: '8',
+					source: 0,
+					effect: {
+						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '8' }],
+					},
+				},
+				{
+					id: 9,
+					name: '9',
+					source: 0,
+					effect: {
+						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '9' }],
+					},
+				},
+				{
+					id: 10,
+					name: '10',
+					source: 0,
+					effect: {
+						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '10' }],
+					},
+				},
+				{
+					id: 11,
+					name: '11',
+					source: 0,
+					effect: {
+						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '11' }],
+					},
+				},
+				{
+					id: 12,
+					name: '12',
+					source: 0,
+					effect: {
+						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '12' }],
+					},
+				},
+				{
+					id:13 ,
+					name: '13',
+					source: 0,
+					effect: {
+						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '13' }],
+					},
+				},
+				{
+					id:14 ,
+					name: '14',
+					source: 0,
+					effect: {
+						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '14' }],
+					},
+				},
+				{
+					id:15 ,
+					name: '15',
+					source: 0,
+					effect: {
+						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '15' }],
+					},
+				},
+				{
+					id:16 ,
+					name: '16',
+					source: 0,
+					effect: {
+						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '16' }],
+					},
+				},
+				{
+					id:17 ,
+					name: '17',
+					source: 0,
+					effect: {
+						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '17' }],
+					},
+				},
+				{
+					id:18 ,
+					name: '18',
+					source: 0,
+					effect: {
+						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '18' }],
+					},
+				},
+				{
+					id:19 ,
+					name: '19',
+					source: 0,
+					effect: {
+						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '19' }],
+					},
+				},
+				{
+					id:20 ,
+					name: '20',
+					source: 0,
+					effect: {
+						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '20' }],
+					},
+				},
+				{
+					id:21 ,
+					name: '21',
+					source: 0,
+					effect: {
+						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '21' }],
+					},
+				},
+				{
+					id:22 ,
+					name: '22',
+					source: 0,
+					effect: {
+						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '22' }],
+					},
+				},
+				{
+					id:23 ,
+					name: '23',
+					source: 0,
+					effect: {
+						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '23' }],
+					},
+				},
+				{
+					id:24 ,
+					name: '24',
+					source: 0,
+					effect: {
+						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '24' }],
+					},
+				},
+				{
+					id:25 ,
+					name: '25',
+					source: 0,
+					effect: {
+						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '25' }],
+					},
 				},
 			]
 		},

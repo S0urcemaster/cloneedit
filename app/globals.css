@@ -87,7 +87,7 @@ select {
 	color: var(--dark-color);
 	border: none;
 	padding-left: 6px;
-	min-width: none;
+	min-width: unset;
 }
 
 select option {

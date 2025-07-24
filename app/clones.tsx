@@ -27,7 +27,7 @@ function Controller({ clone }: { clone: CloneModel }) {
 function CloneForm({ clone }: { clone: CloneModel }) {
 	const { effectChanged } = useCloneEditContext()
 	return (
-		<div style={{ display: 'grid', gridTemplateColumns: 'auto 0fr' }}>
+		<div style={{ display: 'grid', gridTemplateColumns: '10fr 1fr' }}>
 			<div>
 				<fieldset style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 5, paddingLeft: 4, overflowY: 'auto' }}>
 					<label htmlFor="effect">Effect</label>

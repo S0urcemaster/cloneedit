@@ -1,7 +1,7 @@
 # Clone Edit Tag 7
 
 - Geändertes Layout : Editor immer oben / alles wie Mobile
-
+- Caesar effect
 
 -> Responsive Layout
 -> Klick auf Clone Edit schließt Menü
