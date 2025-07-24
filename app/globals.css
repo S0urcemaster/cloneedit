@@ -7,7 +7,9 @@
 	--mezzo-dark-color: #252935;
 	--editor-text-color: #deffcbff;
 
-	--button-font-size: 17px
+	--editor-font-size: 22;
+	--clone-font-size: 18;
+	--button-font-size: 17px;
 }
 
 *,

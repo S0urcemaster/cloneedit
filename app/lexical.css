@@ -4,7 +4,8 @@
    border: none;
    margin: 0 0 15px 0;
    position: relative;
-   color: var(--editor-text-color)
+   color: var(--editor-text-color);
+   font-size: 22pt;
 }
 .editor-placeholder {
    color: #ff4646;
