@@ -1,5 +1,6 @@
 'use client'
 import './globals.css'
+import './lexical.css'
 import App from './app'
 import { useEffect } from 'react';
 

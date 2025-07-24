@@ -2,6 +2,7 @@
 
 - Geändertes Layout : Editor immer oben / alles wie Mobile
 - Caesar effect
+- lexical
 
 -> Responsive Layout
 -> Klick auf Clone Edit schließt Menü

@@ -1,11 +1,20 @@
-import { useEffect, useRef, useState } from 'react';
+import { ReactEventHandler, useEffect, useRef, useState } from 'react';
 import { TabBar } from '../components/TabBar';
-import * as constants from './constants'
-import { useCloneEditContext } from './context';
-import { FilesForm } from '../editor/filesForm';
 import { EditForm } from '../editor/editForm';
-import { SettingsForm } from '../editor/settingsForm';
+import { FilesForm } from '../editor/filesForm';
 import { InfoForm } from '../editor/infoForm';
+import { SettingsForm } from '../editor/settingsForm';
+import * as constants from './constants';
+import { useCloneEditContext } from './context';
+
+import { $getRoot, $getSelection } from 'lexical';
+import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
+import { LexicalComposer } from '@lexical/react/LexicalComposer';
+import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
+import { ContentEditable } from '@lexical/react/LexicalContentEditable';
+import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
+import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 
 function Head() {
 	const {
@@ -39,79 +48,107 @@ function Head() {
 		</div>
 	)
 }
-function Source() {
-	const {
-		currentDocument, settings, source, sourceChanged, setSourceSelection
-	} = useCloneEditContext()
-	const [text, setText] = useState(currentDocument.editor.text)
 
-	const textareaRef = useRef<HTMLTextAreaElement>(null);
+const lexicalTheme = {
+	paragraph: 'editor-paragraph',
+	placeholder: 'editor-placeholder',
+}
+
+// Catch any errors that occur during Lexical updates and log them
+// or throw them as needed. If you don't throw them, Lexical will
+// try to recover gracefully without losing user data.
+function onError(error) {
+	console.error(error);
+}
+
+function EditorContent({ onChange, settings }) {
+	const [editor] = useLexicalComposerContext(); // Now safe, as it's inside LexicalComposer
+	const contentEditable = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		return editor.registerUpdateListener(({ editorState }) => {
+			const plainText = editorState.read(() => $getRoot().getTextContent());
+			onChange(plainText);
+		});
+	}, [editor, onChange]);
+
+	return (
+		<div
+			className={constants.fonts[constants.FONT_LEXEND].font.className}
+			style={{
+				height: 300,
+				overflowY: 'scroll',
+				background: settings.editorBackgroundColor,
+				padding: '5px 6px 0px 6px',
+				fontSize: settings.cloneFontSize,
+				fontFamily: settings.editorFont,
+			}}
+			onClick={() => contentEditable.current?.focus()}
+		>
+			<RichTextPlugin
+				contentEditable={<ContentEditable style={{ outline: 'none' }} ref={contentEditable} />}
+				ErrorBoundary={LexicalErrorBoundary}
+			/>
+			<HistoryPlugin />
+			<AutoFocusPlugin />
+		</div>
+	);
+}
+
+function Source() {
+	const { currentDocument, settings, source, sourceChanged, setSourceSelection } =
+		useCloneEditContext();
+	const [text, setText] = useState(currentDocument.editor.text);
+
+	const initialConfig = {
+		namespace: 'cloneedit',
+		theme: lexicalTheme,
+		onError,
+	};
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
-			sourceChanged(text)
-		}, 500); // 1 Sekunde warten
+			sourceChanged(text);
+		}, 500); // 1-second debounce
 
-		return () => clearTimeout(timer); // Reset bei erneutem Tippen
-	}, [text]);
-
-	useEffect(() => {
-		setText(currentDocument.editor.text)
-	}, [currentDocument])
+		return () => clearTimeout(timer); // Cleanup on re-render
+	}, [text, sourceChanged]);
 
 	useEffect(() => {
-		// console.log('source: ', source);
-		setText(source)
-	}, [source])
+		setText(currentDocument.editor.text);
+	}, [currentDocument]);
 
-	function handleSelect() {
-		if (textareaRef.current) {
-			const start = textareaRef.current.selectionStart;
-			const end = textareaRef.current.selectionEnd;
-			// const selectedText = textareaRef.current.value.substring(start, end);
-			setSourceSelection({ start: textareaRef.current.selectionStart, end: textareaRef.current.selectionEnd })
-		}
-	}
+	useEffect(() => {
+		setText(source);
+	}, [source]);
+
+	const handleEditorChange = (plainText) => {
+		setText(plainText);
+	};
+
 	return (
-		<>
-			<div className={constants.fonts[constants.FONT_LEXEND].font.className} 
-					style={{ minHeight: 300, flexGrow: 1 }}>
-				<textarea
-					value={text}
-					// rows={14}
-					placeholder={'Guess what'}
-					style={{
-						height: '100%',
-						width: '100%',
-						resize: 'none',
-						background: settings.editorBackgroundColor, // Gradient background
-						color: settings.editorTextColor, // Text color
-						// border: 'none', // Remove border
-						padding: '0px 0px 0px 5px', // Padding
-						margin: 0, fontSize: settings.editorFontSize,
-						// border: `1px solid ${settings.brightColor}`, // Border color
-					}}
-					ref={textareaRef}
-					onChange={e => setText(e.target.value)}
-					onSelect={handleSelect}
-				/>
-			</div>
-		</>
+		<LexicalComposer initialConfig={initialConfig}>
+			<EditorContent onChange={handleEditorChange} settings={settings} />
+		</LexicalComposer>
 	);
 }
 
 export default function Editor() {
-
-	const {
-		settings,
-	} = useCloneEditContext()
+	const { settings } = useCloneEditContext();
 
 	return (
-		<>
-			<div style={{ display: 'flex', flexDirection: 'column', padding: '0px 0px 1px 0px', gap: 2, background: settings.componentColor, width: '100%' }}>
-				<Source />
-				<Head />
-			</div>
-		</>
-	)
+		<div
+			style={{
+				display: 'flex',
+				flexDirection: 'column',
+				padding: '0px 0px 1px 0px',
+				gap: 2,
+				background: settings.componentColor,
+				width: '100%',
+			}}
+		>
+			<Source />
+			<Head />
+		</div>
+	);
 }
