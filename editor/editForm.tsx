@@ -3,7 +3,7 @@ import { useCloneEditContext } from "../app/context";
 
 export function EditForm() {
 
-	const { insertSmiley } = useCloneEditContext()
+	const { setInsert } = useCloneEditContext()
 	return (
 		<div style={{ display: 'flex', flexDirection: 'column', gap: 1, paddingLeft: 5 }}>
 
@@ -41,7 +41,7 @@ export function EditForm() {
 				<label htmlFor="snippets">Smileys</label>
 				<div id={'snippets'} style={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
 					{smileys.map((smiley, ix) => (
-						<button key={ix} style={{}} onClick={() => insertSmiley(smiley)}>{smiley}</button>
+						<button key={ix} style={{}} onClick={() => setInsert(smiley)}>{smiley}</button>
 					))}
 				</div>
 

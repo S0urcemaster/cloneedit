@@ -96,9 +96,10 @@ export const defaultState: App = {
 			name: 'X and Bluesky',
 			folderName: 'User',
 			editor: {
-				text: '',
+				state: '',
 				memory: [],
-				snippets: []
+				snippets: [],
+				plainText: '',
 			},
 			clones: [
 				{
@@ -155,9 +156,10 @@ export const defaultState: App = {
 			name: 'Caesar Cypher',
 			folderName: 'User',
 			editor: {
-				text: '',
+				state: '',
 				memory: [],
-				snippets: []
+				snippets: [],
+				plainText: ''
 			},
 			clones: [
 				{
@@ -366,9 +368,10 @@ export const defaultState: App = {
 			name: 'Text Split',
 			folderName: 'Examples',
 			editor: {
-				text: 'AI cann fill this with 300 words . so here it goes : Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+				plainText: '',
+				state: 'AI cann fill this with 300 words . so here it goes : Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
 				memory: [],
-				snippets: []
+				snippets: [],
 			},
 			clones: [
 				{
@@ -401,9 +404,10 @@ export const defaultState: App = {
 			name: 'Text Split1',
 			folderName: 'Examples',
 			editor: {
-				text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+				plainText: '',
+				state: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
 				memory: [],
-				snippets: []
+				snippets: [],
 			},
 			clones: [
 				{
@@ -428,12 +432,13 @@ export const defaultState: App = {
 			name: 'Introduction',
 			folderName: 'Documentation',
 			editor: {
-				text: `Clone Edit Documentation
+				plainText: '',
+				state: `Clone Edit Documentation
 Introduction
 Clone Edit is a DTW - Digital Text Workstation ( from DAW : Digital Audio Workstation)
 				`,
 				memory: [],
-				snippets: []
+				snippets: [],
 			},
 			clones: [
 				{

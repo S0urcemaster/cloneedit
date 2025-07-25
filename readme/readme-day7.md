@@ -2,5 +2,4 @@
 
 - Geändertes Layout : Editor immer oben / alles wie Mobile
 - Caesar effect
-- lexical funktioniert wie textarea
-
+- lexical funktioniert wie textarea vorher

@@ -14,7 +14,8 @@ export type Document = {
 }
 
 export type Editor = {
-	text: string
+	state: string
+	plainText: string
 	memory: string[]
 	snippets: string[]
 }
