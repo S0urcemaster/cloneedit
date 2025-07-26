@@ -7,10 +7,6 @@ export function EditForm() {
 	return (
 		<div style={{ display: 'flex', flexDirection: 'column', gap: 1, paddingLeft: 5 }}>
 
-			<div id={'memory'} style={{ display: 'flex', gap: 5, alignItems: 'center' }}>
-				<button style={{}}>Undo</button>
-				<button style={{}}>Redo</button>
-			</div>
 			<fieldset style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 2 }}>
 
 				<label htmlFor="letters">Letters</label>

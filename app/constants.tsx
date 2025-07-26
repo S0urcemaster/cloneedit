@@ -429,8 +429,8 @@ export const defaultState: App = {
 			]
 		},
 		{
-			name: 'Introduction',
-			folderName: 'Documentation',
+			name: 'doc_intro',
+			folderName: 'System',
 			editor: {
 				plainText: '',
 				state: `Clone Edit Documentation
@@ -451,12 +451,35 @@ Clone Edit is a DTW - Digital Text Workstation ( from DAW : Digital Audio Workst
 				},
 			]
 		},
+		{
+			name: 'Settings',
+			folderName: 'System',
+			editor: {
+				state: '',
+				plainText: `cloneEditColor: #654984
+editorBackground: #654654
+`,
+				memory: [],
+				snippets: [],
+			},
+			clones: [
+				{
+					id: 1,
+					name: ';tldr',
+					source: 0,
+					effect: {
+						...effects[TLDR_EFFECT], params: [{ name: 'Start', value: '0' }, { name: 'End', value: '10' }]
+					},
+				},
+			]
+		},
 	],
 
 	settings: {
 		border: 0,
 		// componentColor: '#447a9eff',
-		componentColor: 'linear-gradient(to right, #5d7c8fff, #6ba2c6ff)',
+		material: 'linear-gradient(to right, #5d7c8fff, #6ba2c6ff)',
+		cloneEditColor: '#88caff',
 		editorBackgroundColor: 'linear-gradient(to top, #1d1a22, #425c76ff)',
 		editorFont: 'Funnel Sans',
 		editorTextColor: '#deffcbff',

@@ -40,7 +40,8 @@ export type EffectParam = {
 
 export type Settings = {
 	border: number // probably percent
-	componentColor: string
+	material: string
+	cloneEditColor: string
 	editorBackgroundColor: string
 	editorTextColor: string
 	editorFont: string

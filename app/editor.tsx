@@ -26,22 +26,26 @@ function Head() {
 	return (
 		<div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', paddingTop: 0, paddingBottom: 0 }}>
 			<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: 1 }}>
-				<h1 className={constants.fonts[constants.FONT_GEMUNU_LIBRE].font.className + ' cloneedit-color'}
-					style={{ fontSize: 28, paddingLeft: 5, height: 25, marginTop: -5 }}>Clone Edit</h1>
 				<TabBar
-					buttonNames={['Edit', 'Files', 'Settings', 'Info']}
+					buttonNames={['Undo', 'Redo']}
+					onTabClick={(tabName: string) => setTab(tabName)}
+				/>
+				<h1 className={constants.fonts[constants.FONT_GEMUNU_LIBRE].font.className + ' cloneedit-color'}
+					style={{ fontSize: 28, paddingLeft: 5, height: 25, marginTop: -8 }}>Clone Edit</h1>
+				<TabBar
+					buttonNames={['Edit', 'File', 'Info']}
 					onTabClick={(tabName: string) => setTab(tabName)}
 				/>
 			</div>
 			{tab === 'Edit' &&
 				<EditForm />
 			}
-			{tab === 'Files' &&
+			{tab === 'File' &&
 				<FilesForm />
 			}
-			{tab === 'Settings' &&
+			{/* {tab === 'Dcmnt' &&
 				<SettingsForm />
-			}
+			} */}
 			{tab === 'Info' &&
 				<InfoForm />
 			}
@@ -82,7 +86,7 @@ function EditorContent({ settings }) {
 			$getSelection()?.insertText(insert)
 		})
 	}, [insert])
-	
+
 	function onChange(editorState) {
 		console.log('onChange', editorState)
 		const editorStateJSON = editorState.toJSON()
@@ -145,7 +149,7 @@ export default function Editor() {
 				flexDirection: 'column',
 				padding: '0px 0px 1px 0px',
 				gap: 2,
-				background: settings.componentColor,
+				background: settings.cloneEditColor,
 				width: '100%',
 			}}
 		>
