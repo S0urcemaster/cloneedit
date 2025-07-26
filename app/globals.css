@@ -43,7 +43,7 @@ body {
 .page {
 	/* display: grid; */
 	/* grid-template-rows: 1fr auto; */
-	background-color: #25293C;
+	background-color: var(--mezzo-dark-color);
 	width: 800;
 	max-width: 800px;
 	box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.2);

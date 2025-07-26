@@ -5,25 +5,33 @@ import { useCloneEditContext } from './context'
 import { TabBar } from '../components/TabBar'
 import { effects } from './constants'
 
+function cloneNameChanged(name: string) {
+
+}
+
+function positionChanged(name: string) {
+
+}
+
+function formValueChanged(ix: number, value: string) {
+
+}
 
 function Controller({ clone }: { clone: CloneModel }) {
 	const { settings, selectedClone } = useCloneEditContext()
 	return (
 		<div style={{ display: 'flex', padding: '1px 0px 1px 0px', color: settings.darkColor, flexWrap: 'wrap' }}>
-			<input style={{ marginRight: 3, padding: '0px 0px 1px 5px', marginBottom: 1 }} type='text' value={clone.name} />
+			<input style={{ marginRight: 3, padding: '0px 0px 1px 5px', marginBottom: 1 }} type='text' value={clone.name} onChange={e => cloneNameChanged(e.target.value)} />
 			<button style={{ marginRight: 3 }}>New</button>
 			<button style={{ marginRight: 3 }}>Dupl</button>
 			<button style={{ marginRight: 3 }}>Del</button>
 			<div style={{ whiteSpace: 'nowrap' }}>
 				#
-				<input type="number" min="0" max="100" step="1" value="0" style={{ padding: '0px 0px 0px 5px', marginRight: 5, marginBottom: 1 }} />
+				<input type="number" min="0" max="100" step="1" value="0" style={{ padding: '0px 0px 0px 5px', marginRight: 5, marginBottom: 1 }} onChange={e => positionChanged(e.target.value)} />
 			</div>
 			<button style={{ marginRight: 3 }}>Cpy</button>
 			<button style={{ marginRight: 3 }}>Download</button>
 
-			{clone.id === selectedClone.id &&
-				<CloneForm clone={clone} />
-			}
 		</div>
 	)
 }
@@ -41,10 +49,10 @@ function CloneForm({ clone }: { clone: CloneModel }) {
 						))}
 					</select>
 					{clone.effect.params.map((param, ix) => (
-						<>
+						<React.Fragment key={ix}>
 							<label htmlFor="editorTextColor">{param.name}</label>
-							<input type="text" id="editorTextColor" value={param.value} />
-						</>
+							<input type="text" id="editorTextColor" value={param.value} onChange={e => formValueChanged(ix, e.target.value)} />
+						</React.Fragment>
 
 					))}
 				</fieldset>
@@ -74,6 +82,14 @@ function Clone({ clone }: { clone: CloneModel }) {
 		<div>
 			<div style={{}}>
 
+
+
+				{clone.id === selectedClone.id ?
+					<Controller clone={clone} /> :
+					<div style={{ height: 25, overflow: 'hidden', padding: '0px 0px 0px 0px' }}>
+						<div style={{ marginRight: 3, width: '100%', backgroundColor: settings.mezzoDarkColor, color: settings.brightColor, paddingBottom: 5 }}>{clone.name}</div>
+					</div>
+				}
 				<div style={{ flexGrow: 1 }}>
 					<textarea onClick={() => setSelectedClone(clone)}
 						value={clone.effect.update(plainText, ...clone.effect.params)}
@@ -94,14 +110,10 @@ function Clone({ clone }: { clone: CloneModel }) {
 					/>
 				</div>
 
+				{clone.id === selectedClone.id &&
+					<CloneForm clone={clone} />
+				}
 			</div>
-			
-			{clone.id === selectedClone.id ?
-				<Controller clone={clone} /> :
-				<div style={{ height: 25, overflow: 'hidden', padding: '0px 0px 0px 0px' }}>
-					<input style={{ marginRight: 3, width: '100%', backgroundColor: settings.mezzoDarkColor, color: settings.brightColor, paddingBottom: 5 }} type='text' value={clone.name} />
-				</div>
-			}
 		</div>
 	)
 }
@@ -111,7 +123,7 @@ export default function Clones() {
 	const { settings, currentDocument } = useCloneEditContext()
 
 	return (
-		<div style={{ background: settings.cloneEditColor }}>
+		<div style={{ background: settings.material }}>
 			<div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
 				{currentDocument.clones.map((clone, ix) => (
 					<Clone key={ix} clone={clone} />

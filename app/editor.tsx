@@ -70,16 +70,25 @@ function OnChangePlugin({ onChange }) {
 	const [editor] = useLexicalComposerContext();
 	useEffect(() => {
 		return editor.registerUpdateListener(({ editorState }) => {
-			onChange(editorState);
+			onChange(editorState)
 		})
 	}, [editor, onChange])
-	return null;
+	return null
 }
 
 function EditorContent({ settings }) {
 	const [editor] = useLexicalComposerContext()
-	const { insert, setEditorState, plainText, setPlainText } = useCloneEditContext()
+	const { insert, setEditorState, plainText, setPlainText, currentDocument } = useCloneEditContext()
 	const contentEditable = useRef<HTMLDivElement>(null)
+
+	useEffect(() => {
+		editor.update(() => {
+			$getRoot().clear()
+			const paragraph = $createParagraphNode()
+			const text = $createTextNode(currentDocument.editor.plainText)
+			$getRoot().append(paragraph.append(text))
+		})
+	}, [plainText])
 
 	useEffect(() => {
 		editor.update(() => {
@@ -88,9 +97,8 @@ function EditorContent({ settings }) {
 	}, [insert])
 
 	function onChange(editorState) {
-		console.log('onChange', editorState)
-		const editorStateJSON = editorState.toJSON()
-		setEditorState(JSON.stringify(editorStateJSON))
+		// const editorStateJSON = editorState.toJSON()
+		// setEditorState(JSON.stringify(editorStateJSON))
 		editor.read(() => {
 			setPlainText($getRoot().getTextContent())
 		})
@@ -121,7 +129,7 @@ function EditorContent({ settings }) {
 }
 
 export default function Editor() {
-	const { settings, setEditorState } = useCloneEditContext()
+	const { settings } = useCloneEditContext()
 
 	const initialConfig = {
 		namespace: 'cloneedit',
@@ -138,7 +146,7 @@ export default function Editor() {
 	// }, [text, sourceChanged])
 
 	const handleEditorChange = (plainText) => {
-		console.log('handleEditorChange', plainText)
+		// console.log('handleEditorChange', plainText)
 		// setText(plainText)
 	}
 
@@ -149,7 +157,7 @@ export default function Editor() {
 				flexDirection: 'column',
 				padding: '0px 0px 1px 0px',
 				gap: 2,
-				background: settings.cloneEditColor,
+				background: settings.material,
 				width: '100%',
 			}}
 		>

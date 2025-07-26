@@ -30,7 +30,7 @@ export const effects: Record<string, Effect> = {
 					const shiftedCode = (code - base + shiftValue) % 26
 					return String.fromCharCode((shiftedCode < 0 ? shiftedCode + 26 : shiftedCode) + base)
 				}
-				return char;
+				return char
 			}).join('')
 		}
 	},
@@ -38,47 +38,45 @@ export const effects: Record<string, Effect> = {
 		name: 'Replace Text',
 		params: [{ name: 'search' }, { name: 'replace' }],
 		update: (text: string, search: EffectParam, replace: EffectParam) => {
-			return 'Replace Text not implemented yet'; // Implementierung fehlt
-			// return text.replace(new RegExp(search, 'g'), replace);
+			return 'Replace Text not implemented yet' // Implementierung fehlt
+			// return text.replace(new RegExp(search, 'g'), replace)
 		}
 	},
 	[REPLACE_LIST_EFFECT]: {
 		name: 'Replace List',
 		params: [{ name: 'searchList' }, { name: 'replaceList' }],
 		update: (text: string, searchList: EffectParam, replaceList: EffectParam) => {
-			return 'Replace List not implemented yet'; // Implementierung fehlt
-			// const searches = searchList.split('\n');
-			// const replaces = replaceList.split('\n');
-			// let updatedText = text;
-			// for (let i = 0; i < searches.length; i++) {
-			// 	const search = searches[i];
-			// 	const replace = replaces[i] ?? '';
+			return 'Replace List not implemented yet' // Implementierung fehlt
+			// const searches = searchList.split('\n')
+			// const replaces = replaceList.split('\n')
+			// let updatedText = text
+			// for (let i = 0 i < searches.length i++) {
+			// 	const search = searches[i]
+			// 	const replace = replaces[i] ?? ''
 			// 	if (search) {
-			// 		updatedText = updatedText.replace(new RegExp(search, 'g'), replace);
+			// 		updatedText = updatedText.replace(new RegExp(search, 'g'), replace)
 			// 	}
 			// }
-			// return updatedText;
+			// return updatedText
 		}
 	},
 	[NO_WHITESPACE_EFFECT]: {
 		name: 'No Whitespace',
 		params: [],
 		update: (text: string) => {
-			return text.replace(/\s+/g, '');
+			return text.replace(/\s+/g, '')
 		}
 	},
 	[SUBSTRING_EFFECT]: {
 		name: 'Substring',
 		params: [{ name: '[Start' }, { name: ']End' }],
 		update: (text: string, start: EffectParam, end: EffectParam) => {
-			// console.log('update substring', text, start, end)
-			const startIndex = parseInt(start.value, 10);
-			const endIndex = parseInt(end.value, 10);
+			const startIndex = parseInt(start.value, 10)
+			const endIndex = parseInt(end.value, 10)
 			if (isNaN(startIndex) || isNaN(endIndex)) {
-				return text; // Invalid indices, return original text
+				return 'error not a number'
 			}
-			// console.log('startend', startIndex, endIndex)
-			return text.substring(startIndex, endIndex);
+			return text.substring(startIndex, endIndex)
 		}
 	},
 	[TLDR_EFFECT]: {
@@ -99,7 +97,7 @@ export const defaultState: App = {
 				state: '',
 				memory: [],
 				snippets: [],
-				plainText: '',
+				plainText: 'X and Bluesky content',
 			},
 			clones: [
 				{
@@ -159,7 +157,7 @@ export const defaultState: App = {
 				state: '',
 				memory: [],
 				snippets: [],
-				plainText: ''
+				plainText: 'Caesar Cypher content'
 			},
 			clones: [
 				{
@@ -368,8 +366,8 @@ export const defaultState: App = {
 			name: 'Text Split',
 			folderName: 'Examples',
 			editor: {
-				plainText: '',
-				state: 'AI cann fill this with 300 words . so here it goes : Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+				state: '',
+				plainText: 'AI cann fill this with 300 words . so here it goes : Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
 				memory: [],
 				snippets: [],
 			},
@@ -404,8 +402,8 @@ export const defaultState: App = {
 			name: 'Text Split1',
 			folderName: 'Examples',
 			editor: {
-				plainText: '',
-				state: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+				state: '',
+				plainText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
 				memory: [],
 				snippets: [],
 			},
@@ -432,8 +430,8 @@ export const defaultState: App = {
 			name: 'doc_intro',
 			folderName: 'System',
 			editor: {
-				plainText: '',
-				state: `Clone Edit Documentation
+				state: '',
+				plainText: `Clone Edit Documentation
 Introduction
 Clone Edit is a DTW - Digital Text Workstation ( from DAW : Digital Audio Workstation)
 				`,
@@ -443,7 +441,7 @@ Clone Edit is a DTW - Digital Text Workstation ( from DAW : Digital Audio Workst
 			clones: [
 				{
 					id: 1,
-					name: ';tldr',
+					name: 'tldr',
 					source: 0,
 					effect: {
 						...effects[TLDR_EFFECT], params: [{ name: 'Start', value: '0' }, { name: 'End', value: '10' }]
@@ -465,7 +463,7 @@ editorBackground: #654654
 			clones: [
 				{
 					id: 1,
-					name: ';tldr',
+					name: 'tldr',
 					source: 0,
 					effect: {
 						...effects[TLDR_EFFECT], params: [{ name: 'Start', value: '0' }, { name: 'End', value: '10' }]
@@ -477,7 +475,6 @@ editorBackground: #654654
 
 	settings: {
 		border: 0,
-		// componentColor: '#447a9eff',
 		material: 'linear-gradient(to right, #5d7c8fff, #6ba2c6ff)',
 		cloneEditColor: '#88caff',
 		editorBackgroundColor: 'linear-gradient(to top, #1d1a22, #425c76ff)',

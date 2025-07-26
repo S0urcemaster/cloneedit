@@ -33,7 +33,7 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 
 	const [state, setState] = useState(defaultState)
 
-	const [currentDocument, setCurrentDocument] = useState({ ...state.documents[0] })
+	const [currentDocument, setCurrentDocument] = useState<Document>({ ...state.documents[0] })
 	const [settings, setSettings] = useState({ ...state.settings })
 
 	const [availableFolders, setAvailableFolders] = useState<string[]>([])
@@ -44,7 +44,7 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 	const [editorState, setEditorState] = useState<string>(currentDocument.editor.state)
 	const [plainText, setPlainText] = useState(currentDocument.editor.plainText)
 	const [insert, setInsert] = useState('')
-	
+
 	const [sourceSelection, setSourceSelection] = useState({ start: 0, end: 0 })
 	const [selectedClone, setSelectedClone] = useState<CloneModel>(currentDocument.clones[0])
 
@@ -57,10 +57,6 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 	function folderChanged(folder: string) {
 		setCurrentFolder(folder)
 	}
-
-	// useEffect(() => {
-		
-	// }, [editorState])
 
 	useEffect(() => {
 		// set available files based on the selected folder
@@ -77,25 +73,20 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 		setCurrentFile(availableFiles[0])
 	}, [availableFiles])
 
-	useEffect(() => {
-		fileChanged(currentFile)
-	}, [currentFile])
-
 	function fileChanged(file: string) {
-		// set currentDocument to document from state with keys folder and name
-		const doc = state.documents.find(doc => {
-			const equalsFolder = doc.folderName === currentFolder
-			const equalsFile = doc.name === file
-			return equalsFolder && equalsFile
-		})
+		const doc = lib.findDoc(state, currentFolder, file)
 		setCurrentDocument(doc)
+		// replaceEditorContent
 	}
 
 	useEffect(() => {
 		setCurrentFile(currentDocument.name)
 		setEditorState(currentDocument.editor.state)
-		console.log(currentDocument.editor.state)
+		setPlainText(currentDocument.editor.plainText)
 	}, [currentDocument])
+
+	useEffect(() => {
+	}, [plainText])
 
 	function effectChanged(clone: CloneModel, effectName: string) {
 		// find the clone / update its value and update the state
