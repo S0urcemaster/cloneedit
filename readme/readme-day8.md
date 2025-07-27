@@ -4,4 +4,6 @@ Clone Edit Tag 8
 - FileForm files select jump fix . muss man was eigenes bauen . bei mehreren selects bleiben die nicht ausgewählt
 - SingleSelect soll schlimmes html ersetzen
 
--> smileys / insert
+- smileys / insert : eingabe scheint gut zu funktionieren
+
+- sozusagen erste hook umgesetzt . Die Anforderung war / den code besser zu organisieren . Wie lagert man also state aus ? In einer Hook

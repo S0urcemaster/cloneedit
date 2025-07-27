@@ -1,8 +1,9 @@
 'use client'
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react'
-import { Clone as CloneModel, Document, Settings } from './model'
+import { App as AppModel, Clone as CloneModel, Document, Settings } from './model'
 import { lib } from './lib'
 import { defaultState } from './constants'
+import { useFolderAndFileManagement } from './hooks'
 
 export type CloneEditContext = {
 	currentDocument: Document
@@ -11,14 +12,12 @@ export type CloneEditContext = {
 	currentFolder: string
 	availableFiles: string[]
 	currentFile: string
-	editorState: string
 	selectedClone: CloneModel
 	insert: string // when clicking on a button
 	effectChanged: (clone: CloneModel, effectName: string) => void
 	folderChanged: (folder: string) => void
 	fileChanged: (file: string) => void
 	setCurrentFile: (file: string) => void
-	setEditorState: (state: string) => void
 	setSelectedClone: (clone: CloneModel) => void
 	setInsert: (insert: string) => void
 }
@@ -27,55 +26,36 @@ const CloneEditContext = createContext<CloneEditContext>({} as CloneEditContext)
 
 export function CloneEditContextProvider({ children }: { children: ReactNode }) {
 
-	const [state, setState] = useState(defaultState)
+	const [state, setState] = useState<AppModel>(defaultState)
+	
+	const {
+		currentDocument,
+		currentFolder,
+		availableFolders,
+		availableFiles,
+		currentFile,
+		folderChanged,
+		fileChanged,
+		setCurrentFile,
+		setCurrentDocument,
+	} = useFolderAndFileManagement(state)
 
-	const [currentDocument, setCurrentDocument] = useState<Document>({ ...state.documents[0] })
 	const [settings, setSettings] = useState({ ...state.settings })
 
-	const [availableFolders, setAvailableFolders] = useState<string[]>([])
-	const [currentFolder, setCurrentFolder] = useState<string>(currentDocument.folderName)
-	const [availableFiles, setAvailableFiles] = useState<string[]>([])
-	const [currentFile, setCurrentFile] = useState<string>(currentDocument.name)
-
-	const [editorState, setEditorState] = useState<string>(currentDocument.editor.state)
 	const [insert, setInsert] = useState('')
 
 	const [selectedClone, setSelectedClone] = useState<CloneModel>(currentDocument.clones[0])
 
 	useEffect(() => {
 		console.log('✅ useEffect: mounted');
-		setAvailableFolders(lib.extractFolders(state))
-		folderChanged(state.documents[0].folderName)
 	}, [])
-
-	function folderChanged(folder: string) {
-		setCurrentFolder(folder)
-	}
-
-	useEffect(() => {
-		// set available files based on the selected folder
-		const files = new Set<string>()
-		state.documents.forEach(doc => {
-			if (doc.folderName === currentFolder) {
-				files.add(doc.name)
-			}
-		})
-		setAvailableFiles(Array.from(files))
-	}, [currentFolder])
 
 	useEffect(() => {
 		setCurrentFile(availableFiles[0])
 	}, [availableFiles])
 
-	function fileChanged(file: string) {
-		const doc = lib.findDoc(state, currentFolder, file)
-		setCurrentDocument(doc)
-		// replaceEditorContent
-	}
-
 	useEffect(() => {
 		setCurrentFile(currentDocument.name)
-		setEditorState(currentDocument.editor.state)
 	}, [currentDocument])
 
 	function effectChanged(clone: CloneModel, effectName: string) {
@@ -97,14 +77,12 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 			currentFolder: currentFolder,
 			availableFiles: availableFiles,
 			currentFile: currentFile,
-			editorState: editorState,
 			selectedClone: selectedClone,
 			insert: insert,
 			effectChanged: effectChanged,
 			folderChanged: folderChanged,
 			fileChanged: fileChanged,
 			setCurrentFile: setCurrentFile,
-			setEditorState: setEditorState,
 			setSelectedClone: setSelectedClone,
 			setInsert: setInsert,
 		}}>
