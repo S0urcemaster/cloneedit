@@ -145,7 +145,6 @@ function EditorContent({ settings }) {
 
 	function onChange(editorState) {
 		editor.read(() => {
-			console.log($getRoot().getTextContent())
 			setPlainText($getRoot().getTextContent())
 		})
 	}
