@@ -7,7 +7,7 @@ import { SettingsForm } from '../editor/settingsForm'
 import * as constants from './constants'
 import { useCloneEditContext } from './context'
 
-import { $createParagraphNode, $createRangeSelection, $createTextNode, $getRoot, $getSelection, $getTextContent, $isRangeSelection, $setSelection } from 'lexical'
+import { $createParagraphNode, $createPoint, $createRangeSelection, $createTextNode, $getRoot, $getSelection, $getTextContent, $isElementNode, $isRangeSelection, $isTextNode, $setSelection } from 'lexical'
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin'
 import { LexicalComposer } from '@lexical/react/LexicalComposer'
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
@@ -23,12 +23,16 @@ function Head() {
 
 	const [tab, setTab] = useState('Edit')
 
+	function history(direction: string) {
+
+	}
+
 	return (
-		<div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', paddingTop: 0, paddingBottom: 0 }}>
-			<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: 1 }}>
+		<div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', paddingTop: 0, paddingBottom: 0, flexGrow: 1 }}>
+			<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: 1, flexGrow: 1 }}>
 				<TabBar
 					buttonNames={['Undo', 'Redo']}
-					onTabClick={(tabName: string) => setTab(tabName)}
+					onTabClick={(direction: string) => history(direction)}
 				/>
 				<h1 className={constants.fonts[constants.FONT_GEMUNU_LIBRE].font.className + ' cloneedit-color'}
 					style={{ fontSize: 28, paddingLeft: 5, height: 25, marginTop: -8 }}>Clone Edit</h1>
@@ -55,53 +59,101 @@ function Head() {
 
 const lexicalTheme = {
 	paragraph: 'editor-paragraph',
-	placeholder: 'editor-placeholder',
+	placeholder: 'editor-placeholder'
 }
 
-// Catch any errors that occur during Lexical updates and log them
-// or throw them as needed. If you don't throw them, Lexical will
-// try to recover gracefully without losing user data.
 function onError(error) {
 	console.error(error)
 }
 
-
 function OnChangePlugin({ onChange }) {
-	const [editor] = useLexicalComposerContext();
+	const [editor] = useLexicalComposerContext()
 	useEffect(() => {
-		return editor.registerUpdateListener(({ editorState }) => {
+	  return editor.registerUpdateListener(({ editorState }) => {
+		 const timeout = setTimeout(() => {
 			onChange(editorState)
-		})
+		 }, 300)
+		 return () => clearTimeout(timeout)
+	  })
 	}, [editor, onChange])
 	return null
-}
+ }
 
 function EditorContent({ settings }) {
 	const [editor] = useLexicalComposerContext()
-	const { insert, setEditorState, plainText, setPlainText, currentDocument } = useCloneEditContext()
+	const { insert, setInsert, editorState, setEditorState } = useCloneEditContext()
 	const contentEditable = useRef<HTMLDivElement>(null)
 
 	useEffect(() => {
-		editor.update(() => {
-			$getRoot().clear()
-			const paragraph = $createParagraphNode()
-			const text = $createTextNode(currentDocument.editor.plainText)
-			$getRoot().append(paragraph.append(text))
-		})
-	}, [plainText])
+		if (editorState) {
+			try {
+				const parsedState = editor.parseEditorState(editorState)
+				editor.setEditorState(parsedState)
+			} catch (error) {
+				console.error('Failed to parse editorState:', error)
+				editor.update(() => {
+					$getRoot().clear()
+					const paragraph = $createParagraphNode()
+					const text = $createTextNode('')
+					$getRoot().append(paragraph.append(text))
+				})
+			}
+		} else {
+			editor.update(() => {
+				$getRoot().clear()
+				const paragraph = $createParagraphNode()
+				const text = $createTextNode('')
+				$getRoot().append(paragraph.append(text))
+			})
+		}
+	}, [editorState, editor])
 
 	useEffect(() => {
-		editor.update(() => {
-			$getSelection()?.insertText(insert)
-		})
+		if (insert) {
+			editor.update(() => {
+				const root = $getRoot()
+				if (root.getChildren().length === 0) {
+					const paragraph = $createParagraphNode()
+					root.append(paragraph)
+				}
+
+				const lastNode = root.getLastChild()
+				let textNode
+				if ($isElementNode(lastNode)) {
+					textNode = lastNode.getLastChild() && $isTextNode(lastNode.getLastChild())
+						? lastNode.getLastChild()
+						: $createTextNode('')
+					lastNode.append(textNode)
+				} else {
+					const paragraph = $createParagraphNode()
+					textNode = $createTextNode('')
+					paragraph.append(textNode)
+					root.append(paragraph)
+				}
+
+				const selection = $createRangeSelection()
+				const anchor = $createPoint(textNode.getKey(), textNode.getTextContent().length, 'text')
+				selection.anchor = anchor
+				selection.focus = anchor
+				$setSelection(selection)
+
+				selection.insertText(insert)
+				if ($isRangeSelection(selection)) {
+					$setSelection({...$getSelection()})
+
+				}
+			})
+			setInsert('')
+			// Only focus if editor is not already focused to avoid disrupting typing
+		}
 	}, [insert])
 
 	function onChange(editorState) {
-		// const editorStateJSON = editorState.toJSON()
-		// setEditorState(JSON.stringify(editorStateJSON))
-		editor.read(() => {
-			setPlainText($getRoot().getTextContent())
-		})
+		// Debounce to prevent excessive updates during typing
+		const timeout = setTimeout(() => {
+			setEditorState(JSON.stringify(editorState.toJSON()))
+		}, 300)
+		return () => clearTimeout(timeout)
 	}
 
 	return (
@@ -113,7 +165,7 @@ function EditorContent({ settings }) {
 				background: settings.editorBackgroundColor,
 				padding: '5px 6px 0px 6px',
 				fontSize: settings.cloneFontSize,
-				fontFamily: settings.editorFont,
+				fontFamily: settings.editorFont
 			}}
 			onClick={() => contentEditable.current?.focus()}
 		>
@@ -123,11 +175,9 @@ function EditorContent({ settings }) {
 			/>
 			<HistoryPlugin />
 			<OnChangePlugin onChange={onChange} />
-			{/* <AutoFocusPlugin /> */}
 		</div>
 	)
 }
-
 export default function Editor() {
 	const { settings } = useCloneEditContext()
 

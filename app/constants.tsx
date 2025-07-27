@@ -417,7 +417,7 @@ export const defaultState: App = {
 					},
 				},
 				{
-					id: 1,
+					id: 2,
 					name: 'Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct ',
 					source: 0,
 					effect: {
@@ -476,7 +476,7 @@ editorBackground: #654654
 	settings: {
 		border: 0,
 		material: 'linear-gradient(to right, #5d7c8fff, #6ba2c6ff)',
-		cloneEditColor: '#88caff',
+		selectedColor: '#88caff',
 		editorBackgroundColor: 'linear-gradient(to top, #1d1a22, #425c76ff)',
 		editorFont: 'Funnel Sans',
 		editorTextColor: '#deffcbff',
@@ -485,7 +485,9 @@ editorBackground: #654654
 		brightColor: '#b3d1e3',
 		darkColor: '#1d1a22',
 		mezzoDarkColor: '#252935',
-		cloneeditColor: '#88caff'
+		lightDarkColor: '#4d546aff',
+		cloneeditColor: '#88caff',
+		inputColor: '#b7e7ff',
 	}
 }
 

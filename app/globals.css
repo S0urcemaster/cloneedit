@@ -4,7 +4,7 @@
 	--cloneedit-color: #88caff;
 	--dark-color: #1d1a22;
 	--bright-color: #b3d1e3;
-	--bright-lum-color: #b7e7ff;
+	--input-color: #b7e7ff;
 	--mezzo-dark-color: #252935;
 	--editor-text-color: #deffcbff;
 
@@ -44,7 +44,7 @@ body {
 	/* display: grid; */
 	/* grid-template-rows: 1fr auto; */
 	background-color: var(--mezzo-dark-color);
-	width: 800;
+	width: 800px;
 	max-width: 800px;
 	box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.2);
 }
@@ -65,7 +65,7 @@ textarea {
 	/* Inherit the letter spacing from the parent element */
 	font-size: medium;
 	background-color: var(--mezzo-dark-color);
-	color: var(--bright-lum-color);
+	color: var(--input-color);
 	border: none;
 }
 
@@ -73,7 +73,7 @@ button {
 	font-family: inherit;
 	letter-spacing: inherit;
 	background-color: var(--mezzo-dark-color);
-	color: var(--bright-lum-color);
+	color: var(--input-color);
 	border: none;
 	font-size: var(--button-font-size);
 	padding: 0px 12px 3px 12px;

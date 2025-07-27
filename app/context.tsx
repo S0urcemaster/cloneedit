@@ -12,18 +12,14 @@ export type CloneEditContext = {
 	availableFiles: string[]
 	currentFile: string
 	editorState: string
-	plainText: string
 	selectedClone: CloneModel
-	sourceSelection: { start: number, end: number }
 	insert: string // when clicking on a button
 	effectChanged: (clone: CloneModel, effectName: string) => void
 	folderChanged: (folder: string) => void
 	fileChanged: (file: string) => void
 	setCurrentFile: (file: string) => void
 	setEditorState: (state: string) => void
-	setPlainText: (text: string) => void
 	setSelectedClone: (clone: CloneModel) => void
-	setSourceSelection: (selection: { start: number, end: number }) => void
 	setInsert: (insert: string) => void
 }
 
@@ -42,10 +38,8 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 	const [currentFile, setCurrentFile] = useState<string>(currentDocument.name)
 
 	const [editorState, setEditorState] = useState<string>(currentDocument.editor.state)
-	const [plainText, setPlainText] = useState(currentDocument.editor.plainText)
 	const [insert, setInsert] = useState('')
 
-	const [sourceSelection, setSourceSelection] = useState({ start: 0, end: 0 })
 	const [selectedClone, setSelectedClone] = useState<CloneModel>(currentDocument.clones[0])
 
 	useEffect(() => {
@@ -82,11 +76,7 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 	useEffect(() => {
 		setCurrentFile(currentDocument.name)
 		setEditorState(currentDocument.editor.state)
-		setPlainText(currentDocument.editor.plainText)
 	}, [currentDocument])
-
-	useEffect(() => {
-	}, [plainText])
 
 	function effectChanged(clone: CloneModel, effectName: string) {
 		// find the clone / update its value and update the state
@@ -108,18 +98,14 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 			availableFiles: availableFiles,
 			currentFile: currentFile,
 			editorState: editorState,
-			plainText: plainText,
 			selectedClone: selectedClone,
-			sourceSelection,
 			insert: insert,
 			effectChanged: effectChanged,
 			folderChanged: folderChanged,
 			fileChanged: fileChanged,
 			setCurrentFile: setCurrentFile,
 			setEditorState: setEditorState,
-			setPlainText: setPlainText,
 			setSelectedClone: setSelectedClone,
-			setSourceSelection: setSourceSelection,
 			setInsert: setInsert,
 		}}>
 			{children}

@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
 import { useCloneEditContext } from "../app/context"
+import { SingleSelect } from "../components/SingleSelect"
 
 export function FilesForm() {
 
 	const { availableFolders, currentFolder, availableFiles, currentFile,
-		folderChanged, fileChanged: contextFileChanged, setCurrentFile, currentDocument } = useCloneEditContext()
+		folderChanged, fileChanged: contextFileChanged, setCurrentFile, currentDocument, settings } = useCloneEditContext()
 
 	const [folderInputText, setFolderInputText] = useState(currentFolder)
 	const [fileInputText, setFileInputText] = useState(currentFile)
@@ -29,56 +30,45 @@ export function FilesForm() {
 	}
 
 	return (
-		<div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
 
-			<div style={{ display: 'grid', gridTemplateColumns: '50% 50%', gap: 2 }}>
-				<div>
-					{/* file */}
-					<fieldset style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 2, paddingLeft: 4 }}>
+		<div style={{ display: 'grid', gridTemplateColumns: '50% 50%', gap: 2 }}>
+			{/* file */}
+			<div style={{ display: 'flex', flexDirection: 'column', gap: 2 }} >
 
-						<label htmlFor="file">File</label>
-						<div style={{ display: 'flex', gap: 2 }}>
-							<input type="text" id="file" value={fileInputText} onChange={e => setFileInputText(e.target.value)} />
-							<div style={{ display: 'flex', gap: 2 }}>
-								<button style={{}}>New</button>
-								<button style={{}}>Ren</button>
-								<button style={{}}>Del</button>
-							</div>
-						</div>
-					</fieldset>
-
-					<select size={4} value={file} onChange={e => fileChanged(e.target.value)} style={{ width: '100%', height: '100%' }}>
-						{availableFiles.map((file, index) => (
-							<option key={index} value={file}>{file}</option>
-						))}
-					</select>
-				</div>
-				<div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-					{/* folder */}
-					<fieldset style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 2, paddingLeft: 4 }}>
-
-						<label htmlFor="folder">Folder</label>
-						<div style={{ display: 'flex', gap: 2 }}>
-
-							<input type="text" id="folder" value={folderInputText} onChange={e => setFolderInputText(e.target.value)} disabled />
-							<div style={{ display: 'flex', gap: 2 }}>
-								<button style={{}}>New</button>
-								<button style={{}}>Ren</button>
-								<button style={{}}>Del</button>
-							</div>
-						</div>
-					</fieldset>
-
-					<select size={3} value={currentFolder} onChange={e => folderChanged(e.target.value)} style={{ width: '100%', height: '100%' }}>
-						{availableFolders.map((folder, index) => (
-							<option key={index} value={folder}>{folder}</option>
-						))}
-					</select>
-
-					<div style={{ display: 'flex', gap: 2 }}>
-						<button style={{ flex: 1 }}>Backup</button>
-						<button style={{ flex: 1 }}>Restore</button>
+				<div style={{ display: 'flex', gap: 2, justifyContent: 'space-between' }}>
+					<div style={{ position: 'relative', width: '100%', height: '100%', paddingBottom: 1 }}>
+						<div style={{ position: 'absolute', right: 5, top: 1, color: settings.darkColor, opacity: 0.5, pointerEvents: 'none' }}>File</div>
+						<input type="text" id="file" value={fileInputText} onChange={e => setFileInputText(e.target.value)} style={{ width: '100%', height: '100%' }} />
 					</div>
+					<div style={{ display: 'flex', gap: 2 }}>
+						<button style={{}}>New</button>
+						<button style={{}}>Ren</button>
+						<button style={{}}>Del</button>
+					</div>
+				</div>
+
+				<SingleSelect options={availableFiles} value={availableFiles[0]} onChange={fileChanged} style={{ width: '100%', height: '100%' }} />
+			</div>
+
+			{/* folder */}
+			<div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+				<div style={{ display: 'flex', gap: 2, justifyContent: 'space-between' }}>
+					<div style={{ position: 'relative', width: '100%', height: '100%', paddingBottom: 1 }}>
+						<div style={{ position: 'absolute', right: 5, top: 1, color: settings.darkColor, opacity: 0.5, pointerEvents: 'none' }}>Folder</div>
+						<input type="text" id="folder" value={folderInputText} onChange={e => setFolderInputText(e.target.value)} style={{ width: '100%', height: '100%',  }} />
+					</div>
+					<div style={{ display: 'flex', gap: 2 }}>
+						<button style={{}}>New</button>
+						<button style={{}}>Ren</button>
+						<button style={{}}>Del</button>
+					</div>
+				</div>
+
+				<SingleSelect options={availableFolders} value={availableFolders[0]} onChange={folderChanged} style={{ width: '100%', height: '100%' }} />
+
+				<div style={{ display: 'flex', gap: 2 }}>
+					<button style={{ flex: 1 }}>Backup</button>
+					<button style={{ flex: 1 }}>Restore</button>
 				</div>
 			</div>
 		</div>

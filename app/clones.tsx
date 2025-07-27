@@ -63,7 +63,7 @@ function CloneForm({ clone }: { clone: CloneModel }) {
 }
 
 function Clone({ clone }: { clone: CloneModel }) {
-	const { settings, plainText, selectedClone, effectChanged, setSelectedClone } = useCloneEditContext()
+	const { settings, selectedClone, effectChanged, setSelectedClone } = useCloneEditContext()
 
 	function HorizontalCloneName() { // maybe use some time
 		return (
@@ -92,7 +92,7 @@ function Clone({ clone }: { clone: CloneModel }) {
 				}
 				<div style={{ flexGrow: 1 }}>
 					<textarea onClick={() => setSelectedClone(clone)}
-						value={clone.effect.update(plainText, ...clone.effect.params)}
+						value={clone.effect.update('', ...clone.effect.params)} // plainText
 						rows={selectedClone.id == clone.id ? 8 : 3}
 						placeholder={'zero effect'}
 						style={{
