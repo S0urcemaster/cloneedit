@@ -7,7 +7,7 @@ export function useFolderAndFileManagement(initialState: AppModel) {
   const [currentFolder, setCurrentFolder] = useState<string>(currentDocument.folderName)
   const [availableFolders, setAvailableFolders] = useState<string[]>([])
   const [availableFiles, setAvailableFiles] = useState<string[]>([])
-  const [currentFile, setCurrentFile] = useState<string>(currentDocument.name)
+  const [currentFile, setCurrentFilename] = useState<string>(currentDocument.name)
 
   useEffect(() => {
     setAvailableFolders(lib.extractFolders(initialState))
@@ -25,11 +25,11 @@ export function useFolderAndFileManagement(initialState: AppModel) {
   }, [currentFolder, initialState])
 
   useEffect(() => {
-    setCurrentFile(availableFiles[0])
+    setCurrentFilename(availableFiles[0])
   }, [availableFiles])
 
   useEffect(() => {
-    setCurrentFile(currentDocument.name)
+    setCurrentFilename(currentDocument.name)
   }, [currentDocument])
 
   function folderChanged(folder: string) {
@@ -49,7 +49,7 @@ export function useFolderAndFileManagement(initialState: AppModel) {
     currentFile,
     folderChanged,
     fileChanged,
-    setCurrentFile,
+    setCurrentFile: setCurrentFilename,
     setCurrentDocument,
   }
 }

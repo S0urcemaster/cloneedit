@@ -7,3 +7,5 @@ Clone Edit Tag 8
 - smileys / insert : eingabe scheint gut zu funktionieren
 
 - sozusagen erste hook umgesetzt . Die Anforderung war / den code besser zu organisieren . Wie lagert man also state aus ? In einer Hook
+
+- clones funktionieren auch wieder

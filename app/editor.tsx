@@ -5,7 +5,7 @@ import { FilesForm } from '../editor/filesForm'
 import { InfoForm } from '../editor/infoForm'
 import { SettingsForm } from '../editor/settingsForm'
 import * as constants from './constants'
-import { useCloneEditContext } from './context'
+import { action_clear, action_getplaintext, action_insert, useCloneEditContext } from './context'
 
 import { $createNodeSelection, $createParagraphNode, $createPoint, $createRangeSelection, $createTextNode, $getRoot, $getSelection, $getTextContent, $isElementNode, $isParagraphNode, $isRangeSelection, $isTextNode, $setSelection, BaseSelection, LexicalNode, ParagraphNode, RangeSelection, TextNode } from 'lexical'
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin'
@@ -68,12 +68,18 @@ function onError(error) {
 
 function OnChangePlugin({ onChange }) {
 	const [editor] = useLexicalComposerContext()
+	const timeoutRef = useRef(null)
+
 	useEffect(() => {
 		return editor.registerUpdateListener(({ editorState }) => {
-			const timeout = setTimeout(() => {
+			// Clear any existing timeout
+			if (timeoutRef.current) {
+				clearTimeout(timeoutRef.current)
+			}
+			// Set new timeout
+			timeoutRef.current = setTimeout(() => {
 				onChange(editorState)
-			}, 300)
-			return () => clearTimeout(timeout)
+			}, 250)
 		})
 	}, [editor, onChange])
 	return null
@@ -81,49 +87,43 @@ function OnChangePlugin({ onChange }) {
 
 function EditorContent({ settings }) {
 	const [editor] = useLexicalComposerContext()
-	const { insert, setInsert } = useCloneEditContext()
+	const { editorActions, setPlainText } = useCloneEditContext()
 	const contentEditable = useRef<HTMLDivElement>(null)
 
-	// useEffect(() => {
-	// 	if (editorState) {
-	// 		try {
-	// 			const parsedState = editor.parseEditorState(editorState)
-	// 			editor.setEditorState(parsedState)
-	// 		} catch (error) {
-	// 			console.error('Failed to parse editorState:', error)
-	// 			editor.update(() => {
-	// 				$getRoot().clear()
-	// 				const paragraph = $createParagraphNode()
-	// 				const text = $createTextNode('')
-	// 				$getRoot().append(paragraph.append(text))
-	// 			})
-	// 		}
-	// 	} else {
-	// 		editor.update(() => {
-	// 			$getRoot().clear()
-	// 			const paragraph = $createParagraphNode()
-	// 			const text = $createTextNode('')
-	// 			$getRoot().append(paragraph.append(text))
-	// 		})
-	// 	}
-	// }, [editorState, editor])
-
 	useEffect(() => {
+		editorActions?.map((action) => {
+			switch (action[0]) {
+				case action_clear: clear()
+					break
+				case action_insert: insert(action[1])
+					break
+				case action_getplaintext: insert(action[1])
+					break
+				default:
+			}
+		})
+	}, [editorActions])
+
+	function insert(insert: string) {
 		editor.update(() => {
 			const root = $getRoot()
-			// there must be a paragraph always
 			let paragraph = root.getLastChild()
 			let text: TextNode
-			if($isParagraphNode(paragraph)) {
+			if (!paragraph) {
+				paragraph = $createParagraphNode()
+				root.append(paragraph)
+				$setSelection(paragraph.selectStart())
+			}
+			if ($isParagraphNode(paragraph)) {
 				text = paragraph.getFirstChild()
-				if(!text) {
+				if (!text) {
 					text = $createTextNode('')
 					paragraph.append(text)
 				}
 			}
 			// get the selection or create one
 			let selection = $getSelection() as RangeSelection
-			if(!selection) {
+			if (!selection) {
 				// no selection after document reload
 				selection = $createRangeSelection()
 				selection.anchor = $createPoint(text.getKey(), 0, 'text')
@@ -131,43 +131,23 @@ function EditorContent({ settings }) {
 				$setSelection(selection)
 			}
 			selection.insertText(insert)
-
-			// const lastNode = root.getLastChild()
-			// let textNode
-			// if ($isElementNode(lastNode)) {
-			// 	textNode = lastNode.getLastChild() && $isTextNode(lastNode.getLastChild())
-			// 		? lastNode.getLastChild()
-			// 		: $createTextNode('')
-			// 	lastNode.append(textNode)
-			// } else {
-			// 	const paragraph = $createParagraphNode()
-			// 	textNode = $createTextNode('')
-			// 	paragraph.append(textNode)
-			// 	root.append(paragraph)
-			// }
-
-			// const selection = $createRangeSelection()
-			// const anchor = $createPoint(textNode.getKey(), textNode.getTextContent().length, 'text')
-			// selection.anchor = anchor
-			// selection.focus = anchor
-			// $setSelection(selection)
-
-			// selection.insertText(insert)
-			// if ($isRangeSelection(selection)) {
-			// 	$setSelection({ ...$getSelection() })
-
-			// }
 		})
-		setInsert('')
-		// Only focus if editor is not already focused to avoid disrupting typing
-	}, [insert])
+	}
+
+	function clear() {
+		editor.update(() => {
+			$getRoot().clear()
+			let firstChild = $getRoot().getFirstChild() as ParagraphNode
+			if (!firstChild) firstChild = $createParagraphNode();
+			(firstChild as ParagraphNode).append($createTextNode('x'))
+		})
+	}
 
 	function onChange(editorState) {
-		// Debounce to prevent excessive updates during typing
-		// const timeout = setTimeout(() => {
-		// 	setEditorState(JSON.stringify(editorState.toJSON()))
-		// }, 300)
-		// return () => clearTimeout(timeout)
+		editor.read(() => {
+			console.log($getRoot().getTextContent())
+			setPlainText($getRoot().getTextContent())
+		})
 	}
 
 	return (
@@ -200,14 +180,6 @@ export default function Editor() {
 		theme: lexicalTheme,
 		onError,
 	}
-
-	// useEffect(() => {
-	// 	const timer = setTimeout(() => {
-	// 		sourceChanged(text)
-	// 	}, 500) // 1-second debounce
-
-	// 	return () => clearTimeout(timer) // Cleanup on re-render
-	// }, [text, sourceChanged])
 
 	const handleEditorChange = (plainText) => {
 		// console.log('handleEditorChange', plainText)

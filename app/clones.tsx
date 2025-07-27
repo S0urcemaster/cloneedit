@@ -63,57 +63,39 @@ function CloneForm({ clone }: { clone: CloneModel }) {
 }
 
 function Clone({ clone }: { clone: CloneModel }) {
-	const { settings, selectedClone, effectChanged, setSelectedClone } = useCloneEditContext()
-
-	function HorizontalCloneName() { // maybe use some time
-		return (
-			<div style={{ marginTop: 0, padding: '0 7px 0 5px', overflow: 'hidden', width: 20, backgroundColor: settings.brightColor }}>
-				<p style={{
-					fontSize: 'small', backgroundColor: settings.brightColor, color: settings.darkColor,
-					padding: '1px 0 3px 5px', margin: '0px 0 0px 0', pointerEvents: 'none',
-					transform: 'rotate(-90deg)', transformOrigin: 'left top', whiteSpace: 'nowrap', display: 'inline-block',
-					position: 'relative', bottom: -80
-				}}>{clone.name}</p>
-			</div>
-		)
-	}
+	const { settings, selectedClone, effectChanged, setSelectedClone, plainText } = useCloneEditContext()
 
 	return (
-		<div>
-			<div style={{}}>
-
-
-
-				{clone.id === selectedClone.id ?
-					<Controller clone={clone} /> :
-					<div style={{ height: 25, overflow: 'hidden', padding: '0px 0px 0px 0px' }}>
-						<div style={{ marginRight: 3, width: '100%', backgroundColor: settings.mezzoDarkColor, color: settings.brightColor, paddingBottom: 5 }}>{clone.name}</div>
-					</div>
-				}
-				<div style={{ flexGrow: 1 }}>
-					<textarea onClick={() => setSelectedClone(clone)}
-						value={clone.effect.update('', ...clone.effect.params)} // plainText
-						rows={selectedClone.id == clone.id ? 8 : 3}
-						placeholder={'zero effect'}
-						style={{
-							height: '100%',
-							width: '100%',
-							resize: 'none',
-							background: settings.editorBackgroundColor, // Gradient background
-							color: settings.editorTextColor, // Text color
-							padding: '0px 12px 0px 6px', // Padding
-							margin: 0,
-							// border: `1px solid ${settings.brightColor}`, // Border color
-							fontSize: settings.cloneFontSize,
-						}}
-						readOnly
-					/>
+		<div style={{}}>
+			{clone.id === selectedClone.id ?
+				<Controller clone={clone} /> :
+				<div style={{ height: 25, overflow: 'hidden', padding: '0px 0px 0px 0px' }}>
+					<div style={{ marginRight: 3, width: '100%', backgroundColor: settings.mezzoDarkColor, color: settings.brightColor, paddingBottom: 5 }}>{clone.name}</div>
 				</div>
-
-				{clone.id === selectedClone.id &&
-					<CloneForm clone={clone} />
-				}
+			}
+			<div style={{ flexGrow: 1 }}>
+				<textarea onClick={() => setSelectedClone(clone)}
+					value={clone.effect.update(plainText, ...clone.effect.params)}
+					rows={selectedClone.id == clone.id ? 8 : 3}
+					placeholder={'zero effect'}
+					style={{
+						height: '100%',
+						width: '100%',
+						resize: 'none',
+						background: settings.editorBackgroundColor, // Gradient background
+						color: settings.editorTextColor, // Text color
+						padding: '0px 12px 0px 6px', // Padding
+						margin: 0,
+						// border: `1px solid ${settings.brightColor}`, // Border color
+						fontSize: settings.cloneFontSize,
+					}}
+					readOnly
+				/>
 			</div>
+
+			{clone.id === selectedClone.id &&
+				<CloneForm clone={clone} />
+			}
 		</div>
 	)
 }

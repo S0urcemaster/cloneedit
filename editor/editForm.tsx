@@ -1,9 +1,9 @@
 import { smileys } from "../app/constants";
-import { useCloneEditContext } from "../app/context";
+import { action_insert, useCloneEditContext } from "../app/context";
 
 export function EditForm() {
 
-	const { setInsert } = useCloneEditContext()
+	const { setEditorActions } = useCloneEditContext()
 	return (
 		<div style={{ display: 'flex', flexDirection: 'column', gap: 1, paddingLeft: 5 }}>
 
@@ -37,7 +37,7 @@ export function EditForm() {
 				<label htmlFor="snippets">Smileys</label>
 				<div id={'snippets'} style={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
 					{smileys.map((smiley, ix) => (
-						<button key={ix} style={{}} onClick={() => setInsert(smiley)}>{smiley}</button>
+						<button key={ix} style={{}} onClick={() => setEditorActions([[action_insert, smiley]])}>{smiley}</button>
 					))}
 				</div>
 
