@@ -34,7 +34,7 @@ function Head() {
 					buttonNames={['Undo', 'Redo']}
 					onTabClick={(direction: string) => history(direction)}
 				/>
-				<h1 className={constants.fonts[constants.FONT_GEMUNU_LIBRE].font.className + ' cloneedit-color'}
+				<h1 className={constants.fonts[constants.FONT_GEMUNU_LIBRE].font.className + ' appTitleVisibility'}
 					style={{ fontSize: 28, paddingLeft: 5, height: 25, marginTop: -8 }}>Clone Edit</h1>
 				<TabBar
 					buttonNames={['Edit', 'File', 'Info']}
@@ -157,7 +157,7 @@ function EditorContent({ settings }) {
 				overflowY: 'scroll',
 				background: settings.editorBackgroundColor,
 				padding: '5px 6px 0px 6px',
-				fontSize: settings.cloneFontSize,
+				fontSize: settings.editorFontSize,
 				fontFamily: settings.editorFont
 			}}
 			onClick={() => contentEditable.current?.focus()}
@@ -194,6 +194,7 @@ export default function Editor() {
 				gap: 2,
 				background: settings.material,
 				width: '100%',
+				marginTop: 21,
 			}}
 		>
 			<LexicalComposer initialConfig={initialConfig}>

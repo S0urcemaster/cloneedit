@@ -1,17 +1,4 @@
-:root {
-	--body-background: #144e32;
-	--material: linear-gradient(to right, #5d7c8fff, #6ba2c6ff);
-	--cloneedit-color: #88caff;
-	--dark-color: #1d1a22;
-	--bright-color: #b3d1e3;
-	--input-color: #b7e7ff;
-	--mezzo-dark-color: #252935;
-	--editor-text-color: #deffcbff;
-
-	--editor-font-size: 22;
-	--clone-font-size: 18;
-	--button-font-size: 17px;
-}
+@import url(variables.css);
 
 *,
 *::before,
@@ -44,18 +31,50 @@ body {
 	/* display: grid; */
 	/* grid-template-rows: 1fr auto; */
 	background-color: var(--mezzo-dark-color);
-	width: 800px;
-	max-width: 800px;
+	width: var(--page-width);
+	max-width: var(--page-width);
 	box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.2);
 }
 
-@media (max-width: 800) {
+.filesInputFlip {
+	flex-wrap: unset;
+}
 
-	/* .page {
-		width: 100vw;
+.player {
+	width: 100%;
+	max-width: var(--page-width);
+}
+
+.appTitleVisibility {
+	display: block;
+}
+
+@media (max-width: 800px) {
+	.filesInputFlip {
+		flex-wrap: wrap;
+	}
+
+	.page {
+		/* width: 100vw; */
 		width: unset;
 		box-shadow: none;
-	} */
+	}
+}
+
+@media (max-width: 400px) {
+	.filesInputFlip {
+		flex-wrap: wrap;
+	}
+	
+	.appTitleVisibility {
+		display: none;
+	}
+
+	.page {
+		/* width: 100vw; */
+		width: unset;
+		box-shadow: none;
+	}
 }
 
 textarea {
@@ -72,12 +91,16 @@ textarea {
 button {
 	font-family: inherit;
 	letter-spacing: inherit;
-	background-color: var(--mezzo-dark-color);
+	background-color: var(--button-color);
 	color: var(--input-color);
 	border: none;
 	font-size: var(--button-font-size);
 	padding: 0px 12px 3px 12px;
-	height: 30px;
+	height: 29px;
+}
+
+button:hover {
+	color: var(--editor-text-color)
 }
 
 input,
@@ -92,6 +115,7 @@ select {
 	border: none;
 	padding-left: 6px;
 	min-width: unset;
+	height: 29px;
 }
 
 select option {

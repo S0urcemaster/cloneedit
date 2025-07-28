@@ -97,7 +97,7 @@ export const defaultState: App = {
 				state: '',
 				memory: [],
 				snippets: [],
-				plainText: 'X and Bluesky content',
+				plainText: '',
 			},
 			clones: [
 				{
@@ -157,7 +157,7 @@ export const defaultState: App = {
 				state: '',
 				memory: [],
 				snippets: [],
-				plainText: 'Caesar Cypher content'
+				plainText: ''
 			},
 			clones: [
 				{
@@ -480,7 +480,7 @@ editorBackground: #654654
 		editorBackgroundColor: 'linear-gradient(to top, #1d1a22, #425c76ff)',
 		editorFont: 'Funnel Sans',
 		editorTextColor: '#deffcbff',
-		editorFontSize: 22,
+		editorFontSize: 20,
 		cloneFontSize: 18,
 		brightColor: '#b3d1e3',
 		darkColor: '#1d1a22',

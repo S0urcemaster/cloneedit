@@ -1,0 +1,16 @@
+:root {
+	--page-width: 800px;
+	--body-background: #144e32;
+	--material: linear-gradient(to right, #5d7c8fff, #6ba2c6ff);
+	--cloneedit-color: #88caff;
+	--dark-color: #1d1a22;
+	--bright-color: #b3d1e3;
+	--input-color: #b7e7ff;
+	--mezzo-dark-color: #252935;
+	--editor-text-color: #deffcbff;
+
+	--editor-font-size: 22;
+	--clone-font-size: 18;
+	--button-font-size: 17px;
+	--button-color: #203248;
+}
