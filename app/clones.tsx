@@ -66,7 +66,7 @@ function Clone({ clone }: { clone: CloneModel }) {
 	const { settings, selectedClone, effectChanged, setSelectedClone, plainText } = useCloneEditContext()
 
 	return (
-		<div style={{}}>
+		<div className='clone' style={{}}>
 			{clone.id === selectedClone.id ?
 				<Controller clone={clone} /> :
 				<div style={{ height: 25, overflow: 'hidden', padding: '0px 0px 0px 0px' }}>
@@ -105,7 +105,7 @@ export default function Clones() {
 	const { settings, currentDocument } = useCloneEditContext()
 
 	return (
-		<div style={{ background: settings.material }}>
+		<div id='clones' style={{ background: settings.material }}>
 			<div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
 				{currentDocument.clones.map((clone, ix) => (
 					<Clone key={ix} clone={clone} />

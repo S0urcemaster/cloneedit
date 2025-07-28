@@ -30,7 +30,7 @@ export function FilesForm() {
 	}
 
 	return (
-		<div style={{ display: 'grid', gridTemplateColumns: '50% 50%', gap: 2 }}>
+		<div id='filesForm' style={{ display: 'grid', gridTemplateColumns: '50% 50%', gap: 2 }}>
 
 			{/* file */}
 			<div style={{ display: 'flex', flexDirection: 'column', gap: 2 }} >

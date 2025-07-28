@@ -17,42 +17,45 @@ import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 
 function Head() {
-	const {
-
-	} = useCloneEditContext()
+	const { settings } = useCloneEditContext()
 
 	const [tab, setTab] = useState('Edit')
 
 	function history(direction: string) {
+	}
+
+	function showDocs() {
 
 	}
 
 	return (
-		<div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', paddingTop: 0, paddingBottom: 0, flexGrow: 1 }}>
-			<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: 1, flexGrow: 1 }}>
+		<div className='head' style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', paddingTop: 1, paddingBottom: 0, flexGrow: 1 }}>
+			<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexGrow: 1, paddingBottom: 1  }}>
 				<TabBar
 					buttonNames={['Undo', 'Redo']}
 					onTabClick={(direction: string) => history(direction)}
 				/>
 				<h1 className={constants.fonts[constants.FONT_GEMUNU_LIBRE].font.className + ' appTitleVisibility'}
-					style={{ fontSize: 28, paddingLeft: 5, height: 25, marginTop: -8 }}>Clone Edit</h1>
+					style={{ fontSize: 28, paddingLeft: 5, height: 25, marginTop: -8, color: settings.brightColor, cursor: 'help' }} onClick={showDocs}>Clone Edit</h1>
 				<TabBar
 					buttonNames={['Edit', 'File', 'Info']}
 					onTabClick={(tabName: string) => setTab(tabName)}
 				/>
 			</div>
-			{tab === 'Edit' &&
-				<EditForm />
-			}
-			{tab === 'File' &&
-				<FilesForm />
-			}
-			{/* {tab === 'Dcmnt' &&
+			<div style={{}}>
+				{tab === 'Edit' &&
+					<EditForm />
+				}
+				{tab === 'File' &&
+					<FilesForm />
+				}
+				{/* {tab === 'Dcmnt' &&
 				<SettingsForm />
 			} */}
-			{tab === 'Info' &&
-				<InfoForm />
-			}
+				{tab === 'Info' &&
+					<InfoForm />
+				}
+			</div>
 		</div>
 	)
 }
@@ -186,15 +189,14 @@ export default function Editor() {
 	}
 
 	return (
-		<div
+		<div id='editor'
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
 				padding: '0px 0px 1px 0px',
-				gap: 2,
 				background: settings.material,
 				width: '100%',
-				marginTop: 21,
+				marginTop: 20,
 			}}
 		>
 			<LexicalComposer initialConfig={initialConfig}>

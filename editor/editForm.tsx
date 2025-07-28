@@ -5,43 +5,32 @@ export function EditForm() {
 
 	const { setEditorActions } = useCloneEditContext()
 	return (
-		<div style={{ display: 'flex', flexDirection: 'column', gap: 1, paddingLeft: 5 }}>
+		<div id='editForm' style={{ display: 'flex', flexDirection: 'row', gap: 1, flexWrap: 'wrap' }}>
 
-			<fieldset style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 2 }}>
 
-				<label htmlFor="letters">Letters</label>
+				{/* <label htmlFor="letters">Letters</label>
 				<span>10,546</span>
 				<label htmlFor="words">Words</label>
-				<span>1984</span>
+				<span>1984</span> */}
 
-				<label htmlFor="memory">Memory</label>
-				<div id={'memory'} style={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-					<button style={{}}>M1</button>
-					<button style={{}}>M2</button>
-					<button style={{}}>M3</button>
-					<button style={{}}>M4</button>
-					<button style={{}}>M5</button>
-					<button style={{}}>M6</button>
-				</div>
+					<button style={{width: 49, height: 40}}>M1</button>
+					<button style={{width: 49, height: 40}}>M2</button>
+					<button style={{width: 49, height: 40}}>M3</button>
+					<button style={{width: 49, height: 40}}>M4</button>
+					<button style={{width: 49, height: 40}}>M5</button>
+					<button style={{width: 49, height: 40}}>M6</button>
 
-				<label htmlFor="snippets">Snippets</label>
-				<div id={'snippets'} style={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-					<button style={{}}>S1</button>
-					<button style={{}}>S2</button>
-					<button style={{}}>S3</button>
-					<button style={{}}>S4</button>
-					<button style={{}}>S5</button>
-					<button style={{}}>S6</button>
-				</div>
+					<button style={{width: 49, height: 40}}>S1</button>
+					<button style={{width: 49, height: 40}}>S2</button>
+					<button style={{width: 49, height: 40}}>S3</button>
+					<button style={{width: 49, height: 40}}>S4</button>
+					<button style={{width: 49, height: 40}}>S5</button>
+					<button style={{width: 49, height: 40}}>S6</button>
 
-				<label htmlFor="snippets">Smileys</label>
-				<div id={'snippets'} style={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
 					{smileys.map((smiley, ix) => (
-						<button key={ix} style={{}} onClick={() => setEditorActions([[action_insert, smiley]])}>{smiley}</button>
+						<button key={ix} style={{width: 49, height: 40}} onClick={() => setEditorActions([[action_insert, smiley]])}>{smiley}</button>
 					))}
-				</div>
 
-			</fieldset>
 		</div>
 	)
 }

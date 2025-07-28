@@ -476,6 +476,7 @@ editorBackground: #654654
 	settings: {
 		border: 0,
 		material: 'linear-gradient(to right, #5d7c8fff, #6ba2c6ff)',
+		materialMedian: '#638da8',
 		selectedColor: '#88caff',
 		editorBackgroundColor: 'linear-gradient(to top, #1d1a22, #425c76ff)',
 		editorFont: 'Funnel Sans',
@@ -485,7 +486,7 @@ editorBackground: #654654
 		brightColor: '#b3d1e3',
 		darkColor: '#1d1a22',
 		mezzoDarkColor: '#252935',
-		lightDarkColor: '#4d546aff',
+		lightDarkColor: '#3b4c57ff',
 		cloneeditColor: '#88caff',
 		inputColor: '#b7e7ff',
 	}

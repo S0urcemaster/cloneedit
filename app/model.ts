@@ -41,6 +41,7 @@ export type EffectParam = {
 export type Settings = {
 	border: number // probably percent
 	material: string
+	materialMedian: string
 	selectedColor: string
 	editorBackgroundColor: string
 	editorTextColor: string
