@@ -91,12 +91,18 @@ textarea {
 button {
 	font-family: inherit;
 	letter-spacing: inherit;
-	background-color: var(--button-color);
+	background-color: #c6e9ff87;
+	/* background-color: var(--material-median); */
+	/* background-color: var(--button-color); */
 	color: var(--input-color);
 	border: none;
 	font-size: var(--button-font-size);
 	padding: 0px 12px 3px 12px;
-	height: 29px;
+	height: 39px;
+	min-width: 43px;
+	margin: 0px;
+	/* border: 1px solid #04152884; */
+	color: var(--dark-color)
 }
 
 button:hover {

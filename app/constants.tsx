@@ -431,7 +431,9 @@ export const defaultState: App = {
 			folderName: 'System',
 			editor: {
 				state: '',
-				plainText: `Clone Edit Documentation
+				plainText: `Clone Edit Manual
+In short:
+	Some buttons can be klicked AND double klicked . To store a value from the clipboard / double klick the button . With a single klick you fetch the value
 Introduction
 Clone Edit is a DTW - Digital Text Workstation ( from DAW : Digital Audio Workstation)
 				`,

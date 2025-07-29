@@ -32,8 +32,9 @@ function Head() {
 		<div className='head' style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', paddingTop: 1, paddingBottom: 0, flexGrow: 1 }}>
 			<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexGrow: 1, paddingBottom: 1  }}>
 				<TabBar
-					buttonNames={['Undo', 'Redo']}
+					buttonNames={['↶', '↷']}
 					onTabClick={(direction: string) => history(direction)}
+					buttonStyle={{fontSize: 30}}
 				/>
 				<h1 className={constants.fonts[constants.FONT_GEMUNU_LIBRE].font.className + ' appTitleVisibility'}
 					style={{ fontSize: 28, paddingLeft: 5, height: 25, marginTop: -8, color: settings.brightColor, cursor: 'help' }} onClick={showDocs}>Clone Edit</h1>
@@ -196,7 +197,7 @@ export default function Editor() {
 				padding: '0px 0px 1px 0px',
 				background: settings.material,
 				width: '100%',
-				marginTop: 20,
+				marginTop: 26,
 			}}
 		>
 			<LexicalComposer initialConfig={initialConfig}>
