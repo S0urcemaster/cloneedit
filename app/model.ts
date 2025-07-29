@@ -29,13 +29,8 @@ export type Clone = {
 
 export type Effect = {
 	name: string
-	params: EffectParam[]
-	update: (text: string, ...args: EffectParam[]) => string
-}
-
-export type EffectParam = {
-	name: string
-	value?: string // sure : could make it better by splitting static from dynamic value . Will regret it terribly later
+	args: string[]
+	update: (text: string, ...args: string[]) => string
 }
 
 export type Settings = {

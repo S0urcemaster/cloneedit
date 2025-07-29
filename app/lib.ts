@@ -1,4 +1,7 @@
-import { App as AppModel, Document } from './model'
+import { effects } from './constants'
+import { App as AppModel, Document, Effect } from './model'
+
+const log = console.log
 
 export const lib = {
 
@@ -16,6 +19,26 @@ export const lib = {
 			folders.add(doc.folderName)
 		})
 		return Array.from(folders)
+	},
 
+	validateCommand: (command: string): boolean => {
+		return true
+	},
+
+	parseCommand: (command: string): Effect => {
+		log('command', command)
+		if (!lib.validateCommand(command)) return null
+		const split = command.trim().split(/\s+/)
+		log('split', split)
+		const effect = Object.values(effects).find(effect => {
+			return effect.name.toLowerCase() === split[0].toLowerCase()
+		})
+		effect.args = split.slice(1)
+
+		return effect
+	},
+
+	joinCommand: (effect: Effect): string => {
+		return effect.name +' ' +effect.args.join(' ')
 	}
 }

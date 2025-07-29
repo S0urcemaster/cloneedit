@@ -1,12 +1,16 @@
 
 import { Gemunu_Libre, Funnel_Sans, Lexend } from 'next/font/google'
-import { App, Effect, EffectParam } from './model'
+import { App, Effect } from './model'
+import { lib } from './lib'
+
+const log = console.log
 
 export const smileys = [
 	'🪱', '😀', '😅', '😂', '🤣', '😋', '🥳',
 	'🫤', '🤨', '🤔', '🤫', '🥱', '🥹', '🥺',
 	'😢', '😭', '🤩', '😍', '🥰', '🤮', '🤢',
-	'😊', '☺️'
+	'😊', '☺️', '☯', '🇩🇪', '🏳️‍🌈', '🇵🇱', '🇪🇺',
+	'🌍', '🗽', '🎗️', '🎲',
 ]
 
 export const CAESAR_EFFECT = 'caesar'
@@ -18,10 +22,13 @@ export const TLDR_EFFECT = 'tldr'
 
 export const effects: Record<string, Effect> = {
 	[CAESAR_EFFECT]: {
-		name: 'Caesar Cipher',
-		params: [{ name: 'Offset' }],
-		update: (text: string, offset: EffectParam) => {
-			const shiftValue = Number(offset.value)
+		name: 'CaesarCipher',
+		args: [],
+		update: (text: string, offset: string) => {
+			const shiftValue = Number(offset)
+			if (isNaN(shiftValue) || !Number.isInteger(shiftValue)) {
+				return 'command not valid'
+			}
 			return text.split('').map(char => {
 				if (char.match(/[a-z]/i)) {
 					const code = char.charCodeAt(0)
@@ -35,17 +42,17 @@ export const effects: Record<string, Effect> = {
 		}
 	},
 	[REPLACE_TEXT_EFFECT]: {
-		name: 'Replace Text',
-		params: [{ name: 'search' }, { name: 'replace' }],
-		update: (text: string, search: EffectParam, replace: EffectParam) => {
+		name: 'ReplaceText',
+		args: [],
+		update: (text: string, search: string, replace: string) => {
 			return 'Replace Text not implemented yet' // Implementierung fehlt
 			// return text.replace(new RegExp(search, 'g'), replace)
 		}
 	},
 	[REPLACE_LIST_EFFECT]: {
-		name: 'Replace List',
-		params: [{ name: 'searchList' }, { name: 'replaceList' }],
-		update: (text: string, searchList: EffectParam, replaceList: EffectParam) => {
+		name: 'ReplaceList',
+		args: [],
+		update: (text: string, searchList: string, replaceList: string) => {
 			return 'Replace List not implemented yet' // Implementierung fehlt
 			// const searches = searchList.split('\n')
 			// const replaces = replaceList.split('\n')
@@ -61,18 +68,18 @@ export const effects: Record<string, Effect> = {
 		}
 	},
 	[NO_WHITESPACE_EFFECT]: {
-		name: 'No Whitespace',
-		params: [],
+		name: 'NoWhitespace',
+		args: [],
 		update: (text: string) => {
 			return text.replace(/\s+/g, '')
 		}
 	},
 	[SUBSTRING_EFFECT]: {
 		name: 'Substring',
-		params: [{ name: '[Start' }, { name: ']End' }],
-		update: (text: string, start: EffectParam, end: EffectParam) => {
-			const startIndex = parseInt(start.value, 10)
-			const endIndex = parseInt(end.value, 10)
+		args: [],
+		update: (text: string, start: string, end: string) => {
+			const startIndex = parseInt(start, 10)
+			const endIndex = parseInt(end, 10)
 			if (isNaN(startIndex) || isNaN(endIndex)) {
 				return 'error not a number'
 			}
@@ -81,7 +88,7 @@ export const effects: Record<string, Effect> = {
 	},
 	[TLDR_EFFECT]: {
 		name: 'TLDR',
-		params: [],
+		args: [],
 		update: () => {
 			return 'not implemented'
 		}
@@ -105,7 +112,7 @@ export const defaultState: App = {
 					name: 'X Part 1',
 					source: 0,
 					effect: {
-						...effects[SUBSTRING_EFFECT], params: [{ name: 'Start', value: '0' }, { name: 'End', value: '280' }]
+						...effects[SUBSTRING_EFFECT], args: ['0', '280']
 					},
 				},
 				{
@@ -113,7 +120,7 @@ export const defaultState: App = {
 					name: 'X Part 2',
 					source: 0,
 					effect: {
-						...effects[SUBSTRING_EFFECT], params: [{ name: 'Start', value: '280' }, { name: 'End', value: '560' }]
+						...effects[SUBSTRING_EFFECT], args: ['280', '560']
 					},
 				},
 				{
@@ -121,7 +128,7 @@ export const defaultState: App = {
 					name: 'X Part 3',
 					source: 0,
 					effect: {
-						...effects[SUBSTRING_EFFECT], params: [{ name: 'Start', value: '560' }, { name: 'End', value: '840' }]
+						...effects[SUBSTRING_EFFECT], args: ['560', '840']
 					},
 				},
 				{
@@ -129,7 +136,7 @@ export const defaultState: App = {
 					name: 'Bluesky Part 1',
 					source: 0,
 					effect: {
-						...effects[SUBSTRING_EFFECT], params: [{ name: 'Start', value: '0' }, { name: 'End', value: '300' }]
+						...effects[SUBSTRING_EFFECT], args: ['0', '300']
 					},
 				},
 				{
@@ -137,7 +144,7 @@ export const defaultState: App = {
 					name: 'Bluesky Part 2',
 					source: 0,
 					effect: {
-						...effects[SUBSTRING_EFFECT], params: [{ name: 'Start', value: '300' }, { name: 'End', value: '600' }]
+						...effects[SUBSTRING_EFFECT], args: ['300', '400']
 					},
 				},
 				{
@@ -145,7 +152,7 @@ export const defaultState: App = {
 					name: 'Bluesky Part 3',
 					source: 0,
 					effect: {
-						...effects[SUBSTRING_EFFECT], params: [{ name: 'Start', value: '600' }, { name: 'End', value: '900' }]
+						...effects[SUBSTRING_EFFECT], args: ['600', '900']
 					},
 				},
 			]
@@ -165,7 +172,7 @@ export const defaultState: App = {
 					name: '1',
 					source: 0,
 					effect: {
-						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '1' }],
+						...effects[CAESAR_EFFECT], args: ['1']
 					},
 				},
 				{
@@ -173,7 +180,7 @@ export const defaultState: App = {
 					name: '2',
 					source: 0,
 					effect: {
-						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '2' }],
+						...effects[CAESAR_EFFECT], args: ['2']
 					},
 				},
 				{
@@ -181,7 +188,7 @@ export const defaultState: App = {
 					name: '3',
 					source: 0,
 					effect: {
-						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '3' }],
+						...effects[CAESAR_EFFECT], args: ['3']
 					},
 				},
 				{
@@ -189,7 +196,7 @@ export const defaultState: App = {
 					name: '4',
 					source: 0,
 					effect: {
-						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '4' }],
+						...effects[CAESAR_EFFECT], args: ['4']
 					},
 				},
 				{
@@ -197,7 +204,7 @@ export const defaultState: App = {
 					name: '5',
 					source: 0,
 					effect: {
-						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '5' }],
+						...effects[CAESAR_EFFECT], args: ['5']
 					},
 				},
 				{
@@ -205,7 +212,7 @@ export const defaultState: App = {
 					name: '6',
 					source: 0,
 					effect: {
-						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '6' }],
+						...effects[CAESAR_EFFECT], args: ['6']
 					},
 				},
 				{
@@ -213,7 +220,7 @@ export const defaultState: App = {
 					name: '7',
 					source: 0,
 					effect: {
-						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '7' }],
+						...effects[CAESAR_EFFECT], args: ['7']
 					},
 				},
 				{
@@ -221,7 +228,7 @@ export const defaultState: App = {
 					name: '8',
 					source: 0,
 					effect: {
-						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '8' }],
+						...effects[CAESAR_EFFECT], args: ['8']
 					},
 				},
 				{
@@ -229,7 +236,7 @@ export const defaultState: App = {
 					name: '9',
 					source: 0,
 					effect: {
-						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '9' }],
+						...effects[CAESAR_EFFECT], args: ['9']
 					},
 				},
 				{
@@ -237,7 +244,7 @@ export const defaultState: App = {
 					name: '10',
 					source: 0,
 					effect: {
-						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '10' }],
+						...effects[CAESAR_EFFECT], args: ['10']
 					},
 				},
 				{
@@ -245,7 +252,7 @@ export const defaultState: App = {
 					name: '11',
 					source: 0,
 					effect: {
-						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '11' }],
+						...effects[CAESAR_EFFECT], args: ['11']
 					},
 				},
 				{
@@ -253,111 +260,111 @@ export const defaultState: App = {
 					name: '12',
 					source: 0,
 					effect: {
-						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '12' }],
+						...effects[CAESAR_EFFECT], args: ['12']
 					},
 				},
 				{
-					id:13 ,
+					id: 13,
 					name: '13',
 					source: 0,
 					effect: {
-						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '13' }],
+						...effects[CAESAR_EFFECT], args: ['13']
 					},
 				},
 				{
-					id:14 ,
+					id: 14,
 					name: '14',
 					source: 0,
 					effect: {
-						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '14' }],
+						...effects[CAESAR_EFFECT], args: ['14']
 					},
 				},
 				{
-					id:15 ,
+					id: 15,
 					name: '15',
 					source: 0,
 					effect: {
-						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '15' }],
+						...effects[CAESAR_EFFECT], args: ['15']
 					},
 				},
 				{
-					id:16 ,
+					id: 16,
 					name: '16',
 					source: 0,
 					effect: {
-						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '16' }],
+						...effects[CAESAR_EFFECT], args: ['16']
 					},
 				},
 				{
-					id:17 ,
+					id: 17,
 					name: '17',
 					source: 0,
 					effect: {
-						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '17' }],
+						...effects[CAESAR_EFFECT], args: ['17']
 					},
 				},
 				{
-					id:18 ,
+					id: 18,
 					name: '18',
 					source: 0,
 					effect: {
-						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '18' }],
+						...effects[CAESAR_EFFECT], args: ['18']
 					},
 				},
 				{
-					id:19 ,
+					id: 19,
 					name: '19',
 					source: 0,
 					effect: {
-						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '19' }],
+						...effects[CAESAR_EFFECT], args: ['19']
 					},
 				},
 				{
-					id:20 ,
+					id: 20,
 					name: '20',
 					source: 0,
 					effect: {
-						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '20' }],
+						...effects[CAESAR_EFFECT], args: ['20']
 					},
 				},
 				{
-					id:21 ,
+					id: 21,
 					name: '21',
 					source: 0,
 					effect: {
-						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '21' }],
+						...effects[CAESAR_EFFECT], args: ['21']
 					},
 				},
 				{
-					id:22 ,
+					id: 22,
 					name: '22',
 					source: 0,
 					effect: {
-						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '22' }],
+						...effects[CAESAR_EFFECT], args: ['22']
 					},
 				},
 				{
-					id:23 ,
+					id: 23,
 					name: '23',
 					source: 0,
 					effect: {
-						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '23' }],
+						...effects[CAESAR_EFFECT], args: ['23']
 					},
 				},
 				{
-					id:24 ,
+					id: 24,
 					name: '24',
 					source: 0,
 					effect: {
-						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '24' }],
+						...effects[CAESAR_EFFECT], args: ['24']
 					},
 				},
 				{
-					id:25 ,
+					id: 25,
 					name: '25',
 					source: 0,
 					effect: {
-						...effects[CAESAR_EFFECT], params: [{ name: 'Offset', value: '25' }],
+						...effects[CAESAR_EFFECT], args: ['25']
 					},
 				},
 			]
@@ -377,7 +384,7 @@ export const defaultState: App = {
 					name: 'Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct ',
 					source: 0,
 					effect: {
-						...effects[SUBSTRING_EFFECT], params: [{ name: 'Start', value: '0' }, { name: 'End', value: '279' }]
+						...effects[SUBSTRING_EFFECT], args: ['1', '3']
 					},
 				},
 				{
@@ -385,7 +392,7 @@ export const defaultState: App = {
 					name: 'Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct ',
 					source: 0,
 					effect: {
-						...effects[SUBSTRING_EFFECT], params: [{ name: 'Start', value: '280' }, { name: 'End', value: '559' }]
+						...effects[SUBSTRING_EFFECT], args: ['6', '9']
 					},
 				},
 				{
@@ -393,7 +400,7 @@ export const defaultState: App = {
 					name: 'Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct ',
 					source: 0,
 					effect: {
-						...effects[SUBSTRING_EFFECT], params: [{ name: 'Start', value: '560' }, { name: 'End', value: '839' }]
+						...effects[SUBSTRING_EFFECT], args: ['11', '13']
 					},
 				},
 			]
@@ -413,15 +420,7 @@ export const defaultState: App = {
 					name: 'Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct ',
 					source: 0,
 					effect: {
-						...effects[SUBSTRING_EFFECT], params: [{ name: 'Start', value: '0' }, { name: 'End', value: '10' }]
-					},
-				},
-				{
-					id: 2,
-					name: 'Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct ',
-					source: 0,
-					effect: {
-						...effects[SUBSTRING_EFFECT], params: [{ name: 'Start', value: '0' }, { name: 'End', value: '10' }]
+						...effects[SUBSTRING_EFFECT], args: ['11', '13']
 					},
 				},
 			]
@@ -446,7 +445,7 @@ Clone Edit is a DTW - Digital Text Workstation ( from DAW : Digital Audio Workst
 					name: 'tldr',
 					source: 0,
 					effect: {
-						...effects[TLDR_EFFECT], params: [{ name: 'Start', value: '0' }, { name: 'End', value: '10' }]
+						...effects[TLDR_EFFECT], args: []
 					},
 				},
 			]
@@ -468,7 +467,7 @@ editorBackground: #654654
 					name: 'tldr',
 					source: 0,
 					effect: {
-						...effects[TLDR_EFFECT], params: [{ name: 'Start', value: '0' }, { name: 'End', value: '10' }]
+						...effects[TLDR_EFFECT], args: []
 					},
 				},
 			]

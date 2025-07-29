@@ -15,13 +15,13 @@ export type CloneEditContext = {
 	selectedClone: CloneModel
 	editorActions: EditorAction[]
 	plainText: string
-	effectChanged: (clone: CloneModel, effectName: string) => void
 	folderChanged: (folder: string) => void
 	fileChanged: (file: string) => void
 	setCurrentFile: (file: string) => void
 	setSelectedClone: (clone: CloneModel) => void
 	setEditorActions: (actions: EditorAction[]) => void
 	setPlainText: (text: string) => void
+	updateEffectCommand: (clone: CloneModel, line: string) => void
 }
 
 const CloneEditContext = createContext<CloneEditContext>({} as CloneEditContext)
@@ -48,6 +48,7 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 		folderChanged,
 		fileChanged,
 		setCurrentFile,
+		setCurrentDocument,
 	} = useFolderAndFileManagement(state)
 
 	const [plainText, setPlainText] = useState('')
@@ -66,15 +67,11 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 		setEditorActions([[action_clear, ''], [action_insert, currentDocument.editor.plainText]])
 	}, [currentDocument])
 
-	function effectChanged(clone: CloneModel, effectName: string) {
-		// find the clone / update its value and update the state
-		// const updatedClones = state.documents[0].clones.map(c => {
-		// 	if (c.id === clone.id) {
-		// 		return { ...c, effect: effectName }
-		// 	}
-		// 	return c
-		// })
-		// const updatedDocument = { ...currentDocument, clones: updatedClones }
+	function updateCommand(clone: CloneModel, line: string) {
+		const updatedClones = currentDocument.clones.map(c =>
+			c.id === clone.id ? { ...c, effect: { ...c.effect, command: line } } : c
+		)
+		setCurrentDocument({ ...currentDocument, clones: updatedClones })
 	}
 
 	return (
@@ -88,7 +85,7 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 			selectedClone: selectedClone,
 			editorActions: editorActions,
 			plainText: plainText,
-			effectChanged: effectChanged,
+			updateEffectCommand: updateCommand,
 			folderChanged: folderChanged,
 			fileChanged: fileChanged,
 			setCurrentFile: setCurrentFile,

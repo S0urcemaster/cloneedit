@@ -197,7 +197,7 @@ export default function Editor() {
 				padding: '0px 0px 1px 0px',
 				background: settings.material,
 				width: '100%',
-				marginTop: 26,
+				// marginTop: 26,
 			}}
 		>
 			<LexicalComposer initialConfig={initialConfig}>
