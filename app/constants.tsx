@@ -482,7 +482,7 @@ editorBackground: #654654
 		editorBackgroundColor: 'linear-gradient(to top, #1d1a22, #425c76ff)',
 		editorFont: 'Funnel Sans',
 		editorTextColor: '#deffcbff',
-		editorFontSize: 20,
+		editorFontSize: 24,
 		cloneFontSize: 18,
 		brightColor: '#b3d1e3',
 		darkColor: '#1d1a22',
@@ -490,6 +490,9 @@ editorBackground: #654654
 		lightDarkColor: '#3b4c57ff',
 		cloneeditColor: '#88caff',
 		inputColor: '#b7e7ff',
+		effectEditorBackground: 'linear-gradient(to top, #1d1a22, #425c76ff)',
+		effectEditorColor: '#e1b671ff',
+		effectEditorSize: 16,
 	}
 }
 

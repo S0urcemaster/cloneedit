@@ -7,7 +7,6 @@ export function EditForm() {
 	return (
 		<div id='editForm' style={{ display: 'flex', flexDirection: 'row', gap: '0.1rem', flexWrap: 'wrap' }}>
 
-
 				{/* <label htmlFor="letters">Letters</label>
 				<span>10,546</span>
 				<label htmlFor="words">Words</label>

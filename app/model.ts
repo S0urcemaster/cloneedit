@@ -49,4 +49,7 @@ export type Settings = {
 	lightDarkColor: string
 	cloneeditColor: string
 	inputColor: string
+	effectEditorBackground: string
+	effectEditorColor: string
+	effectEditorSize: number
 }

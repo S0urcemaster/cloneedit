@@ -162,8 +162,8 @@ function EditorContent({ }) {
 				overflowY: 'scroll',
 				background: settings.editorBackgroundColor,
 				padding: '5px 6px 0px 6px',
+				color: settings.editorTextColor,
 				fontSize: settings.editorFontSize,
-				fontFamily: settings.editorFont,
 			}}
 			onClick={() => contentEditable.current?.focus()}
 		>

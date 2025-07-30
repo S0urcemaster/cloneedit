@@ -10,7 +10,7 @@ const log = console.log
 
 function Controller({ clone }: { clone: CloneModel }) {
 
-	const { settings, selectedClone, 
+	const { settings, selectedClone,
 		updateEffectCommand, cloneIdChanged } = useCloneEditContext()
 
 	const [cloneId, setCloneId] = useState(selectedClone.id)
@@ -98,7 +98,7 @@ function Controller({ clone }: { clone: CloneModel }) {
 				<button style={{ cursor: 'default' }} disabled>{selectedClone.id}</button>
 				<button style={{ fontWeight: 'bold', fontSize: 'x-large' }}>⇣</button> */}
 				<input style={{ flexGrow: 1 }} type='text' value={clone.name} onChange={e => nameChanged(e.target.value)} />
-				<div style={{}}>
+				<div style={{display: 'flex', gap: 1}}>
 					<button style={{}}>✱</button>
 					<button style={{}}>⁑</button>
 					<button style={{}}>✖</button>
@@ -116,12 +116,14 @@ function Controller({ clone }: { clone: CloneModel }) {
 						height: '100%',
 						width: '100%',
 						resize: 'none',
-						background: settings.editorBackgroundColor, // Gradient background
-						color: settings.editorTextColor, // Text color
+						background: settings.effectEditorBackground, // Gradient background
+						color: settings.effectEditorColor, // Text color
 						padding: '0px 12px 0px 6px', // Padding
 						margin: 0,
 						// border: `1px solid ${settings.brightColor}`, // Border color
-						fontSize: settings.cloneFontSize,
+						fontSize: settings.effectEditorSize,
+						fontFamily: 'monospace',
+
 					}}
 				/>
 			</div>
@@ -147,7 +149,7 @@ function Clone({ clone }: { clone: CloneModel }) {
 						width: '100%',
 						resize: 'none',
 						background: settings.editorBackgroundColor, // Gradient background
-						color: settings.editorTextColor, // Text color
+						color: settings.brightColor, // Text color
 						padding: '0px 12px 0px 6px', // Padding
 						margin: 0,
 						fontSize: settings.cloneFontSize,
@@ -165,9 +167,8 @@ export default function Clones() {
 
 	return (
 		<div id='clones' style={{ background: settings.material }}>
-
+			<div style={{ borderTop: `1px solid ${settings.effectEditorColor}`}}></div>
 			<Controller clone={selectedClone} />
-
 			<div style={{ display: 'flex', flexDirection: 'column', height: 250, overflowY: 'scroll' }}>
 				{currentDocument.clones.map((clone, ix) => (
 					<Clone key={ix} clone={clone} />
