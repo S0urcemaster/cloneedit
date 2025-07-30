@@ -22,6 +22,7 @@ export type CloneEditContext = {
 	setEditorActions: (actions: EditorAction[]) => void
 	setPlainText: (text: string) => void
 	updateEffectCommand: (clone: CloneModel, line: string) => void
+	cloneIdChanged: (clone: CloneModel, id: number) => void
 }
 
 const CloneEditContext = createContext<CloneEditContext>({} as CloneEditContext)
@@ -74,6 +75,34 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 		setCurrentDocument({ ...currentDocument, clones: updatedClones })
 	}
 
+	function cloneIdChanged(clone: CloneModel, newId: number) {
+		// Handle edge cases for newId
+		const maxId = currentDocument.clones.length
+		const adjustedId = Math.max(0, Math.min(newId, maxId)) // Clamp ID between 0 and list length
+  
+		// Create a new array without the clone to be repositioned
+		const updatedClones = currentDocument.clones.filter(c => c.id !== clone.id)
+  
+		// Insert the clone at the new position (adjustedId as index)
+		const insertIndex = adjustedId === 0 ? 0 : Math.min(adjustedId - 1, updatedClones.length)
+		updatedClones.splice(insertIndex, 0, { ...clone, id: adjustedId })
+  
+		// Reassign IDs sequentially starting from 1
+		const reindexedClones = updatedClones.map((c, index) => ({
+		  ...c,
+		  id: index + 1, // IDs start at 1
+		}))
+  
+		// Update the document with the new clones array
+		setCurrentDocument({ ...currentDocument, clones: reindexedClones })
+  
+		// Update selectedClone if it was the moved clone
+		if (selectedClone.id === clone.id) {
+		  const newSelectedClone = reindexedClones.find(c => c.id === insertIndex + 1) || reindexedClones[0]
+		  setSelectedClone(newSelectedClone)
+		}
+	 }
+
 	return (
 		<CloneEditContext.Provider value={{
 			currentDocument: currentDocument,
@@ -92,6 +121,7 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 			setSelectedClone: setSelectedClone,
 			setEditorActions: setEditorActions,
 			setPlainText: setPlainText,
+			cloneIdChanged,
 		}}>
 			{children}
 		</ CloneEditContext.Provider>

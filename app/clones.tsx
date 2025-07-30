@@ -1,5 +1,5 @@
 'use client'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Clone as CloneModel } from './model'
 import { useCloneEditContext } from './context'
 import { TabBar } from '../components/TabBar'
@@ -8,20 +8,67 @@ import { lib } from './lib'
 
 const log = console.log
 
-function cloneNameChanged(name: string) {
-
-}
-
-function positionChanged(name: string) {
-
-}
-
-function formValueChanged(ix: number, value: string) {
-
-}
-
 function Controller({ clone }: { clone: CloneModel }) {
-	const { settings, selectedClone, updateEffectCommand } = useCloneEditContext()
+
+	const { settings, selectedClone, 
+		updateEffectCommand, cloneIdChanged } = useCloneEditContext()
+
+	const [cloneId, setCloneId] = useState(selectedClone.id)
+
+	useEffect(() => {
+		setCloneId(clone.id)
+	}, [clone])
+
+	function nameChanged(name: string) {
+
+	}
+
+	function idChanged(id: string) {
+		if (id === '') return
+		setCloneId(parseInt(id)) // Update local state
+	}
+
+	function handleIdSubmit() {
+		if (cloneId !== selectedClone.id) {
+			cloneIdChanged(clone, cloneId) // Submit to context
+			log(`Clone ID changed to: ${cloneId}`)
+		}
+	}
+
+	function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+		// Erlaube nur Ziffern, Enter, Done, Go, Backspace, Delete, Tab, Pfeiltasten
+		const allowedKeys = [
+			'Enter',
+			'Done',
+			'Go',
+			'Backspace',
+			'Delete',
+			'Tab',
+			'ArrowLeft',
+			'ArrowRight',
+			'ArrowUp',
+			'ArrowDown',
+		]
+		const isDigit = /^\d$/.test(e.key)
+
+		if (!isDigit && !allowedKeys.includes(e.key)) {
+			e.preventDefault() // Blockiere ungültige Tasten
+			return
+		}
+
+		// Bei Enter, Done oder Go die Eingabe abschicken
+		if (e.key === 'Enter' || e.key === 'Done' || e.key === 'Go') {
+			handleIdSubmit()
+		}
+	}
+
+	function positionChanged(name: string) {
+
+	}
+
+	function formValueChanged(ix: number, value: string) {
+
+	}
 
 	function commandChanged(line: string) {
 		const timeoutId = useRef<NodeJS.Timeout | null>(null);
@@ -35,18 +82,22 @@ function Controller({ clone }: { clone: CloneModel }) {
 			updateEffectCommand(clone, line);
 			log(`updateCommand called with: ${line}`);
 			timeoutId.current = null;
-		}, 300000);
+		}, 250);
 
 		log(`Timeout set for updateCommand with: ${line}`);
 	}
 
 	return (
-		<div style={{ display: 'flex', flexDirection: 'column' }}>
-			<div style={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-				<button style={{ fontWeight: 'bold', fontSize: 'x-large' }}>⇡</button>
+		<div id='controller' style={{ display: 'flex', flexDirection: 'column' }}>
+			<div style={{ display: 'flex', gap: '0.1rem', flexWrap: 'wrap' }}>
+				<input style={{ width: 49, paddingLeft: 18 }} type='text' value={clone.id} onChange={e => idChanged(e.target.value)} onBlur={handleIdSubmit} onKeyDown={handleKeyDown} onFocus={(e) => {
+					e.target.scrollIntoView({ behavior: 'smooth', block: 'center' })
+					e.target.select() // Wählt den gesamten Text im Input aus
+				}} />
+				{/* <button style={{ fontWeight: 'bold', fontSize: 'x-large' }}>⇡</button>
 				<button style={{ cursor: 'default' }} disabled>{selectedClone.id}</button>
-				<button style={{ fontWeight: 'bold', fontSize: 'x-large' }}>⇣</button>
-				<input style={{ flexGrow: 1 }} type='text' value={clone.name} onChange={e => cloneNameChanged(e.target.value)} />
+				<button style={{ fontWeight: 'bold', fontSize: 'x-large' }}>⇣</button> */}
+				<input style={{ flexGrow: 1 }} type='text' value={clone.name} onChange={e => nameChanged(e.target.value)} />
 				<div style={{}}>
 					<button style={{}}>✱</button>
 					<button style={{}}>⁑</button>
@@ -83,8 +134,8 @@ function Clone({ clone }: { clone: CloneModel }) {
 
 	return (
 		<div className='clone' style={{}}>
-			<div style={{ height: 25, overflow: 'hidden', padding: '0px 0px 0px 0px' }}>
-				<div style={{ marginRight: 3, width: '100%', backgroundColor: settings.mezzoDarkColor, color: settings.brightColor, paddingBottom: 5 }}>{clone.name}</div>
+			<div style={{ overflow: 'hidden', padding: '0px 0px 0px 0px' }}>
+				<div style={{ width: '100%', backgroundColor: settings.brightColor, color: settings.darkColor, paddingBottom: 3, paddingLeft: 5 }}>{clone.name}</div>
 			</div>
 			<div style={{ flexGrow: 1 }}>
 				<textarea onClick={() => setSelectedClone(clone)}
@@ -99,16 +150,11 @@ function Clone({ clone }: { clone: CloneModel }) {
 						color: settings.editorTextColor, // Text color
 						padding: '0px 12px 0px 6px', // Padding
 						margin: 0,
-						// border: `1px solid ${settings.brightColor}`, // Border color
 						fontSize: settings.cloneFontSize,
 					}}
 					readOnly
 				/>
 			</div>
-
-			{/* {clone.id === selectedClone.id &&
-				<CloneForm clone={clone} />
-			} */}
 		</div>
 	)
 }
@@ -122,7 +168,7 @@ export default function Clones() {
 
 			<Controller clone={selectedClone} />
 
-			<div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+			<div style={{ display: 'flex', flexDirection: 'column', height: 250, overflowY: 'scroll' }}>
 				{currentDocument.clones.map((clone, ix) => (
 					<Clone key={ix} clone={clone} />
 				))}

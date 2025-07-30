@@ -3,18 +3,19 @@ import { TabBar } from '../components/TabBar'
 import { EditForm } from '../editor/editForm'
 import { FilesForm } from '../editor/filesForm'
 import { InfoForm } from '../editor/infoForm'
-import { SettingsForm } from '../editor/settingsForm'
 import * as constants from './constants'
 import { action_clear, action_getplaintext, action_insert, useCloneEditContext } from './context'
 
 import { $createNodeSelection, $createParagraphNode, $createPoint, $createRangeSelection, $createTextNode, $getRoot, $getSelection, $getTextContent, $isElementNode, $isParagraphNode, $isRangeSelection, $isTextNode, $setSelection, BaseSelection, LexicalNode, ParagraphNode, RangeSelection, TextNode } from 'lexical'
-import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin'
+// import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin'
 import { LexicalComposer } from '@lexical/react/LexicalComposer'
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
+
+const log = console.log
 
 function Head() {
 	const { settings } = useCloneEditContext()
@@ -30,11 +31,11 @@ function Head() {
 
 	return (
 		<div className='head' style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', paddingTop: 1, paddingBottom: 0, flexGrow: 1 }}>
-			<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexGrow: 1, paddingBottom: 1  }}>
+			<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexGrow: 1, paddingBottom: 1 }}>
 				<TabBar
 					buttonNames={['↶', '↷']}
 					onTabClick={(direction: string) => history(direction)}
-					buttonStyle={{fontSize: 30}}
+					buttonStyle={{ fontSize: 30 }}
 				/>
 				<h1 className={constants.fonts[constants.FONT_GEMUNU_LIBRE].font.className + ' appTitleVisibility'}
 					style={{ fontSize: 28, paddingLeft: 5, height: 25, marginTop: -8, color: settings.brightColor, cursor: 'help' }} onClick={showDocs}>Clone Edit</h1>
@@ -89,9 +90,9 @@ function OnChangePlugin({ onChange }) {
 	return null
 }
 
-function EditorContent({ settings }) {
+function EditorContent({ }) {
 	const [editor] = useLexicalComposerContext()
-	const { editorActions, setPlainText } = useCloneEditContext()
+	const { settings, editorActions, setPlainText } = useCloneEditContext()
 	const contentEditable = useRef<HTMLDivElement>(null)
 
 	useEffect(() => {
@@ -162,12 +163,14 @@ function EditorContent({ settings }) {
 				background: settings.editorBackgroundColor,
 				padding: '5px 6px 0px 6px',
 				fontSize: settings.editorFontSize,
-				fontFamily: settings.editorFont
+				fontFamily: settings.editorFont,
 			}}
 			onClick={() => contentEditable.current?.focus()}
 		>
 			<RichTextPlugin
-				contentEditable={<ContentEditable style={{ outline: 'none' }} ref={contentEditable} />}
+				contentEditable={
+					<ContentEditable style={{ outline: 'none' }} tabIndex={-1} disabled ref={contentEditable} />
+				}
 				ErrorBoundary={LexicalErrorBoundary}
 			/>
 			<HistoryPlugin />
@@ -175,6 +178,7 @@ function EditorContent({ settings }) {
 		</div>
 	)
 }
+
 export default function Editor() {
 	const { settings } = useCloneEditContext()
 
@@ -201,7 +205,7 @@ export default function Editor() {
 			}}
 		>
 			<LexicalComposer initialConfig={initialConfig}>
-				<EditorContent settings={settings} />
+				<EditorContent />
 			</LexicalComposer>
 			<Head />
 		</div>

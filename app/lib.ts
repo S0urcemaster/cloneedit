@@ -26,10 +26,8 @@ export const lib = {
 	},
 
 	parseCommand: (command: string): Effect => {
-		log('command', command)
 		if (!lib.validateCommand(command)) return null
 		const split = command.trim().split(/\s+/)
-		log('split', split)
 		const effect = Object.values(effects).find(effect => {
 			return effect.name.toLowerCase() === split[0].toLowerCase()
 		})
