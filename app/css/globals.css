@@ -91,10 +91,8 @@ textarea {
 button {
 	font-family: inherit;
 	letter-spacing: inherit;
-	background-color: #c6e9ff87;
-	/* background-color: var(--material-median); */
-	/* background-color: var(--button-color); */
-	color: var(--input-color);
+	background: var(--button-background);
+	color: var(--button-color);
 	border: none;
 	font-size: var(--button-font-size);
 	padding: 0px 12px 3px 12px;
@@ -102,7 +100,6 @@ button {
 	width: 49px;
 	min-width: 43px;
 	margin: 0px;
-	/* border: 1px solid #04152884; */
 	color: var(--dark-color)
 }
 
@@ -117,7 +114,7 @@ select {
 	letter-spacing: inherit;
 	/* Inherit the letter spacing from the parent element */
 	font-size: medium;
-	background-color: var(--bright-color);
+	background-color: var(--input-color);
 	color: var(--dark-color);
 	border: none;
 	padding-left: 6px;
@@ -154,12 +151,6 @@ textarea:focus {
 	/* Remove the focus border */
 }
 
-fieldset {
-	border: none;
-	padding: 0;
-	margin: 0;
-}
-
 h1,
 h2,
 h3,
@@ -175,10 +166,6 @@ span {
 	/* Inherit the letter spacing from the parent element */
 }
 
-.cloneedit-color {
-	color: var(--cloneedit-color);
-}
-
 p {
 	font-size: normal;
 }
@@ -190,11 +177,12 @@ a {
 }
 
 a:hover {
+	color: var(--cloneedit-color);
 	text-decoration: none;
 }
 
 a:visited {
-	color: inherit;
+	color: var(--cloneedit-color);
 }
 
 a:focus {

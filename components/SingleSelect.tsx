@@ -12,10 +12,8 @@ export const SingleSelect = ({ options, value, onChange, style }: {options: stri
    }
    return (
       <div style={{
-         width: '200px',
-         maxHeight: '200px',
          overflowY: 'auto',
-         background: settings.brightColor,
+         backgroundColor: settings.inputBackground,
          ...style
        }}>
          <div style={{ display: 'flex', flexDirection: 'column' }}>

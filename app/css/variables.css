@@ -1,17 +1,18 @@
 :root {
-	--page-width: 799px;
 	--body-background: #144e32;
-	--material: linear-gradient(to right, #5d7c8fff, #6ba2c6ff);
-	--material-median: #638da8;
-	--cloneedit-color: #88caff;
-	--dark-color: #1d1a22;
 	--bright-color: #b3d1e3;
-	--input-color: #b7e7ff;
-	--mezzo-dark-color: #252935;
-	--editor-text-color: #deffcbff;
-
-	--editor-font-size: 22;
-	--clone-font-size: 18;
+	--button-background: linear-gradient(to top left, #a8c7d8, #b4d4e8);
+	--button-color: #09182a;
 	--button-font-size: 17px;
-	--button-color: #203248;
+	--dark-color: #1d1a22;
+	--cloneedit-color: #bbe5ffff;
+	--clone-font-size: 18;
+	--editor-font-size: 22;
+	--editor-text-color: rgb(0, 0, 56);
+	--input-color: #d4d8d1ff;
+	--material: linear-gradient(to right, #5d7c8fff, #6ba2c6ff);
+	--mezzo-dark-color: #252935;
+	--editor-backround: linear-gradient(to top, #fff2db, #425c76ff);
+	--material-median: #638da8;
+	--page-width: 799px;
 }

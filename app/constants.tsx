@@ -2,8 +2,21 @@
 import { Gemunu_Libre, Funnel_Sans, Lexend } from 'next/font/google'
 import { App, Effect } from './model'
 import { lib } from './lib'
+import { effect_caesar_cypher } from '../effects/caesar_cypher'
+import { effect_welcome } from '../effects/welcome'
+import { effect_replace_text } from '../effects/replace_text'
+import { effect_replace_list } from '../effects/replace_list'
+import { effect_no_whitespace } from '../effects/no_whitespace'
+import { effect_substring } from '../effects/substring'
+import { effect_tldr } from '../effects/effect_tldr'
+import { document_default } from '../documents/default'
+import { document_bluesky_x } from '../documents/bluesky_x'
+import { document_caesar_cypher } from '../documents/caesar_cypher'
+import { document_docs_intro } from '../documents/docs_intro'
+import { document_settings } from '../documents/settings'
+import { settings_default_light } from '../static/themes/default_light'
 
-const log = console.log
+export const log = console.log
 
 export const smileys = [
 	'🪱', '😀', '😅', '😂', '🤣', '😋', '🥳',
@@ -14,6 +27,7 @@ export const smileys = [
 ]
 
 export const CAESAR_EFFECT = 'caesar'
+export const WELCOME_EFFECT = 'help'
 export const REPLACE_TEXT_EFFECT = 'replaceText'
 export const REPLACE_LIST_EFFECT = 'replaceList'
 export const NO_WHITESPACE_EFFECT = 'noWhitespace'
@@ -21,479 +35,27 @@ export const SUBSTRING_EFFECT = 'substring'
 export const TLDR_EFFECT = 'tldr'
 
 export const effects: Record<string, Effect> = {
-	[CAESAR_EFFECT]: {
-		name: 'CaesarCipher',
-		args: [],
-		update: (text: string, offset: string) => {
-			const shiftValue = Number(offset)
-			if (isNaN(shiftValue) || !Number.isInteger(shiftValue)) {
-				return 'command not valid'
-			}
-			return text.split('').map(char => {
-				if (char.match(/[a-z]/i)) {
-					const code = char.charCodeAt(0)
-					const base = code >= 65 && code <= 90 ? 65 : 97
-					// Ensure positive result for negative shifts
-					const shiftedCode = (code - base + shiftValue) % 26
-					return String.fromCharCode((shiftedCode < 0 ? shiftedCode + 26 : shiftedCode) + base)
-				}
-				return char
-			}).join('')
-		}
-	},
-	[REPLACE_TEXT_EFFECT]: {
-		name: 'ReplaceText',
-		args: [],
-		update: (text: string, search: string, replace: string) => {
-			return 'Replace Text not implemented yet' // Implementierung fehlt
-			// return text.replace(new RegExp(search, 'g'), replace)
-		}
-	},
-	[REPLACE_LIST_EFFECT]: {
-		name: 'ReplaceList',
-		args: [],
-		update: (text: string, searchList: string, replaceList: string) => {
-			return 'Replace List not implemented yet' // Implementierung fehlt
-			// const searches = searchList.split('\n')
-			// const replaces = replaceList.split('\n')
-			// let updatedText = text
-			// for (let i = 0 i < searches.length i++) {
-			// 	const search = searches[i]
-			// 	const replace = replaces[i] ?? ''
-			// 	if (search) {
-			// 		updatedText = updatedText.replace(new RegExp(search, 'g'), replace)
-			// 	}
-			// }
-			// return updatedText
-		}
-	},
-	[NO_WHITESPACE_EFFECT]: {
-		name: 'NoWhitespace',
-		args: [],
-		update: (text: string) => {
-			return text.replace(/\s+/g, '')
-		}
-	},
-	[SUBSTRING_EFFECT]: {
-		name: 'Substring',
-		args: [],
-		update: (text: string, start: string, end: string) => {
-			const startIndex = parseInt(start, 10)
-			const endIndex = parseInt(end, 10)
-			if (isNaN(startIndex) || isNaN(endIndex)) {
-				return 'error not a number'
-			}
-			return text.substring(startIndex, endIndex)
-		}
-	},
-	[TLDR_EFFECT]: {
-		name: 'TLDR',
-		args: [],
-		update: () => {
-			return 'not implemented'
-		}
-	}
+	[CAESAR_EFFECT]: effect_caesar_cypher,
+	[WELCOME_EFFECT]: effect_welcome,
+	[REPLACE_TEXT_EFFECT]: effect_replace_text,
+	[REPLACE_LIST_EFFECT]: effect_replace_list,
+	[NO_WHITESPACE_EFFECT]: effect_no_whitespace,
+	[SUBSTRING_EFFECT]: effect_substring,
+	[TLDR_EFFECT]: effect_tldr,
 }
 
 export const defaultState: App = {
 	documents: [
-		{
-			name: 'X and Bluesky',
-			folderName: 'User',
-			editor: {
-				state: '',
-				memory: [],
-				snippets: [],
-				plainText: '',
-			},
-			clones: [
-				{
-					id: 1,
-					name: 'X Part 1',
-					source: 0,
-					effect: {
-						...effects[SUBSTRING_EFFECT], args: ['0', '280']
-					},
-				},
-				{
-					id: 2,
-					name: 'X Part 2',
-					source: 0,
-					effect: {
-						...effects[SUBSTRING_EFFECT], args: ['280', '560']
-					},
-				},
-				{
-					id: 3,
-					name: 'X Part 3',
-					source: 0,
-					effect: {
-						...effects[SUBSTRING_EFFECT], args: ['560', '840']
-					},
-				},
-				{
-					id: 4,
-					name: 'Bluesky Part 1',
-					source: 0,
-					effect: {
-						...effects[SUBSTRING_EFFECT], args: ['0', '300']
-					},
-				},
-				{
-					id: 5,
-					name: 'Bluesky Part 2',
-					source: 0,
-					effect: {
-						...effects[SUBSTRING_EFFECT], args: ['300', '400']
-					},
-				},
-				{
-					id: 6,
-					name: 'Bluesky Part 3',
-					source: 0,
-					effect: {
-						...effects[SUBSTRING_EFFECT], args: ['600', '900']
-					},
-				},
-			]
-		},
-		{
-			name: 'Caesar Cypher',
-			folderName: 'User',
-			editor: {
-				state: '',
-				memory: [],
-				snippets: [],
-				plainText: ''
-			},
-			clones: [
-				{
-					id: 1,
-					name: '1',
-					source: 0,
-					effect: {
-						...effects[CAESAR_EFFECT], args: ['1']
-					},
-				},
-				{
-					id: 2,
-					name: '2',
-					source: 0,
-					effect: {
-						...effects[CAESAR_EFFECT], args: ['2']
-					},
-				},
-				{
-					id: 3,
-					name: '3',
-					source: 0,
-					effect: {
-						...effects[CAESAR_EFFECT], args: ['3']
-					},
-				},
-				{
-					id: 4,
-					name: '4',
-					source: 0,
-					effect: {
-						...effects[CAESAR_EFFECT], args: ['4']
-					},
-				},
-				{
-					id: 5,
-					name: '5',
-					source: 0,
-					effect: {
-						...effects[CAESAR_EFFECT], args: ['5']
-					},
-				},
-				{
-					id: 6,
-					name: '6',
-					source: 0,
-					effect: {
-						...effects[CAESAR_EFFECT], args: ['6']
-					},
-				},
-				{
-					id: 7,
-					name: '7',
-					source: 0,
-					effect: {
-						...effects[CAESAR_EFFECT], args: ['7']
-					},
-				},
-				{
-					id: 8,
-					name: '8',
-					source: 0,
-					effect: {
-						...effects[CAESAR_EFFECT], args: ['8']
-					},
-				},
-				{
-					id: 9,
-					name: '9',
-					source: 0,
-					effect: {
-						...effects[CAESAR_EFFECT], args: ['9']
-					},
-				},
-				{
-					id: 10,
-					name: '10',
-					source: 0,
-					effect: {
-						...effects[CAESAR_EFFECT], args: ['10']
-					},
-				},
-				{
-					id: 11,
-					name: '11',
-					source: 0,
-					effect: {
-						...effects[CAESAR_EFFECT], args: ['11']
-					},
-				},
-				{
-					id: 12,
-					name: '12',
-					source: 0,
-					effect: {
-						...effects[CAESAR_EFFECT], args: ['12']
-					},
-				},
-				{
-					id: 13,
-					name: '13',
-					source: 0,
-					effect: {
-						...effects[CAESAR_EFFECT], args: ['13']
-					},
-				},
-				{
-					id: 14,
-					name: '14',
-					source: 0,
-					effect: {
-						...effects[CAESAR_EFFECT], args: ['14']
-					},
-				},
-				{
-					id: 15,
-					name: '15',
-					source: 0,
-					effect: {
-						...effects[CAESAR_EFFECT], args: ['15']
-					},
-				},
-				{
-					id: 16,
-					name: '16',
-					source: 0,
-					effect: {
-						...effects[CAESAR_EFFECT], args: ['16']
-					},
-				},
-				{
-					id: 17,
-					name: '17',
-					source: 0,
-					effect: {
-						...effects[CAESAR_EFFECT], args: ['17']
-					},
-				},
-				{
-					id: 18,
-					name: '18',
-					source: 0,
-					effect: {
-						...effects[CAESAR_EFFECT], args: ['18']
-					},
-				},
-				{
-					id: 19,
-					name: '19',
-					source: 0,
-					effect: {
-						...effects[CAESAR_EFFECT], args: ['19']
-					},
-				},
-				{
-					id: 20,
-					name: '20',
-					source: 0,
-					effect: {
-						...effects[CAESAR_EFFECT], args: ['20']
-					},
-				},
-				{
-					id: 21,
-					name: '21',
-					source: 0,
-					effect: {
-						...effects[CAESAR_EFFECT], args: ['21']
-					},
-				},
-				{
-					id: 22,
-					name: '22',
-					source: 0,
-					effect: {
-						...effects[CAESAR_EFFECT], args: ['22']
-					},
-				},
-				{
-					id: 23,
-					name: '23',
-					source: 0,
-					effect: {
-						...effects[CAESAR_EFFECT], args: ['23']
-					},
-				},
-				{
-					id: 24,
-					name: '24',
-					source: 0,
-					effect: {
-						...effects[CAESAR_EFFECT], args: ['24']
-					},
-				},
-				{
-					id: 25,
-					name: '25',
-					source: 0,
-					effect: {
-						...effects[CAESAR_EFFECT], args: ['25']
-					},
-				},
-			]
-		},
-		{
-			name: 'Text Split',
-			folderName: 'Examples',
-			editor: {
-				state: '',
-				plainText: 'AI cann fill this with 300 words . so here it goes : Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-				memory: [],
-				snippets: [],
-			},
-			clones: [
-				{
-					id: 1,
-					name: 'Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct ',
-					source: 0,
-					effect: {
-						...effects[SUBSTRING_EFFECT], args: ['1', '3']
-					},
-				},
-				{
-					id: 2,
-					name: 'Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct ',
-					source: 0,
-					effect: {
-						...effects[SUBSTRING_EFFECT], args: ['6', '9']
-					},
-				},
-				{
-					id: 3,
-					name: 'Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct ',
-					source: 0,
-					effect: {
-						...effects[SUBSTRING_EFFECT], args: ['11', '13']
-					},
-				},
-			]
-		},
-		{
-			name: 'Text Split1',
-			folderName: 'Examples',
-			editor: {
-				state: '',
-				plainText: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-				memory: [],
-				snippets: [],
-			},
-			clones: [
-				{
-					id: 1,
-					name: 'Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct Eff ct ',
-					source: 0,
-					effect: {
-						...effects[SUBSTRING_EFFECT], args: ['11', '13']
-					},
-				},
-			]
-		},
-		{
-			name: 'doc_intro',
-			folderName: 'System',
-			editor: {
-				state: '',
-				plainText: `Clone Edit Manual
-In short:
-	Some buttons can be klicked AND double klicked . To store a value from the clipboard / double klick the button . With a single klick you fetch the value
-Introduction
-Clone Edit is a DTW - Digital Text Workstation ( from DAW : Digital Audio Workstation)
-				`,
-				memory: [],
-				snippets: [],
-			},
-			clones: [
-				{
-					id: 1,
-					name: 'tldr',
-					source: 0,
-					effect: {
-						...effects[TLDR_EFFECT], args: []
-					},
-				},
-			]
-		},
-		{
-			name: 'Settings',
-			folderName: 'System',
-			editor: {
-				state: '',
-				plainText: `cloneEditColor: #654984
-editorBackground: #654654
-`,
-				memory: [],
-				snippets: [],
-			},
-			clones: [
-				{
-					id: 1,
-					name: 'tldr',
-					source: 0,
-					effect: {
-						...effects[TLDR_EFFECT], args: []
-					},
-				},
-			]
-		},
+		document_default,
+		document_bluesky_x,
+		document_caesar_cypher,
+		document_docs_intro,
+		document_settings,
 	],
+// light
+	settings: settings_default_light
+// dark
 
-	settings: {
-		border: 0,
-		material: 'linear-gradient(to right, #5d7c8fff, #6ba2c6ff)',
-		materialMedian: '#638da8',
-		selectedColor: '#88caff',
-		editorBackgroundColor: 'linear-gradient(to top, #1d1a22, #425c76ff)',
-		editorFont: 'Funnel Sans',
-		editorTextColor: '#deffcbff',
-		editorFontSize: 24,
-		cloneFontSize: 18,
-		brightColor: '#b3d1e3',
-		darkColor: '#1d1a22',
-		mezzoDarkColor: '#252935',
-		lightDarkColor: '#3b4c57ff',
-		cloneeditColor: '#88caff',
-		inputColor: '#b7e7ff',
-		effectEditorBackground: 'linear-gradient(to top, #1d1a22, #425c76ff)',
-		effectEditorColor: '#e1b671ff',
-		effectEditorSize: 16,
-	}
 }
 
 

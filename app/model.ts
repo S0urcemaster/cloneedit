@@ -23,8 +23,8 @@ export type Editor = {
 export type Clone = {
 	id: number // unique id benötigt pro Objekt
 	name: string
-	source: number // id 0 für editor und 1 bis x für Klone
-	effect: Effect // Konstantenname / id da hart kodiert . K.A. wie das generalisiert / lass ich mich überraschen
+	sourceId?: number // one source per Clone
+	effect: Effect
 }
 
 export type Effect = {
@@ -34,22 +34,25 @@ export type Effect = {
 }
 
 export type Settings = {
-	border: number // probably percent
-	material: string
-	materialMedian: string
-	selectedColor: string
-	editorBackgroundColor: string
-	editorTextColor: string
+	brightColor: string
+	buttonBackground: string
+	buttonColor: string
+	cloneeditColor: string
+	cloneFontSize: number
+	cloneTitleBackground: string
+	darkColor: string
+	editorBackground: string
+	editorColor: string
 	editorFont: string
 	editorFontSize: number
-	cloneFontSize: number
-	brightColor: string
-	darkColor: string
-	mezzoDarkColor: string
-	lightDarkColor: string
-	cloneeditColor: string
-	inputColor: string
 	effectEditorBackground: string
 	effectEditorColor: string
-	effectEditorSize: number
+	effectEditorFontSize: number
+	inputBackground: string
+	lightDarkColor: string
+	material: string
+	materialMedian: string
+	mezzoDarkColor: string
+	selectedColor: string
+	width: number // probably percent
 }

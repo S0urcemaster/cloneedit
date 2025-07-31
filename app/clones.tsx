@@ -3,10 +3,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Clone as CloneModel } from './model'
 import { useCloneEditContext } from './context'
 import { TabBar } from '../components/TabBar'
-import { effects } from './constants'
+import { log } from './constants'
 import { lib } from './lib'
-
-const log = console.log
 
 function Controller({ clone }: { clone: CloneModel }) {
 
@@ -120,8 +118,7 @@ function Controller({ clone }: { clone: CloneModel }) {
 						color: settings.effectEditorColor, // Text color
 						padding: '0px 12px 0px 6px', // Padding
 						margin: 0,
-						// border: `1px solid ${settings.brightColor}`, // Border color
-						fontSize: settings.effectEditorSize,
+						fontSize: settings.effectEditorFontSize,
 						fontFamily: 'monospace',
 
 					}}
@@ -137,7 +134,7 @@ function Clone({ clone }: { clone: CloneModel }) {
 	return (
 		<div className='clone' style={{}}>
 			<div style={{ overflow: 'hidden', padding: '0px 0px 0px 0px' }}>
-				<div style={{ width: '100%', backgroundColor: settings.brightColor, color: settings.darkColor, paddingBottom: 3, paddingLeft: 5 }}>{clone.name}</div>
+				<div style={{ width: '100%', background: settings.cloneTitleBackground, color: settings.darkColor, paddingBottom: 3, paddingLeft: 5 }}>{clone.name}</div>
 			</div>
 			<div style={{ flexGrow: 1 }}>
 				<textarea onClick={() => setSelectedClone(clone)}
@@ -148,7 +145,7 @@ function Clone({ clone }: { clone: CloneModel }) {
 						height: '100%',
 						width: '100%',
 						resize: 'none',
-						background: settings.editorBackgroundColor, // Gradient background
+						background: settings.editorBackground, // Gradient background
 						color: settings.brightColor, // Text color
 						padding: '0px 12px 0px 6px', // Padding
 						margin: 0,
@@ -167,7 +164,6 @@ export default function Clones() {
 
 	return (
 		<div id='clones' style={{ background: settings.material }}>
-			<div style={{ borderTop: `1px solid ${settings.effectEditorColor}`}}></div>
 			<Controller clone={selectedClone} />
 			<div style={{ display: 'flex', flexDirection: 'column', height: 250, overflowY: 'scroll' }}>
 				{currentDocument.clones.map((clone, ix) => (

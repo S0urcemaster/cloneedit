@@ -1,8 +1,6 @@
 import { effects } from './constants'
 import { App as AppModel, Document, Effect } from './model'
 
-const log = console.log
-
 export const lib = {
 
 	findDoc: (state: AppModel, folder: string, file: string): Document => {

@@ -15,8 +15,6 @@ import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 
-const log = console.log
-
 function Head() {
 	const { settings } = useCloneEditContext()
 
@@ -38,7 +36,7 @@ function Head() {
 					buttonStyle={{ fontSize: 30 }}
 				/>
 				<h1 className={constants.fonts[constants.FONT_GEMUNU_LIBRE].font.className + ' appTitleVisibility'}
-					style={{ fontSize: 28, paddingLeft: 5, height: 25, marginTop: -8, color: settings.brightColor, cursor: 'help' }} onClick={showDocs}>Clone Edit</h1>
+					style={{ fontSize: 28, paddingLeft: 5, height: 25, marginTop: -8, color: settings.cloneeditColor, cursor: 'help' }} onClick={showDocs}>Clone Edit</h1>
 				<TabBar
 					buttonNames={['Edit', 'File', 'Info']}
 					onTabClick={(tabName: string) => setTab(tabName)}
@@ -160,9 +158,9 @@ function EditorContent({ }) {
 			style={{
 				height: 300,
 				overflowY: 'scroll',
-				background: settings.editorBackgroundColor,
+				background: settings.editorBackground,
 				padding: '5px 6px 0px 6px',
-				color: settings.editorTextColor,
+				color: settings.editorColor,
 				fontSize: settings.editorFontSize,
 			}}
 			onClick={() => contentEditable.current?.focus()}
@@ -202,6 +200,7 @@ export default function Editor() {
 				background: settings.material,
 				width: '100%',
 				// marginTop: 26,
+				
 			}}
 		>
 			<LexicalComposer initialConfig={initialConfig}>

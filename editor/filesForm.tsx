@@ -35,7 +35,7 @@ export function FilesForm() {
 			{/* file */}
 			<div style={{ display: 'flex', flexDirection: 'column', gap: '0.1rem' }} >
 				<div className='filesInputFlip' style={{ display: 'flex', gap: '0.1rem' }}>
-					<div style={{ position: 'relative', width: '100%', paddingBottom: 1, flexGrow: 1 }}>
+					<div style={{ position: 'relative', width: '100%', flexGrow: 1 }}>
 						<div style={{ position: 'absolute', right: 5, top: 1, color: settings.darkColor, opacity: 0.5, pointerEvents: 'none' }}>File</div>
 						<input type="text" id="file" value={fileInputText} onChange={e => setFileInputText(e.target.value)} style={{ width: '100%' }} />
 					</div>
@@ -51,7 +51,7 @@ export function FilesForm() {
 			{/* folder */}
 			<div style={{ display: 'flex', flexDirection: 'column', gap: '0.1rem' }}>
 				<div className='filesInputFlip' style={{ display: 'flex', gap: '0.1rem' }}>
-					<div style={{ position: 'relative', width: '100%', paddingBottom: 1 }}>
+					<div style={{ position: 'relative', width: '100%' }}>
 						<div style={{ position: 'absolute', right: 5, top: 1, color: settings.darkColor, opacity: 0.5, pointerEvents: 'none' }}>Folder</div>
 						<input type="text" id="folder" value={folderInputText} onChange={e => setFolderInputText(e.target.value)} style={{ width: '100%' }} />
 					</div>

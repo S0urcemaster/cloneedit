@@ -12,8 +12,8 @@ export function InfoForm() {
 				<tbody>
 					<tr>
 						<td>Idea<br />Design<br />Programming</td>
-						<td className={'cloneedit-color'}>
-							<a className={'cloneedit-color'} href="https://digi-craft.de" target="_blank" rel="noopener noreferrer">
+						<td>
+							<a href="https://digi-craft.de" target="_blank" rel="noopener noreferrer">
 								Digi Craft
 							</a>
 						</td>
