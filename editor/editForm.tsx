@@ -5,7 +5,7 @@ export function EditForm() {
 
 	const { setEditorActions } = useCloneEditContext()
 	return (
-		<div id='editForm' style={{ display: 'flex', flexDirection: 'row', gap: '0.1rem', flexWrap: 'wrap' }}>
+		<div id='editForm' style={{ display: 'flex', flexDirection: 'row', gap: '0.1rem', flexWrap: 'wrap', justifyContent: 'center' }}>
 
 				{/* <label htmlFor="letters">Letters</label>
 				<span>10,546</span>

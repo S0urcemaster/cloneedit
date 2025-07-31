@@ -18,7 +18,7 @@ import { fonts, FONT_GEMUNU_LIBRE, FONT_LEXEND } from '../static/constants'
 function Head() {
 	const { settings } = useCloneEditContext()
 
-	const [tab, setTab] = useState('Edit')
+	const [tab, setTab] = useState('☺')
 
 	function history(direction: string) {
 	}
@@ -36,23 +36,27 @@ function Head() {
 					buttonStyle={{ fontSize: 30 }}
 				/>
 				<h1 className={fonts[FONT_GEMUNU_LIBRE].font.className + ' appTitleVisibility'}
-					style={{ fontSize: 28, paddingLeft: 5, height: 25, marginTop: -8, color: settings.cloneeditColor, cursor: 'help' }} onClick={showDocs}>Clone Edit</h1>
+					style={{ fontSize: 28, paddingLeft: 5, height: 25, marginTop: -8, color: settings.cloneeditColor, cursor: 'help', whiteSpace: 'nowrap' }} onClick={showDocs}>
+						<div style={{display: 'flex'}}>
+						<div>Cl</div><div style={{fontSize: 'smaller', marginTop: 4}}>☺</div><div>ne Edit</div>
+						</div>
+						</h1>
 				<TabBar
-					buttonNames={['Edit', 'File', 'Info']}
+					buttonNames={['☺', '☷', 'ℹ']}
 					onTabClick={(tabName: string) => setTab(tabName)}
 				/>
 			</div>
 			<div style={{}}>
-				{tab === 'Edit' &&
+				{tab === '☺' &&
 					<EditForm />
 				}
-				{tab === 'File' &&
+				{tab === '☷' &&
 					<FilesForm />
 				}
 				{/* {tab === 'Dcmnt' &&
 				<SettingsForm />
 			} */}
-				{tab === 'Info' &&
+				{tab === 'ℹ' &&
 					<InfoForm />
 				}
 			</div>

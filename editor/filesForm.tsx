@@ -30,19 +30,19 @@ export function FilesForm() {
 	}
 
 	return (
-		<div id='filesForm' style={{ display: 'grid', gridTemplateColumns: '50% 50%', gap: '0.1rem' }}>
+		<div id='filesForm' style={{ display: 'grid', gridTemplateColumns: 'auto auto', gap: '0.1rem' }}>
 
 			{/* file */}
 			<div style={{ display: 'flex', flexDirection: 'column', gap: '0.1rem' }} >
 				<div className='filesInputFlip' style={{ display: 'flex', gap: '0.1rem' }}>
-					<div style={{ position: 'relative', width: '100%', flexGrow: 1 }}>
+					<div style={{ position: 'relative', flexGrow: 1 }}>
 						<div style={{ position: 'absolute', right: 5, top: 1, color: settings.darkColor, opacity: 0.5, pointerEvents: 'none' }}>File</div>
 						<input type="text" id="file" value={fileInputText} onChange={e => setFileInputText(e.target.value)} style={{ width: '100%' }} />
 					</div>
-					<div style={{ display: 'flex', gap: '0.1rem', width: '100%' }}>
-						<button style={{flexGrow: 1}}>New</button>
-						<button style={{flexGrow: 1}}>Ren</button>
-						<button style={{flexGrow: 1}}>Del</button>
+					<div style={{ display: 'flex', gap: '0.1rem', flex: 1 }}>
+						<button style={{}}>✱</button>
+						<button style={{}}>⚑</button>
+						<button style={{}}>✖</button>
 					</div>
 				</div>
 				<SingleSelect options={availableFiles} value={availableFiles[0]} onChange={fileChanged} style={{ width: '100%', height: '100%' }} />
@@ -51,14 +51,14 @@ export function FilesForm() {
 			{/* folder */}
 			<div style={{ display: 'flex', flexDirection: 'column', gap: '0.1rem' }}>
 				<div className='filesInputFlip' style={{ display: 'flex', gap: '0.1rem' }}>
-					<div style={{ position: 'relative', width: '100%' }}>
+					<div style={{ position: 'relative', flexGrow: 1 }}>
 						<div style={{ position: 'absolute', right: 5, top: 1, color: settings.darkColor, opacity: 0.5, pointerEvents: 'none' }}>Folder</div>
 						<input type="text" id="folder" value={folderInputText} onChange={e => setFolderInputText(e.target.value)} style={{ width: '100%' }} />
 					</div>
-					<div style={{ display: 'flex', gap: '0.1rem', width: '100%' }}>
-						<button style={{flexGrow: 1}}>New</button>
-						<button style={{flexGrow: 1}}>Ren</button>
-						<button style={{flexGrow: 1}}>Del</button>
+					<div style={{ display: 'flex', gap: '0.1rem', flex: 1 }}>
+						<button style={{}}>✱</button>
+						<button style={{}}>⚑</button>
+						<button style={{}}>✖</button>
 					</div>
 				</div>
 				<SingleSelect options={availableFolders} value={availableFolders[0]} onChange={folderChanged} style={{ width: '100%', height: '100%' }} />

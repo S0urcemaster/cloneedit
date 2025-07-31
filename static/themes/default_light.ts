@@ -7,7 +7,7 @@ export const settings_default_light = {
    cloneFontSize: 18,
    cloneTitleBackground: 'linear-gradient(to right, #94aeb5ff, #6ba2c6ff)',
    darkColor: '#1d1a22',
-   editorBackground: 'linear-gradient(to top, #5f7481ff, #55697eff)',
+   editorBackground: 'linear-gradient(to top, #3d4a53ff, #55697eff)',
    editorFont: 'Funnel Sans',
    editorColor: '#d6efffff',
    editorFontSize: 24,
