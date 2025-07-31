@@ -1,4 +1,4 @@
-import { effects, SUBSTRING_EFFECT } from "../app/constants";
+import { effects, SUBSTRING_EFFECT } from "../effects";
 
 export const document_bluesky_x = {
          name: 'X and Bluesky Split',

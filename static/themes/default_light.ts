@@ -1,6 +1,6 @@
 
 export const settings_default_light = {
-   buttonBackground: 'linear-gradient(to top left, #a8c7d8, #b4d4e8)',
+   buttonBackground: 'linear-gradient(to top left, #9dbccdff, #b4d4e8)',
    buttonColor: '#09182a',
    brightColor: '#b3d1e3',
    cloneeditColor: '#d6efffff',

@@ -1,4 +1,4 @@
-import { effects } from './constants'
+import { effects } from '../static/effects'
 import { App as AppModel, Document, Effect } from './model'
 
 export const lib = {

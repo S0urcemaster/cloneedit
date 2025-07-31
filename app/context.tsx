@@ -2,8 +2,8 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react'
 import { App as AppModel, Clone as CloneModel, Document, Settings } from './model'
 import { lib } from './lib'
-import { defaultState } from './constants'
 import { useFolderAndFileManagement } from './hooks'
+import { defaultState } from '../static/constants'
 
 export type CloneEditContext = {
 	currentDocument: Document

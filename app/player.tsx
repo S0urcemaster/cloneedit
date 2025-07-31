@@ -1,5 +1,5 @@
+import { fonts, FONT_GEMUNU_LIBRE } from "../static/constants"
 import { useCloneEditContext } from "./context"
-import * as constants from './constants'
 
 export function Player() {
    const { settings } = useCloneEditContext()
@@ -16,7 +16,7 @@ export function Player() {
             <button style={{ height: 25, width: 'unset', minWidth: 'unset', flexGrow: 1 }}><div style={{ marginTop: 2, fontSize: 'medium' }}>➃</div></button>
             <button style={{ height: 25, width: 'unset', minWidth: 'unset', flexGrow: 1 }}><div style={{ marginTop: 2, fontSize: 'medium' }}>➄</div></button>
             {/* <button style={{ height: 25, width: 'unset', minWidth: 'unset', flexGrow: 1 }}><div style={{ marginTop: -1, fontSize: 'medium' }}>➅</div></button> */}
-            <button className={constants.fonts[constants.FONT_GEMUNU_LIBRE].font.className} style={{ whiteSpace: 'nowrap', paddingRight: 5, color: settings.darkColor, height: 25, width: 'unset', minWidth: 'unset', flexGrow: 1, cursor: 'help' }}><div style={{ marginTop: 2 }}>♫</div></button>
+            <button className={fonts[FONT_GEMUNU_LIBRE].font.className} style={{ whiteSpace: 'nowrap', paddingRight: 5, color: settings.darkColor, height: 25, width: 'unset', minWidth: 'unset', flexGrow: 1, cursor: 'help' }}><div style={{ marginTop: 2 }}>♫</div></button>
          </div>
       </div>
    )

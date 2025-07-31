@@ -1,4 +1,3 @@
-import * as constants from '../app/constants'
 
 export function InfoForm() {
 	return (

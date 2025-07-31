@@ -1,4 +1,4 @@
-import { effects, WELCOME_EFFECT } from "../app/constants";
+import { effects, WELCOME_EFFECT } from "../effects";
 
 export const document_default = {
          name: 'Default',

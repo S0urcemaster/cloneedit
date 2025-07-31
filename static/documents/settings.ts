@@ -1,4 +1,4 @@
-import { effects, TLDR_EFFECT } from "../app/constants";
+import { effects, TLDR_EFFECT } from "../effects";
 
 export const document_settings = {
    name: 'Settings',

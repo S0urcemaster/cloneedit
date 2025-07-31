@@ -1,5 +1,5 @@
 'use client'
-import './css/globals.css'
+import '../static/css/globals.css'
 // import './lexical.css'
 import App from './app'
 import { CloneEditContextProvider } from './context'

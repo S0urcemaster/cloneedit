@@ -1,5 +1,5 @@
-import { smileys } from "../app/constants";
 import { action_insert, useCloneEditContext } from "../app/context";
+import { smileys } from "../static/constants";
 
 export function EditForm() {
 

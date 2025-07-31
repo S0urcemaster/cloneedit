@@ -1,4 +1,4 @@
-import * as constants from './constants'
+import { fonts, FONT_FUNNEL_SANS } from "../static/constants"
 
 export default function RootLayout({
 	children,
@@ -6,7 +6,7 @@ export default function RootLayout({
 	children: React.ReactNode
 }) {
 	return (
-		<html lang="en" className={constants.fonts[constants.FONT_FUNNEL_SANS].font.className}>
+		<html lang="en" className={fonts[FONT_FUNNEL_SANS].font.className}>
 			<body>
 				<div className='layout'>
 					{children}

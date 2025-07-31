@@ -3,7 +3,6 @@ import { TabBar } from '../components/TabBar'
 import { EditForm } from '../editor/editForm'
 import { FilesForm } from '../editor/filesForm'
 import { InfoForm } from '../editor/infoForm'
-import * as constants from './constants'
 import { action_clear, action_getplaintext, action_insert, useCloneEditContext } from './context'
 
 import { $createNodeSelection, $createParagraphNode, $createPoint, $createRangeSelection, $createTextNode, $getRoot, $getSelection, $getTextContent, $isElementNode, $isParagraphNode, $isRangeSelection, $isTextNode, $setSelection, BaseSelection, LexicalNode, ParagraphNode, RangeSelection, TextNode } from 'lexical'
@@ -14,6 +13,7 @@ import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
+import { fonts, FONT_GEMUNU_LIBRE, FONT_LEXEND } from '../static/constants'
 
 function Head() {
 	const { settings } = useCloneEditContext()
@@ -35,7 +35,7 @@ function Head() {
 					onTabClick={(direction: string) => history(direction)}
 					buttonStyle={{ fontSize: 30 }}
 				/>
-				<h1 className={constants.fonts[constants.FONT_GEMUNU_LIBRE].font.className + ' appTitleVisibility'}
+				<h1 className={fonts[FONT_GEMUNU_LIBRE].font.className + ' appTitleVisibility'}
 					style={{ fontSize: 28, paddingLeft: 5, height: 25, marginTop: -8, color: settings.cloneeditColor, cursor: 'help' }} onClick={showDocs}>Clone Edit</h1>
 				<TabBar
 					buttonNames={['Edit', 'File', 'Info']}
@@ -154,7 +154,7 @@ function EditorContent({ }) {
 
 	return (
 		<div
-			className={constants.fonts[constants.FONT_LEXEND].font.className}
+			className={fonts[FONT_LEXEND].font.className}
 			style={{
 				height: 300,
 				overflowY: 'scroll',

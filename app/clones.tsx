@@ -2,9 +2,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Clone as CloneModel } from './model'
 import { useCloneEditContext } from './context'
-import { TabBar } from '../components/TabBar'
-import { log } from './constants'
 import { lib } from './lib'
+import { log } from '../static/constants'
 
 function Controller({ clone }: { clone: CloneModel }) {
 

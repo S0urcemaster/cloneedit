@@ -1,4 +1,4 @@
-import { Effect } from "../app/model"
+import { Effect } from "../../app/model"
 
 export const effect_no_whitespace: Effect = {
    name: 'NoWhitespace',

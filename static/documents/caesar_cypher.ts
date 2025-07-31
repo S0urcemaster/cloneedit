@@ -1,4 +1,4 @@
-import { effects, CAESAR_EFFECT } from "../app/constants";
+import { effects, CAESAR_EFFECT } from "../effects";
 
 export const document_caesar_cypher = {
    name: 'Caesar Cypher',
