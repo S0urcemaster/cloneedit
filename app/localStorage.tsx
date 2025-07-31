@@ -16,7 +16,7 @@ const initialStorageState: StorageState = {
 	state: defaultState
 }
 
-function loadStorage() {
+export function loadStorage(): StorageState {
 	let storage = JSON.parse(localStorage.getItem('cloneedit')!)
 	if (!storage) {
 		saveStorage(initialStorageState)
@@ -27,6 +27,6 @@ function loadStorage() {
 	return storage
 }
 
-function saveStorage(storage: StorageState) {
+export function saveStorage(storage: StorageState) {
 	localStorage.setItem('cloneedit', JSON.stringify(storage))
 }

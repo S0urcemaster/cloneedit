@@ -3,7 +3,8 @@ import { createContext, ReactNode, useContext, useEffect, useState } from 'react
 import { App as AppModel, Clone as CloneModel, Document, Settings } from './model'
 import { lib } from './lib'
 import { useFolderAndFileManagement } from './hooks'
-import { defaultState } from '../static/constants'
+import { defaultState, log } from '../static/constants'
+import { loadStorage, saveStorage } from './localStorage'
 
 export type CloneEditContext = {
 	currentDocument: Document
@@ -20,6 +21,7 @@ export type CloneEditContext = {
 	setCurrentFile: (file: string) => void
 	setSelectedClone: (clone: CloneModel) => void
 	setEditorActions: (actions: EditorAction[]) => void
+	setEditorState: (state: any) => void
 	setPlainText: (text: string) => void
 	updateEffectCommand: (clone: CloneModel, line: string) => void
 	cloneIdChanged: (clone: CloneModel, id: number) => void
@@ -39,6 +41,8 @@ export type EditorAction = [
 export function CloneEditContextProvider({ children }: { children: ReactNode }) {
 
 	const [state, setState] = useState<AppModel>(defaultState)
+
+	const [storage, setStorage] = useState<AppModel|undefined>()
 
 	const {
 		currentDocument,
@@ -62,11 +66,26 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 
 	useEffect(() => {
 		console.log('✅ useEffect: mounted')
+		const storage = loadStorage()
+		// alle clones durchgehen und 
+		setState(storage.state)
 	}, [])
 
 	useEffect(() => {
+		setCurrentDocument(state.documents[0])
+		setSettings(state.settings)
+	}, [state])
+
+	useEffect(() => {
+		log('[currentDocument]', currentDocument)
 		setEditorActions([[action_clear, ''], [action_insert, currentDocument.editor.plainText]])
+		saveStorage({state: state})
 	}, [currentDocument])
+
+	function setEditorState(state: any) {
+		currentDocument.editor.state = state
+		setCurrentDocument({...currentDocument})
+	}
 
 	function updateCommand(clone: CloneModel, line: string) {
 		const updatedClones = currentDocument.clones.map(c =>
@@ -120,6 +139,7 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 			setCurrentFile: setCurrentFile,
 			setSelectedClone: setSelectedClone,
 			setEditorActions: setEditorActions,
+			setEditorState: setEditorState,
 			setPlainText: setPlainText,
 			cloneIdChanged,
 		}}>

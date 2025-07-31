@@ -13,7 +13,7 @@ import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
-import { fonts, FONT_GEMUNU_LIBRE, FONT_LEXEND } from '../static/constants'
+import { fonts, FONT_GEMUNU_LIBRE, FONT_LEXEND, log } from '../static/constants'
 
 function Head() {
 	const { settings } = useCloneEditContext()
@@ -94,7 +94,7 @@ function OnChangePlugin({ onChange }) {
 
 function EditorContent({ }) {
 	const [editor] = useLexicalComposerContext()
-	const { settings, editorActions, setPlainText } = useCloneEditContext()
+	const { settings, editorActions, setPlainText, setEditorState } = useCloneEditContext()
 	const contentEditable = useRef<HTMLDivElement>(null)
 
 	useEffect(() => {
@@ -150,9 +150,11 @@ function EditorContent({ }) {
 		})
 	}
 
-	function onChange(editorState) {
+	function onChange(editorState) { // debounced from onChangePlugin
+		log('onChangePlugin', editorState)
 		editor.read(() => {
 			setPlainText($getRoot().getTextContent())
+			setEditorState(JSON.stringify(editorState.toJSON()))
 		})
 	}
 

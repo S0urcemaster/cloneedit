@@ -42,7 +42,7 @@ export const document_bluesky_x = {
                id: 5,
                name: 'Bluesky Part 2',
                effect: {
-                  ...effects[SUBSTRING_EFFECT], args: ['300', '400']
+                  ...effects[SUBSTRING_EFFECT], args: ['300', '600']
                },
             },
             {

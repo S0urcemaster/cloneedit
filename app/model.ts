@@ -29,7 +29,7 @@ export type Clone = {
 export type Effect = {
 	name: string
 	args: string[]
-	update: (text: string, ...args: string[]) => string
+	update: (text: string, ...args: string[]) => string // remove from model to not having it sorted back into the state tree after de-serialization
 }
 
 export type Settings = {
