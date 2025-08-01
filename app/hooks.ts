@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { App as AppModel, Document } from './model'
-import { lib } from './lib'
+import { lib } from '../static/lib'
 
 export function useFolderAndFileManagement(initialState: AppModel) {
   const [currentDocument, setCurrentDocument] = useState<Document>({ ...initialState.documents[0] })

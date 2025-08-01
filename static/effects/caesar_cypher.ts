@@ -2,7 +2,6 @@ import { Effect } from "../../app/model"
 
 export const effect_caesar_cypher: Effect = {
       name: 'caesarcipher',
-      args: [],
       update: (text: string, offset: string) => {
          const shiftValue = Number(offset)
          if (isNaN(shiftValue) || !Number.isInteger(shiftValue)) {

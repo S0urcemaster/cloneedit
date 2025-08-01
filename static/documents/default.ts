@@ -13,9 +13,9 @@ export const document_default = {
             {
                id: 1,
                name: 'Welcome',
-               effect: {
+               effects: [{
                   ...effects[WELCOME_EFFECT]
-               },
+               }],
             },
          ]
       }

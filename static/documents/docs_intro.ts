@@ -18,9 +18,9 @@ Clone Edit is a DTW - Digital Text Workstation ( from DAW : Digital Audio Workst
             {
                id: 1,
                name: 'tldr',
-               effect: {
+               effects: [{
                   ...effects[TLDR_EFFECT], args: []
-               },
+               }],
             },
          ]
       }

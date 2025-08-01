@@ -1,9 +1,10 @@
 'use client'
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react'
 import { App as AppModel, Clone as CloneModel, Document, Settings } from './model'
-import { lib } from './lib'
+import { lib } from '../static/lib'
 import { useFolderAndFileManagement } from './hooks'
 import { defaultState, log } from '../static/constants'
+import { effects } from '../static/effects'
 import { loadStorage, saveStorage } from './localStorage'
 
 export type CloneEditContext = {
@@ -65,13 +66,14 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 	const [selectedClone, setSelectedClone] = useState<CloneModel>(currentDocument.clones[0])
 
 	useEffect(() => {
-		console.log('✅ useEffect: mounted')
+		log('✅ useEffect: mounted')
 		const storage = loadStorage()
-		// alle clones durchgehen und 
-		setState(storage.state)
+		const statex = lib.reviveEffects(storage.state)
+		setState(statex)
 	}, [])
 
 	useEffect(() => {
+		log('[state]', state)
 		setCurrentDocument(state.documents[0])
 		setSettings(state.settings)
 	}, [state])
@@ -80,16 +82,19 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 		log('[currentDocument]', currentDocument)
 		setEditorActions([[action_clear, ''], [action_insert, currentDocument.editor.plainText]])
 		saveStorage({state: state})
+		setSelectedClone(currentDocument.clones[0])
 	}, [currentDocument])
 
 	function setEditorState(state: any) {
+		log('context/setEditorState', state)
 		currentDocument.editor.state = state
-		setCurrentDocument({...currentDocument})
+		// setCurrentDocument({...currentDocument}) // editor already up to date . when save ?
 	}
 
 	function updateCommand(clone: CloneModel, line: string) {
+		log('context/updateCommand', clone, line)
 		const updatedClones = currentDocument.clones.map(c =>
-			c.id === clone.id ? { ...c, effect: { ...c.effect, command: line } } : c
+			c.id === clone.id ? { ...c, effect: { ...c.effects[0], command: line } } : c // c.effects[0] TODO
 		)
 		setCurrentDocument({ ...currentDocument, clones: updatedClones })
 	}

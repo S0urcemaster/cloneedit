@@ -15,9 +15,9 @@ editorBackground: #654654
       {
          id: 1,
          name: 'tldr',
-         effect: {
+         effects: [{
             ...effects[TLDR_EFFECT], args: []
-         },
+         }],
       },
    ]
 }

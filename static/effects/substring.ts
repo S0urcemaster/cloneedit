@@ -1,8 +1,7 @@
 import { Effect } from "../../app/model"
 
 export const effect_substring: Effect = {
-   name: 'Substring',
-   args: [],
+   name: 'substring',
    update: (text: string, start: string, end: string) => {
       const startIndex = parseInt(start, 10)
       const endIndex = parseInt(end, 10)

@@ -23,13 +23,13 @@ export type Clone = {
 	id: number // unique id benötigt pro Objekt
 	name: string
 	sourceId?: number // one source per Clone
-	effect: Effect
+	effects: Effect[]
 }
 
 export type Effect = {
 	name: string
-	args: string[]
-	update: (text: string, ...args: string[]) => string // remove from model to not having it sorted back into the state tree after de-serialization
+	args?: string[]
+	update: (text: string, ...args: string[]) => string
 }
 
 export type Settings = {

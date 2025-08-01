@@ -1,8 +1,7 @@
 import { Effect } from "../../app/model"
 
 export const effect_no_whitespace: Effect = {
-   name: 'NoWhitespace',
-   args: [],
+   name: 'nowhitespace',
    update: (text: string) => {
       return text.replace(/\s+/g, '')
    }

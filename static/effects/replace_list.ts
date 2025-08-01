@@ -1,8 +1,7 @@
 import { Effect } from "../../app/model"
 
 export const effect_replace_list: Effect = {
-   name: 'ReplaceList',
-   args: [],
+   name: 'replacelist',
    update: (text: string, searchList: string, replaceList: string) => {
       return 'Replace List not implemented yet' // Implementierung fehlt
       // const searches = searchList.split('\n')

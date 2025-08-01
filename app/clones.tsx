@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Clone as CloneModel } from './model'
 import { useCloneEditContext } from './context'
-import { lib } from './lib'
+import { lib } from '../static/lib'
 import { log } from '../static/constants'
 
 function Controller({ clone }: { clone: CloneModel }) {
@@ -105,7 +105,7 @@ function Controller({ clone }: { clone: CloneModel }) {
 
 			<div style={{ display: 'flex' }}>
 				<textarea
-					value={lib.joinCommand(clone.effect)}
+					value={lib.toTextEffects(clone.effects)}
 					onChange={e => commandChanged(e.target.value)}
 					rows={2}
 					placeholder={'Type Effect'}
@@ -130,6 +130,10 @@ function Controller({ clone }: { clone: CloneModel }) {
 function Clone({ clone }: { clone: CloneModel }) {
 	const { settings, selectedClone, setSelectedClone, plainText } = useCloneEditContext()
 
+	useEffect(() => {
+		log('clone', clone)
+	}, [clone])
+
 	return (
 		<div className='clone' style={{}}>
 			<div style={{ overflow: 'hidden', padding: '0px 0px 0px 0px' }}>
@@ -137,7 +141,10 @@ function Clone({ clone }: { clone: CloneModel }) {
 			</div>
 			<div style={{ flexGrow: 1 }}>
 				<textarea onClick={() => setSelectedClone(clone)}
-					value={clone.effect.update(plainText, ...clone.effect.args)}
+					// value={clone.effects[0].args ? 
+					// 	clone.effects[0].update(plainText, ...clone.effects[0].args) : 
+					// 	clone.effects[0].update(plainText)}
+					value={lib.updateEach(plainText, clone.effects)}
 					rows={selectedClone.id == clone.id ? 8 : 3}
 					placeholder={'zero effect'}
 					style={{

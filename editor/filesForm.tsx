@@ -65,6 +65,7 @@ export function FilesForm() {
 				<div style={{ display: 'flex', gap: '0.1rem' }}>
 					<button style={{ flex: 1 }}>Backup</button>
 					<button style={{ flex: 1 }}>Restore</button>
+					<button style={{ flex: 0.5 }}>Reset</button>
 				</div>
 			</div>
 

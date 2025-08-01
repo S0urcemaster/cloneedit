@@ -2,7 +2,6 @@ import { Effect } from "../../app/model"
 
 export const effect_welcome: Effect = {
       name: 'welcome',
-      args: [],
       update: (text: string) => {
          if(text) {
             return `This is a serverless app (so far) ! Nothing you type is being sent over network ! Checkout the Developer Tools on key F12 and there the network analysis tab to be sure : only GET - methods that fetch data FROM the server !`
