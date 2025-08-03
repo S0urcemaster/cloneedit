@@ -2,33 +2,53 @@ import { useState, useEffect } from 'react'
 import { App as AppModel, Document } from './model'
 import { lib } from '../static/lib'
 
-export function useFolderAndFileManagement(initialState: AppModel) {
-  const [currentDocument, setCurrentDocument] = useState<Document>({ ...initialState.documents[0] })
-  const [currentFolder, setCurrentFolder] = useState<string>(currentDocument.folderName)
+export function useClipboard() {
+
+  function copyToClipboard(text: string) {
+    navigator.clipboard.writeText(text)
+      .then(() => console.log("Text copied to clipboard"))
+      .catch(err => console.error("Failed to copy text: ", err))
+  }
+
+  return {
+    copyToClipboard
+  }
+
+}
+
+export function useFolderAndFileManagement(state: AppModel) {
+  const [currentDocument, setCurrentDocument] = useState<Document>()
+  const [currentFolder, setCurrentFolder] = useState<string>()
   const [availableFolders, setAvailableFolders] = useState<string[]>([])
   const [availableFiles, setAvailableFiles] = useState<string[]>([])
-  const [currentFile, setCurrentFilename] = useState<string>(currentDocument.name)
+  const [currentFile, setCurrentFilename] = useState<string>()
 
   useEffect(() => {
-    setAvailableFolders(lib.extractFolders(initialState))
-    folderChanged(initialState.documents[0].folderName)
-  }, [initialState])
+    if (state) {
+      setCurrentDocument(state.documents[0])
+      // setCurrentDocument({ ...initialState.documents[0] })
+      setAvailableFolders(lib.extractFolders(state))
+      folderChanged(state.documents[0].folderName)
+    }
+  }, [state])
 
   useEffect(() => {
+    if (!state) return
     const files = new Set<string>()
-    initialState.documents.forEach(doc => {
+    state.documents.forEach(doc => {
       if (doc.folderName === currentFolder) {
         files.add(doc.name)
       }
     })
     setAvailableFiles(Array.from(files))
-  }, [currentFolder, initialState])
+  }, [currentFolder, state])
 
   useEffect(() => {
     setCurrentFilename(availableFiles[0])
   }, [availableFiles])
 
   useEffect(() => {
+    if (!currentDocument) return
     setCurrentFilename(currentDocument.name)
   }, [currentDocument])
 
@@ -37,7 +57,7 @@ export function useFolderAndFileManagement(initialState: AppModel) {
   }
 
   function fileChanged(file: string) {
-    const doc = lib.findDoc(initialState, currentFolder, file)
+    const doc = lib.findDoc(state, currentFolder, file)
     setCurrentDocument(doc)
   }
 

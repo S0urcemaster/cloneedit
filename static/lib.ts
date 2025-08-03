@@ -8,14 +8,14 @@ export const lib = {
 		const args = effects[0].args
 		let result = args ? effects[0].update(source, ...effects[0].args) : effects[0].update(source)
 		for(let i = 1; i < effects.length; i++) {
-			result += effects[i].update(result, ...effects[i].args)
+			result = effects[i].update(result, ...effects[i].args)
 		}
 		return result
 	},
 
 	toTextEffects: (effects: Effect[]): string => {
 		return effects.map(eff => {
-			log('eff.args', eff.args)
+			log('toTextEffects', effects)
 			if(eff.args) {
 				return `${eff.name} ${eff.args?.join(' ')}`
 			}

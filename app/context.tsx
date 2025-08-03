@@ -8,13 +8,13 @@ import { effects } from '../static/effects'
 import { loadStorage, saveStorage } from './localStorage'
 
 export type CloneEditContext = {
-	currentDocument: Document
+	currentDocument?: Document
 	settings: Settings
 	availableFolders: string[]
 	currentFolder: string
 	availableFiles: string[]
 	currentFile: string
-	selectedClone: CloneModel
+	selectedClone?: CloneModel
 	editorActions: EditorAction[]
 	plainText: string
 	folderChanged: (folder: string) => void
@@ -41,9 +41,7 @@ export type EditorAction = [
 
 export function CloneEditContextProvider({ children }: { children: ReactNode }) {
 
-	const [state, setState] = useState<AppModel>(defaultState)
-
-	const [storage, setStorage] = useState<AppModel|undefined>()
+	const [state, setState] = useState<AppModel | undefined>()
 
 	const {
 		currentDocument,
@@ -59,35 +57,38 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 
 	const [plainText, setPlainText] = useState('')
 
-	const [settings, setSettings] = useState({ ...state.settings })
+	const [settings, setSettings] = useState<Settings | undefined>(defaultState.settings)
 
 	const [editorActions, setEditorActions] = useState<EditorAction[]>([])
 
-	const [selectedClone, setSelectedClone] = useState<CloneModel>(currentDocument.clones[0])
+	const [selectedClone, setSelectedClone] = useState<CloneModel | undefined>()
 
 	useEffect(() => {
 		log('✅ useEffect: mounted')
-		const storage = loadStorage()
-		const statex = lib.reviveEffects(storage.state)
-		setState(statex)
+		// const storage = loadStorage()
+		// const rev = lib.reviveEffects(storage.state)
+		// setState(rev)
+		setState(defaultState) // dev
 	}, [])
 
 	useEffect(() => {
-		log('[state]', state)
+		if (!state) return
 		setCurrentDocument(state.documents[0])
 		setSettings(state.settings)
 	}, [state])
 
 	useEffect(() => {
 		log('[currentDocument]', currentDocument)
-		setEditorActions([[action_clear, ''], [action_insert, currentDocument.editor.plainText]])
-		saveStorage({state: state})
-		setSelectedClone(currentDocument.clones[0])
+		if(!currentDocument) return
+		// setEditorActions([[action_clear, ''], [action_insert, currentDocument.editor.plainText]])
+		// setSelectedClone(currentDocument.clones[0])
 	}, [currentDocument])
 
-	function setEditorState(state: any) {
-		log('context/setEditorState', state)
-		currentDocument.editor.state = state
+	function setEditorState(editorState: string) {
+		log('context/setEditorState', editorState)
+		if (editorState.startsWith('{"root":{"children":[{"children":[]')) return
+		currentDocument.editor.state = editorState
+		saveStorage({ state: state })
 		// setCurrentDocument({...currentDocument}) // editor already up to date . when save ?
 	}
 
@@ -103,29 +104,29 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 		// Handle edge cases for newId
 		const maxId = currentDocument.clones.length
 		const adjustedId = Math.max(0, Math.min(newId, maxId)) // Clamp ID between 0 and list length
-  
+
 		// Create a new array without the clone to be repositioned
 		const updatedClones = currentDocument.clones.filter(c => c.id !== clone.id)
-  
+
 		// Insert the clone at the new position (adjustedId as index)
 		const insertIndex = adjustedId === 0 ? 0 : Math.min(adjustedId - 1, updatedClones.length)
 		updatedClones.splice(insertIndex, 0, { ...clone, id: adjustedId })
-  
+
 		// Reassign IDs sequentially starting from 1
 		const reindexedClones = updatedClones.map((c, index) => ({
-		  ...c,
-		  id: index + 1, // IDs start at 1
+			...c,
+			id: index + 1, // IDs start at 1
 		}))
-  
+
 		// Update the document with the new clones array
 		setCurrentDocument({ ...currentDocument, clones: reindexedClones })
-  
+
 		// Update selectedClone if it was the moved clone
 		if (selectedClone.id === clone.id) {
-		  const newSelectedClone = reindexedClones.find(c => c.id === insertIndex + 1) || reindexedClones[0]
-		  setSelectedClone(newSelectedClone)
+			const newSelectedClone = reindexedClones.find(c => c.id === insertIndex + 1) || reindexedClones[0]
+			setSelectedClone(newSelectedClone)
 		}
-	 }
+	}
 
 	return (
 		<CloneEditContext.Provider value={{

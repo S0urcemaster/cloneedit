@@ -97,14 +97,18 @@ button {
 	font-size: var(--button-font-size);
 	padding: 0px 12px 3px 12px;
 	height: 39px;
-	width: 49px;
+	width: 50px;
 	min-width: 43px;
 	margin: 0px;
 	color: var(--dark-color)
 }
 
 button:hover {
-	color: var(--editor-text-color)
+	color: var(--editor-color)
+}
+
+button:active {
+	background: var(--button-active-background);
 }
 
 input,

@@ -1,4 +1,4 @@
-import { defaultState } from '../static/constants'
+import { defaultState, log } from '../static/constants'
 import { App as AppModel } from './model'
 
 type LocalStorage = {

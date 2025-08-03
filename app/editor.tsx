@@ -5,7 +5,7 @@ import { FilesForm } from '../editor/filesForm'
 import { InfoForm } from '../editor/infoForm'
 import { action_clear, action_getplaintext, action_insert, useCloneEditContext } from './context'
 
-import { $createNodeSelection, $createParagraphNode, $createPoint, $createRangeSelection, $createTextNode, $getRoot, $getSelection, $getTextContent, $isElementNode, $isParagraphNode, $isRangeSelection, $isTextNode, $setSelection, BaseSelection, LexicalNode, ParagraphNode, RangeSelection, TextNode } from 'lexical'
+import { $createNodeSelection, $createParagraphNode, $createPoint, $createRangeSelection, $createTextNode, $getRoot, $getSelection, $getTextContent, $insertNodes, $isElementNode, $isParagraphNode, $isRangeSelection, $isTextNode, $setSelection, $setState, BaseSelection, LexicalEditor, LexicalNode, ParagraphNode, RangeSelection, TextNode } from 'lexical'
 // import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin'
 import { LexicalComposer } from '@lexical/react/LexicalComposer'
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
@@ -14,6 +14,8 @@ import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { fonts, FONT_GEMUNU_LIBRE, FONT_LEXEND, log } from '../static/constants'
+import { $updateStateFromJSON } from 'lexical/LexicalNodeState'
+import { $createRootNode } from 'lexical/nodes/LexicalRootNode'
 
 function Head() {
 	const { settings } = useCloneEditContext()
@@ -37,29 +39,27 @@ function Head() {
 				/>
 				<h1 className={fonts[FONT_GEMUNU_LIBRE].font.className + ' appTitleVisibility'}
 					style={{ fontSize: 28, paddingLeft: 5, height: 25, marginTop: -8, color: settings.cloneeditColor, cursor: 'help', whiteSpace: 'nowrap' }} onClick={showDocs}>
-						<div style={{display: 'flex'}}>
-						<div>Cl</div><div style={{fontSize: 'smaller', marginTop: 4}}>☺</div><div>ne Edit</div>
-						</div>
-						</h1>
+					<div style={{ display: 'flex' }}>
+						<div>Cl</div><div style={{ fontSize: 'smaller', marginTop: 4 }}>☺</div><div>ne Edit</div>
+					</div>
+				</h1>
 				<TabBar
 					buttonNames={['☺', '☷', 'ℹ']}
 					onTabClick={(tabName: string) => setTab(tabName)}
 				/>
 			</div>
-			<div style={{}}>
-				{tab === '☺' &&
-					<EditForm />
-				}
-				{tab === '☷' &&
-					<FilesForm />
-				}
-				{/* {tab === 'Dcmnt' &&
+			{tab === '☺' &&
+				<EditForm />
+			}
+			{tab === '☷' &&
+				<FilesForm />
+			}
+			{/* {tab === 'Dcmnt' &&
 				<SettingsForm />
 			} */}
-				{tab === 'ℹ' &&
-					<InfoForm />
-				}
-			</div>
+			{tab === 'ℹ' &&
+				<InfoForm />
+			}
 		</div>
 	)
 }
@@ -94,8 +94,21 @@ function OnChangePlugin({ onChange }) {
 
 function EditorContent({ }) {
 	const [editor] = useLexicalComposerContext()
-	const { settings, editorActions, setPlainText, setEditorState } = useCloneEditContext()
+	const { settings, editorActions, currentDocument, setPlainText, setEditorState } = useCloneEditContext()
 	const contentEditable = useRef<HTMLDivElement>(null)
+
+	useEffect(() => {
+		if (!currentDocument?.editor?.state) return
+		const parsedEditorState = JSON.parse(currentDocument.editor.state)
+		log('parsedEditorState', parsedEditorState)
+		editor.update(() => {
+			$getRoot().updateFromJSON(parsedEditorState)
+			// $insertNodes(parsedEditorState)
+			// const root = $createRootNode()
+			// root.updateFromJSON(parsedEditorState)
+			// editor.setRootElement(root)
+		})
+	}, [currentDocument])
 
 	useEffect(() => {
 		editorActions?.map((action) => {
@@ -155,6 +168,7 @@ function EditorContent({ }) {
 		editor.read(() => {
 			setPlainText($getRoot().getTextContent())
 			setEditorState(JSON.stringify(editorState.toJSON()))
+			log('$getRoot', $getRoot().getTextContent())
 		})
 	}
 
@@ -206,7 +220,7 @@ export default function Editor() {
 				background: settings.material,
 				width: '100%',
 				// marginTop: 26,
-				
+
 			}}
 		>
 			<LexicalComposer initialConfig={initialConfig}>
@@ -215,4 +229,8 @@ export default function Editor() {
 			<Head />
 		</div>
 	)
+}
+
+function $updateEditorFromJson(parsedEditorState: any, editor: LexicalEditor) {
+	throw new Error('Function not implemented.')
 }

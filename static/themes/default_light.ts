@@ -18,7 +18,7 @@ export const settings_default_light = {
    lightDarkColor: '#68879bff',
    material: 'linear-gradient(to right, #5d7c8fff, #6ba2c6ff)',
    materialMedian: '#638da8',
-   mezzoDarkColor: '#252935',
+   mezzoDarkColor: '#696e7eff',
    selectedColor: '#d6efffff',
    width: 800,
 }

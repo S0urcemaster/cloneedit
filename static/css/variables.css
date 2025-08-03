@@ -1,6 +1,7 @@
 :root {
 	--body-background: #144e32;
 	--bright-color: #b3d1e3;
+	--button-active-background: linear-gradient(to top left, #79919e, #8ea8b8);
 	--button-background: linear-gradient(to top left, #a8c7d8, #b4d4e8);
 	--button-color: #09182a;
 	--button-font-size: 17px;
@@ -8,11 +9,12 @@
 	--cloneedit-color: #bbe5ffff;
 	--clone-font-size: 18;
 	--editor-font-size: 22;
-	--editor-text-color: rgb(0, 0, 56);
+	--editor-color: #d6efffff;
+   --effect-editor-background: linear-gradient(to top, #6e7678ff, #647171ff);
 	--input-color: #d4d8d1ff;
 	--material: linear-gradient(to right, #5d7c8fff, #6ba2c6ff);
-	--mezzo-dark-color: #252935;
+	--mezzo-dark-color: #696e7eff;
 	--editor-backround: linear-gradient(to top, #47556b, #fff2db);
 	--material-median: #638da8;
-	--page-width: 799px;
+	--page-width: 824px;
 }

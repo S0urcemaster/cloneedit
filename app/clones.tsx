@@ -4,15 +4,19 @@ import { Clone as CloneModel } from './model'
 import { useCloneEditContext } from './context'
 import { lib } from '../static/lib'
 import { log } from '../static/constants'
+import { useClipboard } from './hooks'
 
 function Controller({ clone }: { clone: CloneModel }) {
 
-	const { settings, selectedClone,
+	const { settings, selectedClone, plainText,
 		updateEffectCommand, cloneIdChanged } = useCloneEditContext()
 
-	const [cloneId, setCloneId] = useState(selectedClone.id)
+	const { copyToClipboard } = useClipboard()
+
+	const [cloneId, setCloneId] = useState(0)
 
 	useEffect(() => {
+		if (!clone) return
 		setCloneId(clone.id)
 	}, [clone])
 
@@ -87,25 +91,26 @@ function Controller({ clone }: { clone: CloneModel }) {
 	return (
 		<div id='controller' style={{ display: 'flex', flexDirection: 'column' }}>
 			<div style={{ display: 'flex', gap: '0.1rem', flexWrap: 'wrap' }}>
-				<input style={{ width: 49, paddingLeft: 18 }} type='text' value={clone.id} onChange={e => idChanged(e.target.value)} onBlur={handleIdSubmit} onKeyDown={handleKeyDown} onFocus={(e) => {
+				<input style={{ width: 49, paddingLeft: 18 }} type='text' value={clone ? clone.id : 0} onChange={e => idChanged(e.target.value)} onBlur={handleIdSubmit} onKeyDown={handleKeyDown} onFocus={(e) => {
 					e.target.scrollIntoView({ behavior: 'smooth', block: 'center' })
 					e.target.select() // Wählt den gesamten Text im Input aus
 				}} />
 				{/* <button style={{ fontWeight: 'bold', fontSize: 'x-large' }}>⇡</button>
 				<button style={{ cursor: 'default' }} disabled>{selectedClone.id}</button>
 				<button style={{ fontWeight: 'bold', fontSize: 'x-large' }}>⇣</button> */}
-				<input style={{ flexGrow: 1 }} type='text' value={clone.name} onChange={e => nameChanged(e.target.value)} />
-				<div style={{display: 'flex', gap: 1}}>
+				<input style={{ flexGrow: 1 }} type='text' value={clone ? clone.name : ''} onChange={e => nameChanged(e.target.value)} />
+				<div style={{ display: 'flex', gap: 1 }}>
 					<button style={{}}>✱</button>
 					<button style={{}}>⁑</button>
 					<button style={{}}>✖</button>
-					<button style={{}}>♻</button>
+					<button style={{}} onClick={() => copyToClipboard(lib.updateEach(plainText, clone.effects))}>♻</button>
 				</div>
 			</div>
 
 			<div style={{ display: 'flex' }}>
 				<textarea
-					value={lib.toTextEffects(clone.effects)}
+					spellCheck={false}
+					value={clone ? lib.toTextEffects(clone.effects) : ''}
 					onChange={e => commandChanged(e.target.value)}
 					rows={2}
 					placeholder={'Type Effect'}
@@ -127,27 +132,34 @@ function Controller({ clone }: { clone: CloneModel }) {
 	)
 }
 
-function Clone({ clone }: { clone: CloneModel }) {
+function Clone({ clone }: { clone?: CloneModel }) {
 	const { settings, selectedClone, setSelectedClone, plainText } = useCloneEditContext()
+	const { copyToClipboard } = useClipboard()
 
 	useEffect(() => {
 		log('clone', clone)
 	}, [clone])
 
+	function deselect() {
+		setSelectedClone(undefined)
+	}
+
 	return (
 		<div className='clone' style={{}}>
-			<div style={{ overflow: 'hidden', padding: '0px 0px 0px 0px' }}>
-				<div style={{ width: '100%', background: settings.cloneTitleBackground, color: settings.darkColor, paddingBottom: 3, paddingLeft: 5 }}>{clone.name}</div>
+			<div style={{ display: 'flex', overflow: 'hidden', padding: '0px 0px 0px 0px', gap: 1 }} onClick={deselect}>
+				<div style={{ width: '100%', background: settings.cloneTitleBackground, color: settings.darkColor, padding: '2px 0 3px 5px' }}>{clone.name}</div>
+				<button style={{ width: 99, minWidth: 99, height: 25, flex: 0 }} onClick={() => copyToClipboard(lib.updateEach(plainText, clone.effects))}>♻</button>
 			</div>
-			<div style={{ flexGrow: 1 }}>
+			<div style={{ flexGrow: 1, }}>
 				<textarea onClick={() => setSelectedClone(clone)}
 					// value={clone.effects[0].args ? 
 					// 	clone.effects[0].update(plainText, ...clone.effects[0].args) : 
 					// 	clone.effects[0].update(plainText)}
 					value={lib.updateEach(plainText, clone.effects)}
-					rows={selectedClone.id == clone.id ? 8 : 3}
+					rows={selectedClone?.id == clone.id ? 8 : 3}
 					placeholder={'zero effect'}
 					style={{
+						overflowY: selectedClone && selectedClone.name === clone.name ? 'scroll' : 'hidden',
 						height: '100%',
 						width: '100%',
 						resize: 'none',
@@ -172,7 +184,7 @@ export default function Clones() {
 		<div id='clones' style={{ background: settings.material }}>
 			<Controller clone={selectedClone} />
 			<div style={{ display: 'flex', flexDirection: 'column', height: 250, overflowY: 'scroll' }}>
-				{currentDocument.clones.map((clone, ix) => (
+				{currentDocument?.clones.map((clone, ix) => (
 					<Clone key={ix} clone={clone} />
 				))}
 			</div>
