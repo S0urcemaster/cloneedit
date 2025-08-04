@@ -14,7 +14,7 @@ export function EditForm() {
 				<label htmlFor="words">Words</label>
 				<span>1984</span> */}
 			{otherButtons.map((button, ix) => (
-				<button key={ix} style={{}}>{button}</button>
+				<button disabled key={ix} style={{}}>{button}</button>
 			))}
 			{smileys.map((smiley, ix) => (
 				<button key={ix} style={{}} onClick={() => setEditorActions([[action_insert, smiley]])}>{smiley}</button>

@@ -29,17 +29,18 @@ export function FilesForm() {
 		contextFileChanged(file)
 	}
 
-	const fileCommands = [
-		'新', // 新 Neu
-		'名', // 名 Umbenennen ( Name )
-		'删', // 删 Löschen
-	]
 
-	const storageCommands = [
-		'备', // 备 Backup ( vorbereiten, sichern )
-		'复', // 复 Restore ( wiederholen, zurückspielen )
-		'删', // 删 Löschen ( Reset to Defaults )
-	]
+	const fileCommands: Record<string, string> = {
+		['new']: '新', // 新 Neu
+		['rename']: '名',
+		['delete']: '删', // 删 Löschen
+	}
+
+	const storageCommands: Record<string, string> = {
+		['backub']: '备',
+		['restore']: '复', // 名 Duplizieren ( Kopieren )
+		['delete']: '删', // 删 Löschen
+	}
 
 	return (
 		<div id='filesForm' style={{ display: 'grid', gridTemplateColumns: 'auto auto', gap: '0.1rem' }}>
@@ -49,12 +50,12 @@ export function FilesForm() {
 				<div className='filesInputFlip' style={{ display: 'flex', gap: '0.1rem' }}>
 					<div style={{ position: 'relative', flexGrow: 1 }}>
 						<div style={{ position: 'absolute', right: 5, top: 1, color: settings.darkColor, opacity: 0.5, pointerEvents: 'none' }}>File</div>
-						<input type="text" id="file" value={fileInputText} onChange={e => setFileInputText(e.target.value)} style={{ width: '100%' }} />
+						<input disabled type="text" id="file" value={fileInputText} onChange={e => setFileInputText(e.target.value)} style={{ width: '100%' }} />
 					</div>
 					<div style={{ display: 'flex', gap: '0.1rem', flex: 1 }}>
-						{fileCommands.map((command, ix) => (
-							<button style={{flex: 1}}>{command}</button>
-						))}
+						<button disabled style={{ flex: 1, fontSize: 30 }}>{fileCommands['new']}</button>
+						<button disabled style={{ flex: 1, fontSize: 30 }}>{fileCommands['rename']}</button>
+						<button disabled style={{ flex: 1, fontSize: 30, color: settings.redColor }}>{fileCommands['delete']}</button>
 					</div>
 				</div>
 				<SingleSelect options={availableFiles} value={availableFiles[0]} onChange={fileChanged} style={{ width: '100%', height: '100%' }} />
@@ -65,19 +66,19 @@ export function FilesForm() {
 				<div className='filesInputFlip' style={{ display: 'flex', gap: '0.1rem' }}>
 					<div style={{ position: 'relative', flexGrow: 1 }}>
 						<div style={{ position: 'absolute', right: 5, top: 1, color: settings.darkColor, opacity: 0.5, pointerEvents: 'none' }}>Folder</div>
-						<input type="text" id="folder" value={folderInputText} onChange={e => setFolderInputText(e.target.value)} style={{ width: '100%' }} />
+						<input disabled type="text" id="folder" value={folderInputText} onChange={e => setFolderInputText(e.target.value)} style={{ width: '100%' }} />
 					</div>
 					<div style={{ display: 'flex', gap: '0.1rem', flex: 1 }}>
-						{fileCommands.map((command, ix) => (
-							<button style={{}}>{command}</button>
-						))}
+						<button disabled style={{ flex: 1, fontSize: 30 }}>{fileCommands['new']}</button>
+						<button disabled style={{ flex: 1, fontSize: 30 }}>{fileCommands['rename']}</button>
+						<button disabled style={{ flex: 1, fontSize: 30, color: settings.redColor }}>{fileCommands['delete']}</button>
 					</div>
 				</div>
 				<SingleSelect options={availableFolders} value={availableFolders[0]} onChange={folderChanged} style={{ width: '100%', height: '100%' }} />
 				<div style={{ display: 'flex', gap: '0.1rem' }}>
-					{storageCommands.map((command, ix) => (
-						<button style={{flex: 1}}>{command}</button>
-					))}
+						<button disabled style={{ flex: 1, fontSize: 30 }}>{fileCommands['new']}</button>
+						<button disabled style={{ flex: 1, fontSize: 30 }}>{fileCommands['rename']}</button>
+						<button disabled style={{ flex: 1, fontSize: 30, color: settings.redColor }}>{fileCommands['delete']}</button>
 				</div>
 			</div>
 

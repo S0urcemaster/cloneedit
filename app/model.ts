@@ -52,6 +52,7 @@ export type Settings = {
 	material: string
 	materialMedian: string
 	mezzoDarkColor: string
+	redColor: string
 	selectedColor: string
 	width: number // probably percent
 }

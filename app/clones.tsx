@@ -91,7 +91,7 @@ function Controller({ clone }: { clone: CloneModel }) {
 	return (
 		<div id='controller' style={{ display: 'flex', flexDirection: 'column' }}>
 			<div style={{ display: 'flex', gap: '0.1rem', flexWrap: 'wrap' }}>
-				<input style={{ width: 49, paddingLeft: 18 }} type='text' value={clone ? clone.id : 0} onChange={e => idChanged(e.target.value)} onBlur={handleIdSubmit} onKeyDown={handleKeyDown} onFocus={(e) => {
+				<input disabled style={{ width: 49, paddingLeft: 18 }} type='text' value={clone ? clone.id : 0} onChange={e => idChanged(e.target.value)} onBlur={handleIdSubmit} onKeyDown={handleKeyDown} onFocus={(e) => {
 					e.target.scrollIntoView({ behavior: 'smooth', block: 'center' })
 					e.target.select() // Wählt den gesamten Text im Input aus
 				}} />
@@ -100,15 +100,15 @@ function Controller({ clone }: { clone: CloneModel }) {
 				<button style={{ fontWeight: 'bold', fontSize: 'x-large' }}>⇣</button> */}
 				<input style={{ flexGrow: 1 }} type='text' value={clone ? clone.name : ''} onChange={e => nameChanged(e.target.value)} />
 				<div style={{ display: 'flex', gap: 1 }}>
-					{cloneCommands.slice(0, 3).map((command, ix) => (
-						<button key={ix} style={{ flex: 1 }}>{command}</button>
-					))}
-					<button style={{}} onClick={() => copyToClipboard(lib.updateEach(plainText, clone.effects))}>{cloneCommands[3]}</button>
+					<button disabled style={{ flex: 1, fontSize: 30 }}>{cloneCommands['new']}</button>
+					<button disabled style={{ flex: 1, fontSize: 30 }}>{cloneCommands['duplicate']}</button>
+					<button disabled style={{ flex: 1, fontSize: 30, color: settings.redColor }}>{cloneCommands['delete']}</button>
+					<button style={{ fontSize: 30 }} onClick={() => copyToClipboard(lib.updateEach(plainText, clone.effects))}>{cloneCommands['copy']}</button>
 				</div>
 			</div>
 
 			<div style={{ display: 'flex' }}>
-				<textarea
+				<textarea disabled
 					spellCheck={false}
 					value={clone ? lib.toTextEffects(clone.effects) : ''}
 					onChange={e => commandChanged(e.target.value)}
@@ -132,12 +132,12 @@ function Controller({ clone }: { clone: CloneModel }) {
 	)
 }
 
-const cloneCommands = [
-	'新', // 新 Neu
-	'拷', // 名 Duplizieren ( Kopieren )
-	'删', // 删 Löschen
-	'复', // 删 Kopieren ( Zwischenspeicher )
-]
+const cloneCommands: Record<string, string> = {
+	['new']: '新', // 新 Neu
+	['duplicate']: '拷', // 名 Duplizieren ( Kopieren )
+	['delete']: '删', // 删 Löschen
+	['copy']: '复', // 删 Kopieren ( Zwischenspeicher )
+}
 
 function Clone({ clone }: { clone?: CloneModel }) {
 	const { settings, selectedClone, setSelectedClone, plainText } = useCloneEditContext()
@@ -155,7 +155,7 @@ function Clone({ clone }: { clone?: CloneModel }) {
 		<div className='clone' style={{}}>
 			<div style={{ display: 'flex', overflow: 'hidden', padding: '0px 0px 0px 0px', gap: 1 }} onClick={deselect}>
 				<div style={{ width: '100%', background: settings.cloneTitleBackground, color: settings.darkColor, padding: '2px 0 3px 5px' }}>{clone.name}</div>
-				<button style={{ width: 99, minWidth: 99, height: 25, flex: 0 }} onClick={() => copyToClipboard(lib.updateEach(plainText, clone.effects))}>{cloneCommands[3]}</button>
+				<button style={{ width: 99, minWidth: 99, height: 25, flex: 0, fontSize: 19 }} onClick={() => copyToClipboard(lib.updateEach(plainText, clone.effects))}>{cloneCommands['copy']}</button>
 			</div>
 			<div style={{ flexGrow: 1, }}>
 				<textarea onClick={() => setSelectedClone(clone)}
