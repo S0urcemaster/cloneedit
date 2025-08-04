@@ -33,31 +33,31 @@ function Head() {
 		<div className='head' style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', paddingTop: 1, paddingBottom: 0, flexGrow: 1 }}>
 			<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexGrow: 1, paddingBottom: 1 }}>
 				<TabBar
-					buttonNames={['↶', '↷']}
+					buttonNames={['选', '删', '撤']} // 选 (alles) auswählen, 删 löschen, 撤 rückgängig
 					onTabClick={(direction: string) => history(direction)}
 					buttonStyle={{ fontSize: 30 }}
 				/>
 				<h1 className={fonts[FONT_GEMUNU_LIBRE].font.className + ' appTitleVisibility'}
 					style={{ fontSize: 28, paddingLeft: 5, height: 25, marginTop: -8, color: settings.cloneeditColor, cursor: 'help', whiteSpace: 'nowrap' }} onClick={showDocs}>
 					<div style={{ display: 'flex' }}>
-						<div>Cl</div><div style={{ fontSize: 'smaller', marginTop: 4 }}>☺</div><div>ne Edit</div>
+						<div>Cl</div><div style={{ fontSize: 'normal', marginTop: 4 }}>克</div><div>ne Edit</div>
 					</div>
 				</h1>
 				<TabBar
-					buttonNames={['☺', '☷', 'ℹ']}
+					buttonNames={['克', '文', '信']} // 克 Klon, 文 Datei (Dokument), 信 Info
 					onTabClick={(tabName: string) => setTab(tabName)}
 				/>
 			</div>
-			{tab === '☺' &&
+			{tab === '克' &&
 				<EditForm />
 			}
-			{tab === '☷' &&
+			{tab === '文' &&
 				<FilesForm />
 			}
 			{/* {tab === 'Dcmnt' &&
 				<SettingsForm />
 			} */}
-			{tab === 'ℹ' &&
+			{tab === '信' &&
 				<InfoForm />
 			}
 		</div>

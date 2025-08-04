@@ -29,6 +29,18 @@ export function FilesForm() {
 		contextFileChanged(file)
 	}
 
+	const fileCommands = [
+		'新', // 新 Neu
+		'名', // 名 Umbenennen ( Name )
+		'删', // 删 Löschen
+	]
+
+	const storageCommands = [
+		'备', // 备 Backup ( vorbereiten, sichern )
+		'复', // 复 Restore ( wiederholen, zurückspielen )
+		'删', // 删 Löschen ( Reset to Defaults )
+	]
+
 	return (
 		<div id='filesForm' style={{ display: 'grid', gridTemplateColumns: 'auto auto', gap: '0.1rem' }}>
 
@@ -40,9 +52,9 @@ export function FilesForm() {
 						<input type="text" id="file" value={fileInputText} onChange={e => setFileInputText(e.target.value)} style={{ width: '100%' }} />
 					</div>
 					<div style={{ display: 'flex', gap: '0.1rem', flex: 1 }}>
-						<button style={{}}>✱</button>
-						<button style={{}}>⚑</button>
-						<button style={{}}>✖</button>
+						{fileCommands.map((command, ix) => (
+							<button style={{flex: 1}}>{command}</button>
+						))}
 					</div>
 				</div>
 				<SingleSelect options={availableFiles} value={availableFiles[0]} onChange={fileChanged} style={{ width: '100%', height: '100%' }} />
@@ -56,16 +68,16 @@ export function FilesForm() {
 						<input type="text" id="folder" value={folderInputText} onChange={e => setFolderInputText(e.target.value)} style={{ width: '100%' }} />
 					</div>
 					<div style={{ display: 'flex', gap: '0.1rem', flex: 1 }}>
-						<button style={{}}>✱</button>
-						<button style={{}}>⚑</button>
-						<button style={{}}>✖</button>
+						{fileCommands.map((command, ix) => (
+							<button style={{}}>{command}</button>
+						))}
 					</div>
 				</div>
 				<SingleSelect options={availableFolders} value={availableFolders[0]} onChange={folderChanged} style={{ width: '100%', height: '100%' }} />
 				<div style={{ display: 'flex', gap: '0.1rem' }}>
-					<button style={{ flex: 1 }}>Backup</button>
-					<button style={{ flex: 1 }}>Restore</button>
-					<button style={{ flex: 0.5 }}>Reset</button>
+					{storageCommands.map((command, ix) => (
+						<button style={{flex: 1}}>{command}</button>
+					))}
 				</div>
 			</div>
 
