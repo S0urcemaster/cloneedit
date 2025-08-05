@@ -20,7 +20,6 @@ export function EditForm() {
 				<button key={ix} style={{}} onClick={() => setEditorActions([[action_insert, smiley]])}>{smiley}</button>
 			))}
 
-
 		</div>
 	)
 }

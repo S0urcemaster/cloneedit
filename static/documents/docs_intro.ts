@@ -6,6 +6,10 @@ export const document_docs_intro = {
          editor: {
             state: '',
             plainText: `Clone Edit Manual
+Symbols
+Tabs | 克 - Clone | 文 - File | 信 - Info
+Editor | 选 - Select all | 
+Symbols
 In short:
    Some buttons can be klicked AND double klicked . To store a value from the clipboard / double klick the button . With a single klick you fetch the value
 Introduction

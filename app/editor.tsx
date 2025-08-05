@@ -16,6 +16,7 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 import { fonts, FONT_GEMUNU_LIBRE, FONT_LEXEND, log } from '../static/constants'
 import { $updateStateFromJSON } from 'lexical/LexicalNodeState'
 import { $createRootNode } from 'lexical/nodes/LexicalRootNode'
+import { $generateHtmlFromNodes, $generateNodesFromDOM } from '@lexical/html'
 
 function Head() {
 	const { settings } = useCloneEditContext()
@@ -43,7 +44,7 @@ function Head() {
 						<div>Cl</div><div style={{ fontSize: 'normal', marginTop: 4 }}>克</div><div>ne Edit</div>
 					</div>
 				</h1>
-				<TabBar buttonStyle={{fontSize: 30}}
+				<TabBar buttonStyle={{ fontSize: 30 }}
 					buttonNames={['克', '文', '信']} // 克 Klon, 文 Datei (Dokument), 信 Info
 					onTabClick={(tabName: string) => setTab(tabName)}
 				/>
@@ -97,17 +98,26 @@ function EditorContent({ }) {
 	const { settings, editorActions, currentDocument, setPlainText, setEditorState } = useCloneEditContext()
 	const contentEditable = useRef<HTMLDivElement>(null)
 
+	const emptyEditor = useRef(true)
+
 	useEffect(() => {
-		if (!currentDocument?.editor?.state) return
-		const parsedEditorState = JSON.parse(currentDocument.editor.state)
-		log('parsedEditorState', parsedEditorState)
-		editor.update(() => {
-			$getRoot().updateFromJSON(parsedEditorState)
-			// $insertNodes(parsedEditorState)
-			// const root = $createRootNode()
-			// root.updateFromJSON(parsedEditorState)
-			// editor.setRootElement(root)
-		})
+		if(!currentDocument || !currentDocument.editor) return
+		if(emptyEditor.current) {
+			emptyEditor.current = false
+			let state = currentDocument.editor.state
+			log('EditorContent/[currentDocument]/state', state)
+			editor.update(() => {
+				if(state) {
+					const parser = new DOMParser()
+					const dom = parser.parseFromString(state, 'text/html')
+					const nodes = $generateNodesFromDOM(editor, dom)
+					log('EditorContent/[currentDocument]/nodes', nodes)
+					$getRoot().getFirstChild().replace(nodes[0])
+					// $getRoot().select()
+					// $insertNodes(nodes)
+				}
+			})
+		}
 	}, [currentDocument])
 
 	useEffect(() => {
@@ -115,9 +125,11 @@ function EditorContent({ }) {
 			switch (action[0]) {
 				case action_clear: clear()
 					break
-				case action_insert: insert(action[1])
+				case action_insert: 
+					// insert(action[1])
 					break
-				case action_getplaintext: insert(action[1])
+				case action_getplaintext: 
+					// insert(action[1])
 					break
 				default:
 			}
@@ -156,19 +168,21 @@ function EditorContent({ }) {
 
 	function clear() {
 		editor.update(() => {
-			$getRoot().clear()
-			let firstChild = $getRoot().getFirstChild() as ParagraphNode
-			if (!firstChild) firstChild = $createParagraphNode();
-			(firstChild as ParagraphNode).append($createTextNode('x'))
+			// $getRoot().clear()
+			// let firstChild = $getRoot().getFirstChild() as ParagraphNode
+			// if (!firstChild) firstChild = $createParagraphNode();
+			// (firstChild as ParagraphNode).append($createTextNode('x'))
+			// $getRoot().select().insertText('')
 		})
 	}
 
 	function onChange(editorState) { // debounced from onChangePlugin
-		log('onChangePlugin', editorState)
+		log('EditorContent/onChange/editorState', editorState)
 		editor.read(() => {
-			setPlainText($getRoot().getTextContent())
-			setEditorState(JSON.stringify(editorState.toJSON()))
-			log('$getRoot', $getRoot().getTextContent())
+			// setPlainText($getRoot().getTextContent())
+			const htmlString = $generateHtmlFromNodes(editor)
+			setEditorState(htmlString)
+			log('editorContent/onChange/htmlString', htmlString)
 		})
 	}
 

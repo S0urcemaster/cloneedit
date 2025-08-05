@@ -65,35 +65,38 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 
 	useEffect(() => {
 		log('✅ useEffect: mounted')
-		// const storage = loadStorage()
-		// const rev = lib.reviveEffects(storage.state)
-		// setState(rev)
-		setState(defaultState) // dev
+		const storage = loadStorage()
+		log('context/storage', storage)
+		const rev = lib.reviveEffects(storage.state)
+		setState(rev)
+		// setState(defaultState) // dev
 	}, [])
 
 	useEffect(() => {
 		if (!state) return
 		setCurrentDocument(state.documents[0])
 		setSettings(state.settings)
+		log('context/[state]/state', state)
 	}, [state])
 
 	useEffect(() => {
-		log('[currentDocument]', currentDocument)
-		if(!currentDocument) return
+		log('context/[currentDocument]/currentDocument', currentDocument)
+		if (!currentDocument) return
 		// setEditorActions([[action_clear, ''], [action_insert, currentDocument.editor.plainText]])
 		// setSelectedClone(currentDocument.clones[0])
 	}, [currentDocument])
 
 	function setEditorState(editorState: string) {
-		log('context/setEditorState', editorState)
-		if (editorState.startsWith('{"root":{"children":[{"children":[]')) return
+		log('context/setEditorState/editorState', editorState)
+		// if (editorState.startsWith('{"root":{"children":[{"children":[]')) return
 		currentDocument.editor.state = editorState
 		saveStorage({ state: state })
+		log('context/setEditorState/loadStorage', loadStorage())
 		// setCurrentDocument({...currentDocument}) // editor already up to date . when save ?
 	}
 
 	function updateCommand(clone: CloneModel, line: string) {
-		log('context/updateCommand', clone, line)
+		log('context/updateCommand/clone, line', clone, line)
 		const updatedClones = currentDocument.clones.map(c =>
 			c.id === clone.id ? { ...c, effect: { ...c.effects[0], command: line } } : c // c.effects[0] TODO
 		)
