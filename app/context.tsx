@@ -36,7 +36,7 @@ export const action_getplaintext = 'getplaintext'
 
 export type EditorAction = [
 	name: string,
-	payload: string
+	payload?: string
 ]
 
 export function CloneEditContextProvider({ children }: { children: ReactNode }) {
@@ -82,8 +82,7 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 	useEffect(() => {
 		log('context/[currentDocument]/currentDocument', currentDocument)
 		if (!currentDocument) return
-		// setEditorActions([[action_clear, ''], [action_insert, currentDocument.editor.plainText]])
-		// setSelectedClone(currentDocument.clones[0])
+		if(!currentDocument.editor?.state) setEditorActions([[action_clear]])
 	}, [currentDocument])
 
 	function setEditorState(editorState: string) {

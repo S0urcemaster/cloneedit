@@ -3,7 +3,7 @@ import { TabBar } from '../components/TabBar'
 import { EditForm } from '../editor/editForm'
 import { FilesForm } from '../editor/filesForm'
 import { InfoForm } from '../editor/infoForm'
-import { action_clear, action_getplaintext, action_insert, useCloneEditContext } from './context'
+import { action_clear, action_insert, useCloneEditContext } from './context'
 
 import { $createNodeSelection, $createParagraphNode, $createPoint, $createRangeSelection, $createTextNode, $getRoot, $getSelection, $getTextContent, $insertNodes, $isElementNode, $isParagraphNode, $isRangeSelection, $isTextNode, $setSelection, $setState, BaseSelection, LexicalEditor, LexicalNode, ParagraphNode, RangeSelection, TextNode } from 'lexical'
 // import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin'
@@ -18,8 +18,21 @@ import { $updateStateFromJSON } from 'lexical/LexicalNodeState'
 import { $createRootNode } from 'lexical/nodes/LexicalRootNode'
 import { $generateHtmlFromNodes, $generateNodesFromDOM } from '@lexical/html'
 
+
+const editorCommands: Record<string, string> = {
+	['selectall']: '选',
+	['delete']: '删',
+	['undo']: '撤',
+}
+
+const menuCommands: Record<string, string> = {
+	['clone']: '克',
+	['file']: '文',
+	['info']: '信',
+}
+
 function Head() {
-	const { settings } = useCloneEditContext()
+	const { settings, setEditorActions } = useCloneEditContext()
 
 	const [tab, setTab] = useState('克')
 
@@ -32,22 +45,21 @@ function Head() {
 
 	return (
 		<div className='head' style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', paddingTop: 1, paddingBottom: 0, flexGrow: 1 }}>
-			<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexGrow: 1, paddingBottom: 1 }}>
-				<TabBar disabled
-					buttonNames={['选', '删', '撤']} // 选 (alles) auswählen, 删 löschen, 撤 rückgängig
-					onTabClick={(direction: string) => history(direction)}
-					buttonStyle={{ fontSize: 30 }}
-				/>
-				<h1 className={fonts[FONT_GEMUNU_LIBRE].font.className + ' appTitleVisibility'}
-					style={{ fontSize: 28, paddingLeft: 5, height: 25, marginTop: -8, color: settings.cloneeditColor, cursor: 'help', whiteSpace: 'nowrap' }} onClick={showDocs}>
-					<div style={{ display: 'flex' }}>
-						<div>Cl</div><div style={{ fontSize: 'normal', marginTop: 4 }}>克</div><div>ne Edit</div>
-					</div>
-				</h1>
-				<TabBar buttonStyle={{ fontSize: 30 }}
-					buttonNames={['克', '文', '信']} // 克 Klon, 文 Datei (Dokument), 信 Info
-					onTabClick={(tabName: string) => setTab(tabName)}
-				/>
+			<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flex: 1, paddingBottom: 1, gap: 1 }}>
+				<button disabled style={{ fontSize: 30 }}>{editorCommands['selectall']}</button>
+				<button style={{ fontSize: 30, color: settings.redColor }} onClick={() => setEditorActions([['clear']])}>{editorCommands['delete']}</button>
+				<button disabled style={{ fontSize: 30 }}>{editorCommands['undo']}</button>
+				<div style={{ display: 'flex', flex: 1, justifyContent: 'center' }}>
+					<h1 className={fonts[FONT_GEMUNU_LIBRE].font.className + ' appTitleVisibility'}
+						style={{ fontSize: 28, paddingLeft: 5, height: 25, marginTop: -8, color: settings.cloneeditColor, cursor: 'help', whiteSpace: 'nowrap' }} onClick={showDocs}>
+						<div style={{ display: 'flex' }}>
+							<div>Cl</div><div style={{ fontSize: 'normal', marginTop: 4 }}>克</div><div>ne Edit</div>
+						</div>
+					</h1>
+				</div>
+				<button style={{ fontSize: 30, color: settings.blueColor }} onMouseDown={() => setTab(menuCommands['clone'])}>{menuCommands['clone']}</button>
+				<button style={{ fontSize: 30, color: settings.yellowColor }} onMouseDown={() => setTab(menuCommands['file'])}>{menuCommands['file']}</button>
+				<button style={{ fontSize: 30, color: settings.cloneeditColor }} onMouseDown={() => setTab(menuCommands['info'])}>{menuCommands['info']}</button>
 			</div>
 			{tab === '克' &&
 				<EditForm />
@@ -101,22 +113,27 @@ function EditorContent({ }) {
 	const emptyEditor = useRef(true)
 
 	useEffect(() => {
-		if(!currentDocument || !currentDocument.editor) return
-		if(emptyEditor.current) {
+		if (!currentDocument || !currentDocument.editor) return
+		if (emptyEditor.current) {
 			emptyEditor.current = false
 			let state = currentDocument.editor.state
 			log('EditorContent/[currentDocument]/state', state)
 			editor.update(() => {
-				if(state) {
+				if (state) {
 					const parser = new DOMParser()
 					const dom = parser.parseFromString(state, 'text/html')
 					const nodes = $generateNodesFromDOM(editor, dom)
 					log('EditorContent/[currentDocument]/nodes', nodes)
-					$getRoot().getFirstChild().replace(nodes[0])
-					// $getRoot().select()
-					// $insertNodes(nodes)
+					const children = $getRoot().getChildren()
+					for (let i = 0; i < children.length; i++) {
+						children[i].remove(true)
+					}
+					$getRoot().append(...nodes)
 				}
 			})
+		}
+		return () => {
+			emptyEditor.current = true
 		}
 	}, [currentDocument])
 
@@ -125,10 +142,7 @@ function EditorContent({ }) {
 			switch (action[0]) {
 				case action_clear: clear()
 					break
-				case action_insert: 
-					// insert(action[1])
-					break
-				case action_getplaintext: 
+				case action_insert:
 					// insert(action[1])
 					break
 				default:
@@ -168,11 +182,10 @@ function EditorContent({ }) {
 
 	function clear() {
 		editor.update(() => {
-			// $getRoot().clear()
-			// let firstChild = $getRoot().getFirstChild() as ParagraphNode
-			// if (!firstChild) firstChild = $createParagraphNode();
-			// (firstChild as ParagraphNode).append($createTextNode('x'))
-			// $getRoot().select().insertText('')
+			const children = $getRoot().getChildren()
+			for (let i = 0; i < children.length; i++) {
+				children[i].remove(true)
+			}
 		})
 	}
 

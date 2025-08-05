@@ -19,7 +19,10 @@ export const settings_default_light = {
    material: 'linear-gradient(to right, #5d7c8fff, #6ba2c6ff)',
    materialMedian: '#638da8',
    mezzoDarkColor: '#696e7eff',
-   redColor: '#a43434ff',
    selectedColor: '#d6efffff',
    width: 800,
+
+   redColor: '#a43434ff',   
+   blueColor: '#3457a4ff',   
+   yellowColor: '#a48a34ff',   
 }
