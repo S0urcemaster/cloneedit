@@ -30,10 +30,6 @@ export type CloneEditContext = {
 
 const CloneEditContext = createContext<CloneEditContext>({} as CloneEditContext)
 
-export const action_clear = 'clear'
-export const action_insert = 'insert'
-export const action_getplaintext = 'getplaintext'
-
 export type EditorAction = [
 	name: string,
 	payload?: string
@@ -82,7 +78,7 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 	useEffect(() => {
 		log('context/[currentDocument]/currentDocument', currentDocument)
 		if (!currentDocument) return
-		if(!currentDocument.editor?.state) setEditorActions([[action_clear]])
+		if(!currentDocument.editor?.state) setEditorActions([['clear']])
 	}, [currentDocument])
 
 	function setEditorState(editorState: string) {

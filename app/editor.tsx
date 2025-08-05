@@ -3,7 +3,7 @@ import { TabBar } from '../components/TabBar'
 import { EditForm } from '../editor/editForm'
 import { FilesForm } from '../editor/filesForm'
 import { InfoForm } from '../editor/infoForm'
-import { action_clear, action_insert, useCloneEditContext } from './context'
+import { useCloneEditContext } from './context'
 
 import { $createNodeSelection, $createParagraphNode, $createPoint, $createRangeSelection, $createTextNode, $getRoot, $getSelection, $getTextContent, $insertNodes, $isElementNode, $isParagraphNode, $isRangeSelection, $isTextNode, $setSelection, $setState, BaseSelection, LexicalEditor, LexicalNode, ParagraphNode, RangeSelection, TextNode } from 'lexical'
 // import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin'
@@ -140,10 +140,10 @@ function EditorContent({ }) {
 	useEffect(() => {
 		editorActions?.map((action) => {
 			switch (action[0]) {
-				case action_clear: clear()
+				case 'clear': clear()
 					break
-				case action_insert:
-					// insert(action[1])
+				case 'insert':
+					insert(action[1])
 					break
 				default:
 			}
