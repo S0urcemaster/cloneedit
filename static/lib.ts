@@ -13,7 +13,7 @@ export const lib = {
 		effects.map(effect => {
 			const eff = storedEffects[effect.name]
 			if(!eff) {
-				errors += 'no such effect : ' +effect.name +' ' +effects[effect.name]
+				errors += 'no such effect : ' +effect.name +' ' +storedEffects[effect.name]
 			} else {
 				effect.args ? result = eff.update(result, ...effect.args) : result += eff.update(result)
 			}

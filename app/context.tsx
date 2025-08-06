@@ -9,6 +9,7 @@ import { loadStorage, saveStorage } from './localStorage'
 
 export type CloneEditContext = {
 	currentDocument?: Document
+	clones: CloneModel[]
 	settings: Settings
 	availableFolders: string[]
 	currentFolder: string
@@ -25,7 +26,8 @@ export type CloneEditContext = {
 	setEditorState: (state: any) => void
 	setPlainText: (text: string) => void
 	updateEffectCommand: (command: string) => void
-	cloneIdChanged: (clone: CloneModel, id: number) => void
+	cloneIdChanged: (id: number) => void
+	sourceIdChanged: (id: number) => void
 }
 
 const CloneEditContext = createContext<CloneEditContext>({} as CloneEditContext)
@@ -59,6 +61,8 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 
 	const [selectedClone, setSelectedClone] = useState<CloneModel | undefined>()
 
+	const [clones, setClones] = useState<CloneModel[]>()
+
 	useEffect(() => {
 		log('✅ useEffect: mounted')
 		const storage = loadStorage()
@@ -78,6 +82,7 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 		log('context/[currentDocument]/currentDocument', currentDocument)
 		if (!currentDocument) return
 		if(!currentDocument.editor?.state) setEditorActions([['clear']])
+		setClones(currentDocument.clones) // avoid focus jumps when working with clones
 	}, [currentDocument])
 
 	function setEditorState(editorState: string) {
@@ -86,33 +91,38 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 		currentDocument.editor.state = editorState
 		saveStorage({ state: state })
 		log('context/setEditorState/loadStorage', loadStorage())
-		// setCurrentDocument({...currentDocument}) // editor already up to date . when save ?
 	}
 
 	function updateEffectCommand(command: string) {
 		if(!command) return
 		log('context/updateEffectCommand/clone, command', selectedClone, `"${command}"`)
-		const ourClone = currentDocument.clones.find(c => {
-			return c.id === selectedClone.id
+		let id = -1
+		const ourClone = currentDocument.clones.find((c, ix) => {
+			if(c.id === selectedClone.id) {
+				id = ix
+				return true
+			}
 		})
 		const effs = lib.fromTextEffects(command)
 		ourClone.effects = effs
-		selectedClone.effects = effs
-		setSelectedClone({...selectedClone})
+		clones.splice(id, 1, ourClone)
+		setClones([...clones])
+		setSelectedClone({...ourClone})
 		// setCurrentDocument({ ...currentDocument, clones: updatedClones })
 	}
 
-	function cloneIdChanged(clone: CloneModel, newId: number) {
+	function cloneIdChanged(newId: number) {
+		if(!currentDocument) return
 		// Handle edge cases for newId
 		const maxId = currentDocument.clones.length
 		const adjustedId = Math.max(0, Math.min(newId, maxId)) // Clamp ID between 0 and list length
 
 		// Create a new array without the clone to be repositioned
-		const updatedClones = currentDocument.clones.filter(c => c.id !== clone.id)
+		const updatedClones = currentDocument.clones.filter(c => c.id !== selectedClone.id)
 
 		// Insert the clone at the new position (adjustedId as index)
 		const insertIndex = adjustedId === 0 ? 0 : Math.min(adjustedId - 1, updatedClones.length)
-		updatedClones.splice(insertIndex, 0, { ...clone, id: adjustedId })
+		updatedClones.splice(insertIndex, 0, { ...selectedClone, id: adjustedId })
 
 		// Reassign IDs sequentially starting from 1
 		const reindexedClones = updatedClones.map((c, index) => ({
@@ -124,32 +134,38 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 		setCurrentDocument({ ...currentDocument, clones: reindexedClones })
 
 		// Update selectedClone if it was the moved clone
-		if (selectedClone.id === clone.id) {
+		if (selectedClone.id === selectedClone.id) {
 			const newSelectedClone = reindexedClones.find(c => c.id === insertIndex + 1) || reindexedClones[0]
 			setSelectedClone(newSelectedClone)
 		}
 	}
 
+	function sourceIdChanged(newId: number) {
+
+	}
+
 	return (
 		<CloneEditContext.Provider value={{
-			currentDocument: currentDocument,
-			settings: settings,
-			availableFolders: availableFolders,
-			currentFolder: currentFolder,
-			availableFiles: availableFiles,
-			currentFile: currentFile,
-			selectedClone: selectedClone,
-			editorActions: editorActions,
-			plainText: plainText,
-			updateEffectCommand: updateEffectCommand,
-			folderChanged: folderChanged,
-			fileChanged: fileChanged,
-			setCurrentFile: setCurrentFile,
-			setSelectedClone: setSelectedClone,
-			setEditorActions: setEditorActions,
-			setEditorState: setEditorState,
-			setPlainText: setPlainText,
+			currentDocument,
+			clones,
+			settings,
+			availableFolders,
+			currentFolder,
+			availableFiles,
+			currentFile,
+			selectedClone,
+			editorActions,
+			plainText,
+			updateEffectCommand,
+			folderChanged,
+			fileChanged,
+			setCurrentFile,
+			setSelectedClone,
+			setEditorActions,
+			setEditorState,
+			setPlainText,
 			cloneIdChanged,
+			sourceIdChanged,
 		}}>
 			{children}
 		</ CloneEditContext.Provider>

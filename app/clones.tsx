@@ -5,14 +5,16 @@ import { useCloneEditContext } from './context'
 import { lib } from '../static/lib'
 import { log } from '../static/constants'
 import { useClipboard } from './hooks'
+import { NumButton } from '../components/NumButton'
 
 function Controller({clone}: {clone: CloneModel}) {
 
-	const { settings, plainText, updateEffectCommand, cloneIdChanged } = useCloneEditContext()
+	const { settings, plainText, updateEffectCommand, cloneIdChanged, sourceIdChanged } = useCloneEditContext()
 
 	const { copyToClipboard } = useClipboard()
 
 	const [cloneId, setCloneId] = useState(0)
+	const [sourceId, setSourceId] = useState(0)
 
 	const [command, setCommand] = useState('')
 
@@ -26,7 +28,7 @@ function Controller({clone}: {clone: CloneModel}) {
 
 	useEffect(() => {
 		if(!clone) return
-		if(command.endsWith(' ')) return
+		// if(command.endsWith(' ')) return
 		log('Controller/commandChanged', command)
 
 		if (timeoutId.current !== null) {
@@ -38,52 +40,24 @@ function Controller({clone}: {clone: CloneModel}) {
 			log(`Controller/commandChanged called with: ${command}`)
 			updateEffectCommand(command)
 			timeoutId.current = null
-		}, 250)
+		}, 500)
 
 		log(`Timeout set for updateCommand with: ${command}`)
+		return () => {
+			clearTimeout(timeoutId.current)
+		}
 	}, [command])
+
+	useEffect(() => {
+		cloneIdChanged(cloneId)
+	}, [cloneId])
+
+	useEffect(() => {
+		sourceIdChanged(cloneId)
+	}, [sourceId])
 
 	function nameChanged(name: string) {
 
-	}
-
-	function idChanged(id: string) {
-		if (id === '') return
-		setCloneId(parseInt(id)) // Update local state
-	}
-
-	function handleIdSubmit() {
-		if (cloneId !== clone.id) {
-			cloneIdChanged(clone, cloneId) // Submit to context
-			log(`Clone ID changed to: ${cloneId}`)
-		}
-	}
-
-	function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-		// Erlaube nur Ziffern, Enter, Done, Go, Backspace, Delete, Tab, Pfeiltasten
-		const allowedKeys = [
-			'Enter',
-			'Done',
-			'Go',
-			'Backspace',
-			'Delete',
-			'Tab',
-			'ArrowLeft',
-			'ArrowRight',
-			'ArrowUp',
-			'ArrowDown',
-		]
-		const isDigit = /^\d$/.test(e.key)
-
-		if (!isDigit && !allowedKeys.includes(e.key)) {
-			e.preventDefault() // Blockiere ungültige Tasten
-			return
-		}
-
-		// Bei Enter, Done oder Go die Eingabe abschicken
-		if (e.key === 'Enter' || e.key === 'Done' || e.key === 'Go') {
-			handleIdSubmit()
-		}
 	}
 
 	function positionChanged(name: string) {
@@ -97,13 +71,8 @@ function Controller({clone}: {clone: CloneModel}) {
 	return (
 		<div id='controller' style={{ display: 'flex', flexDirection: 'column' }}>
 			<div style={{ display: 'flex', gap: '0.1rem', flexWrap: 'wrap' }}>
-				<input disabled style={{ width: 49, paddingLeft: 18 }} type='text' value={clone ? clone.id : 0} onChange={e => idChanged(e.target.value)} onBlur={handleIdSubmit} onKeyDown={handleKeyDown} onFocus={(e) => {
-					e.target.scrollIntoView({ behavior: 'smooth', block: 'center' })
-					e.target.select() // Wählt den gesamten Text im Input aus
-				}} />
-				{/* <button style={{ fontWeight: 'bold', fontSize: 'x-large' }}>⇡</button>
-				<button style={{ cursor: 'default' }} disabled>{selectedClone.id}</button>
-				<button style={{ fontWeight: 'bold', fontSize: 'x-large' }}>⇣</button> */}
+				<NumButton value={cloneId} onChange={id => setCloneId(id)} />
+				<NumButton value={sourceId} onChange={id => setSourceId(id)} />
 				<input disabled style={{ flexGrow: 1 }} type='text' value={clone ? clone.name : ''} onChange={e => nameChanged(e.target.value)} />
 				<div style={{ display: 'flex', gap: 1 }}>
 					<button disabled style={{ flex: 1, fontSize: 30 }}>{cloneCommands['new']}</button>
@@ -189,13 +158,13 @@ function Clone({ clone }: { clone?: CloneModel }) {
 
 export default function Clones() {
 
-	const { settings, currentDocument, selectedClone } = useCloneEditContext()
+	const { settings, clones, selectedClone } = useCloneEditContext()
 
 	return (
 		<div id='clones' style={{ background: settings.material }}>
 			<Controller clone={selectedClone} />
 			<div style={{ display: 'flex', flexDirection: 'column', height: 250, overflowY: 'scroll' }}>
-				{currentDocument?.clones.map((clone, ix) => (
+				{clones?.map((clone, ix) => (
 					<Clone key={ix} clone={clone} />
 				))}
 			</div>
