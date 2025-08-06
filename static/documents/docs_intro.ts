@@ -7,9 +7,11 @@ export const document_docs_intro = {
             state: `<p class="editor-paragraph" dir="ltr">
 <span style="white-space: pre-wrap;">Clone Edit Manual</span></p>
 <p class="editor-paragraph" dir="ltr"><span style="white-space: pre-wrap;">Symbols</span></p>
-<p class="editor-paragraph" dir="ltr"><span style="white-space: pre-wrap;">Tabs | 克 - Clone | 文 - File | 信 - Info</span></p>
-<p class="editor-paragraph" dir="ltr"><span style="white-space: pre-wrap;">Editor | 选 - Select all | </span><span style="color: red;">删</span><span>Delete </span></p>
-<p class="editor-paragraph" dir="ltr"><span style="white-space: pre-wrap;">Symbols</span></p>
+<p class="editor-paragraph" dir="ltr"><span style="white-space: pre-wrap;">克 - Clone</span></p>
+<p class="editor-paragraph" dir="ltr"><span style="white-space: pre-wrap;">文 - File</span></p>
+<p class="editor-paragraph" dir="ltr"><span style="white-space: pre-wrap;">信 - Info</span></p>
+<p class="editor-paragraph" dir="ltr"><span>删 - Clear / Delete</span></p>
+<p class="editor-paragraph" dir="ltr"><span style="white-space: pre-wrap;">复 - Copy</span></p>
 `,
 
             plainText: `Clone Edit Manual

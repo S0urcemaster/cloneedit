@@ -104,11 +104,92 @@ button {
 }
 
 button:hover {
+	padding: 1px 13px 2px 11px;
 	color: var(--editor-color)
 }
 
 button:active {
+	padding: 1px 11px 2px 13px;
 	background: var(--button-active-background);
+}
+
+button:disabled {
+	background: none;
+	background-color: #88a290;
+	cursor: progress;
+}
+
+.redButton {
+	padding: 0px 12px 3px 12px;
+	color: var(--red-color)
+}
+
+.redButton:hover {
+	padding: 1px 13px 2px 11px;
+	color: var(--editor-color)
+}
+
+.redButton:active {
+	padding: 1px 11px 2px 13px;
+	background: var(--button-active-background);
+}
+
+.blueButton {
+	padding: 0px 12px 3px 12px;
+	color: var(--blue-color)
+}
+
+.blueButton:hover {
+	padding: 1px 13px 2px 11px;
+	color: var(--editor-color)
+}
+
+.blueButton:active {
+	padding: 1px 11px 2px 13px;
+	background: var(--button-active-background);
+}
+
+.yellowButton {
+	padding: 0px 12px 3px 12px;
+	color: var(--yellow-color)
+}
+
+.yellowButton:hover {
+	padding: 1px 13px 2px 11px;
+	color: var(--editor-color)
+}
+
+.yellowButton:active {
+	padding: 1px 11px 2px 13px;
+	background: var(--button-active-background);
+}
+
+.whiteButton {
+	padding: 0px 12px 3px 12px;
+	color: var(--cloneedit-color)
+}
+
+.whiteButton:hover {
+	padding: 1px 13px 2px 11px;
+	color: var(--editor-color)
+}
+
+.whiteButton:active {
+	padding: 1px 11px 2px 13px;
+	background: var(--button-active-background);
+}
+
+.smileyButton {
+	padding: 0px 12px 3px 12px;
+}
+
+.smileyButton:hover {
+	padding: 1px 13px 2px 11px;
+}
+
+.smileyButton:active {
+	padding: 1px 11px 2px 13px;
+
 }
 
 input,
@@ -139,14 +220,9 @@ label {
 	pointer-events: none;
 }
 
-button:disabled {
-	background-color: var(--bright-color);
-	cursor: wait;
-}
-
 input:disabled {
 	background-color: var(--bright-color);
-	cursor: wait;
+	cursor: progress;
 }
 
 input:focus,

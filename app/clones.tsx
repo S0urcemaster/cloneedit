@@ -98,7 +98,7 @@ function Controller({ clone }: { clone: CloneModel }) {
 				{/* <button style={{ fontWeight: 'bold', fontSize: 'x-large' }}>⇡</button>
 				<button style={{ cursor: 'default' }} disabled>{selectedClone.id}</button>
 				<button style={{ fontWeight: 'bold', fontSize: 'x-large' }}>⇣</button> */}
-				<input style={{ flexGrow: 1 }} type='text' value={clone ? clone.name : ''} onChange={e => nameChanged(e.target.value)} />
+				<input disabled style={{ flexGrow: 1 }} type='text' value={clone ? clone.name : ''} onChange={e => nameChanged(e.target.value)} />
 				<div style={{ display: 'flex', gap: 1 }}>
 					<button disabled style={{ flex: 1, fontSize: 30 }}>{cloneCommands['new']}</button>
 					<button disabled style={{ flex: 1, fontSize: 30 }}>{cloneCommands['duplicate']}</button>
@@ -124,7 +124,7 @@ function Controller({ clone }: { clone: CloneModel }) {
 						margin: 0,
 						fontSize: settings.effectEditorFontSize,
 						fontFamily: 'monospace',
-
+						cursor: 'progress',
 					}}
 				/>
 			</div>

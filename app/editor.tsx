@@ -32,7 +32,7 @@ const menuCommands: Record<string, string> = {
 }
 
 function Head() {
-	const { settings, setEditorActions } = useCloneEditContext()
+	const { settings, currentFolder, currentFile, setEditorActions } = useCloneEditContext()
 
 	const [tab, setTab] = useState('克')
 
@@ -47,7 +47,7 @@ function Head() {
 		<div className='head' style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', paddingTop: 1, paddingBottom: 0, flexGrow: 1 }}>
 			<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flex: 1, paddingBottom: 1, gap: 1 }}>
 				<button disabled style={{ fontSize: 30 }}>{editorCommands['selectall']}</button>
-				<button style={{ fontSize: 30, color: settings.redColor }} onClick={() => setEditorActions([['clear']])}>{editorCommands['delete']}</button>
+				<button className='redButton' style={{ fontSize: 30 }} onClick={() => setEditorActions([['clear']])}>{editorCommands['delete']}</button>
 				<button disabled style={{ fontSize: 30 }}>{editorCommands['undo']}</button>
 				<div style={{ display: 'flex', flex: 1, justifyContent: 'center' }}>
 					<h1 className={fonts[FONT_GEMUNU_LIBRE].font.className + ' appTitleVisibility'}
@@ -57,9 +57,9 @@ function Head() {
 						</div>
 					</h1>
 				</div>
-				<button style={{ fontSize: 30, color: settings.blueColor }} onMouseDown={() => setTab(menuCommands['clone'])}>{menuCommands['clone']}</button>
-				<button style={{ fontSize: 30, color: settings.yellowColor }} onMouseDown={() => setTab(menuCommands['file'])}>{menuCommands['file']}</button>
-				<button style={{ fontSize: 30, color: settings.cloneeditColor }} onMouseDown={() => setTab(menuCommands['info'])}>{menuCommands['info']}</button>
+				<button className='blueButton' style={{ fontSize: 30 }} onMouseDown={() => setTab(menuCommands['clone'])}>{menuCommands['clone']}</button>
+				<button className='yellowButton' style={{ fontSize: 30 }} onMouseDown={() => setTab(menuCommands['file'])}>{menuCommands['file']}</button>
+				<button className='whiteButton' style={{ fontSize: 30 }} onMouseDown={() => setTab(menuCommands['info'])}>{menuCommands['info']}</button>
 			</div>
 			{tab === '克' &&
 				<EditForm />
@@ -195,6 +195,9 @@ function EditorContent({ }) {
 			// setPlainText($getRoot().getTextContent())
 			const htmlString = $generateHtmlFromNodes(editor)
 			setEditorState(htmlString)
+			setPlainText($getRoot().getChildren().map(paragraph => {
+				return paragraph.getTextContent()
+			}).join('\n'))
 			log('editorContent/onChange/htmlString', htmlString)
 		})
 	}

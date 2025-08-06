@@ -9,7 +9,7 @@ import { settings_default_light } from './themes/default_light'
 import { App } from '../app/model'
 
 export const log = (...args) => {
-   console.log(...args)
+   // console.log(...args)
 }
 
 export const smileys = [

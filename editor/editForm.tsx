@@ -17,7 +17,7 @@ export function EditForm() {
 				<button disabled key={ix} style={{}}>{button}</button>
 			))}
 			{smileys.map((smiley, ix) => (
-				<button key={ix} style={{}} onClick={() => setEditorActions([['insert', smiley]])}>{smiley}</button>
+				<button className="smileyButton" key={ix} style={{}} onClick={() => setEditorActions([['insert', smiley]])}>{smiley}</button>
 			))}
 
 		</div>
