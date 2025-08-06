@@ -6,19 +6,42 @@ import { lib } from '../static/lib'
 import { log } from '../static/constants'
 import { useClipboard } from './hooks'
 
-function Controller({ clone }: { clone: CloneModel }) {
+function Controller({clone}: {clone: CloneModel}) {
 
-	const { settings, selectedClone, plainText,
-		updateEffectCommand, cloneIdChanged } = useCloneEditContext()
+	const { settings, plainText, updateEffectCommand, cloneIdChanged } = useCloneEditContext()
 
 	const { copyToClipboard } = useClipboard()
 
 	const [cloneId, setCloneId] = useState(0)
 
+	const [command, setCommand] = useState('')
+
+	const timeoutId = useRef<NodeJS.Timeout | null>(null)
+
 	useEffect(() => {
 		if (!clone) return
 		setCloneId(clone.id)
+		setCommand(lib.toTextEffects(clone.effects))
 	}, [clone])
+
+	useEffect(() => {
+		if(!clone) return
+		if(command.endsWith(' ')) return
+		log('Controller/commandChanged', command)
+
+		if (timeoutId.current !== null) {
+			clearTimeout(timeoutId.current)
+			log('Previous timeout cancelled')
+		}
+
+		timeoutId.current = setTimeout(() => {
+			log(`Controller/commandChanged called with: ${command}`)
+			updateEffectCommand(command)
+			timeoutId.current = null
+		}, 250)
+
+		log(`Timeout set for updateCommand with: ${command}`)
+	}, [command])
 
 	function nameChanged(name: string) {
 
@@ -30,7 +53,7 @@ function Controller({ clone }: { clone: CloneModel }) {
 	}
 
 	function handleIdSubmit() {
-		if (cloneId !== selectedClone.id) {
+		if (cloneId !== clone.id) {
 			cloneIdChanged(clone, cloneId) // Submit to context
 			log(`Clone ID changed to: ${cloneId}`)
 		}
@@ -71,23 +94,6 @@ function Controller({ clone }: { clone: CloneModel }) {
 
 	}
 
-	function commandChanged(line: string) {
-		const timeoutId = useRef<NodeJS.Timeout | null>(null);
-
-		if (timeoutId.current !== null) {
-			clearTimeout(timeoutId.current);
-			log('Previous timeout cancelled');
-		}
-
-		timeoutId.current = setTimeout(() => {
-			updateEffectCommand(clone, line);
-			log(`updateCommand called with: ${line}`);
-			timeoutId.current = null;
-		}, 250);
-
-		log(`Timeout set for updateCommand with: ${line}`);
-	}
-
 	return (
 		<div id='controller' style={{ display: 'flex', flexDirection: 'column' }}>
 			<div style={{ display: 'flex', gap: '0.1rem', flexWrap: 'wrap' }}>
@@ -108,10 +114,10 @@ function Controller({ clone }: { clone: CloneModel }) {
 			</div>
 
 			<div style={{ display: 'flex' }}>
-				<textarea disabled
+				<textarea disabled={!clone && true}
 					spellCheck={false}
-					value={clone ? lib.toTextEffects(clone.effects) : ''}
-					onChange={e => commandChanged(e.target.value)}
+					value={command}
+					onChange={e => setCommand(e.target.value)}
 					rows={2}
 					placeholder={'Type Effect'}
 					style={{
@@ -124,7 +130,7 @@ function Controller({ clone }: { clone: CloneModel }) {
 						margin: 0,
 						fontSize: settings.effectEditorFontSize,
 						fontFamily: 'monospace',
-						cursor: 'progress',
+						// cursor: 'progress',
 					}}
 				/>
 			</div>
@@ -144,8 +150,9 @@ function Clone({ clone }: { clone?: CloneModel }) {
 	const { copyToClipboard } = useClipboard()
 
 	useEffect(() => {
-		log('clone', clone)
-	}, [clone])
+		if(!clone || !selectedClone) return
+		log('Clone/[clone]/clone, selectedClone', clone, selectedClone.id)
+	}, [clone, selectedClone])
 
 	function deselect() {
 		setSelectedClone(undefined)
@@ -159,9 +166,6 @@ function Clone({ clone }: { clone?: CloneModel }) {
 			</div>
 			<div style={{ flexGrow: 1, }}>
 				<textarea onClick={() => setSelectedClone(clone)}
-					// value={clone.effects[0].args ? 
-					// 	clone.effects[0].update(plainText, ...clone.effects[0].args) : 
-					// 	clone.effects[0].update(plainText)}
 					value={lib.updateEach(plainText, clone.effects)}
 					rows={selectedClone?.id == clone.id ? 8 : 3}
 					placeholder={'zero effect'}

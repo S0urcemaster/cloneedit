@@ -11,14 +11,14 @@ export const document_default = {
          },
          clones: [
             {
-               id: 3,
+               id: 1,
                name: 'Influenza',
                effects: [{
                   ...effects[REPLACE_CHARS_EFFECT], args: ['.·']
                }],
             },
             {
-               id: 1,
+               id: 2,
                name: 'Welcome',
                effects: [{
                   ...effects[WELCOME_EFFECT]

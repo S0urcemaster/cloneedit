@@ -24,7 +24,7 @@ export type CloneEditContext = {
 	setEditorActions: (actions: EditorAction[]) => void
 	setEditorState: (state: any) => void
 	setPlainText: (text: string) => void
-	updateEffectCommand: (clone: CloneModel, line: string) => void
+	updateEffectCommand: (command: string) => void
 	cloneIdChanged: (clone: CloneModel, id: number) => void
 }
 
@@ -63,9 +63,8 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 		log('✅ useEffect: mounted')
 		const storage = loadStorage()
 		log('context/storage', storage)
-		const rev = lib.reviveEffects(storage.state)
-		setState(rev)
-		// setState(defaultState) // dev
+		// setState(storage.state)
+		setState(defaultState) // dev
 	}, [])
 
 	useEffect(() => {
@@ -90,12 +89,17 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 		// setCurrentDocument({...currentDocument}) // editor already up to date . when save ?
 	}
 
-	function updateCommand(clone: CloneModel, line: string) {
-		log('context/updateCommand/clone, line', clone, line)
-		const updatedClones = currentDocument.clones.map(c =>
-			c.id === clone.id ? { ...c, effect: { ...c.effects[0], command: line } } : c // c.effects[0] TODO
-		)
-		setCurrentDocument({ ...currentDocument, clones: updatedClones })
+	function updateEffectCommand(command: string) {
+		if(!command) return
+		log('context/updateEffectCommand/clone, command', selectedClone, `"${command}"`)
+		const ourClone = currentDocument.clones.find(c => {
+			return c.id === selectedClone.id
+		})
+		const effs = lib.fromTextEffects(command)
+		ourClone.effects = effs
+		selectedClone.effects = effs
+		setSelectedClone({...selectedClone})
+		// setCurrentDocument({ ...currentDocument, clones: updatedClones })
 	}
 
 	function cloneIdChanged(clone: CloneModel, newId: number) {
@@ -137,7 +141,7 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 			selectedClone: selectedClone,
 			editorActions: editorActions,
 			plainText: plainText,
-			updateEffectCommand: updateCommand,
+			updateEffectCommand: updateEffectCommand,
 			folderChanged: folderChanged,
 			fileChanged: fileChanged,
 			setCurrentFile: setCurrentFile,
