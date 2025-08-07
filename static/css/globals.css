@@ -105,7 +105,7 @@ button {
 
 button:hover {
 	padding: 1px 13px 2px 11px;
-	color: var(--editor-color)
+	/* color: var(--editor-color) */
 }
 
 button:active {
@@ -126,7 +126,7 @@ button:disabled {
 
 .redButton:hover {
 	padding: 1px 13px 2px 11px;
-	color: var(--editor-color)
+	/* color: var(--editor-color) */
 }
 
 .redButton:active {
@@ -141,7 +141,7 @@ button:disabled {
 
 .blueButton:hover {
 	padding: 1px 13px 2px 11px;
-	color: var(--editor-color)
+	/* color: var(--editor-color) */
 }
 
 .blueButton:active {
@@ -156,7 +156,7 @@ button:disabled {
 
 .yellowButton:hover {
 	padding: 1px 13px 2px 11px;
-	color: var(--editor-color)
+	/* color: var(--editor-color) */
 }
 
 .yellowButton:active {
@@ -171,7 +171,7 @@ button:disabled {
 
 .whiteButton:hover {
 	padding: 1px 13px 2px 11px;
-	color: var(--editor-color)
+	/* color: var(--editor-color) */
 }
 
 .whiteButton:active {

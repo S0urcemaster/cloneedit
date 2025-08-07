@@ -17,6 +17,8 @@ import { fonts, FONT_GEMUNU_LIBRE, FONT_LEXEND, log } from '../static/constants'
 import { $updateStateFromJSON } from 'lexical/LexicalNodeState'
 import { $createRootNode } from 'lexical/nodes/LexicalRootNode'
 import { $generateHtmlFromNodes, $generateNodesFromDOM } from '@lexical/html'
+import { SafetyButton } from '../components/SafetyButton'
+import { FeedbackButton } from '../components/FeedbackButton'
 
 
 const editorCommands: Record<string, string> = {
@@ -43,11 +45,21 @@ function Head() {
 
 	}
 
+	function copyToClipboard(): boolean {
+		return true
+	}
+
+	function copyFinished(success: boolean) {
+
+	}
+
 	return (
 		<div className='head' style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', paddingTop: 1, paddingBottom: 0, flexGrow: 1 }}>
 			<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flex: 1, paddingBottom: 1, gap: 1 }}>
 				<button disabled style={{ fontSize: 30 }}>{editorCommands['selectall']}</button>
-				<button className='redButton' style={{ fontSize: 30 }} onClick={() => setEditorActions([['clear']])}>{editorCommands['delete']}</button>
+				<SafetyButton className='redButton' style={{ fontSize: 30 }} onClick={() => setEditorActions([['clear']])}>{editorCommands['delete']}</SafetyButton>
+				{/* <button className='redButton' style={{ fontSize: 30 }} onClick={() => setEditorActions([['clear']])}>{editorCommands['delete']}</button> */}
+				<FeedbackButton style={{ fontSize: 30 }} evaluation={copyToClipboard} evaluated={copyFinished}>{editorCommands['undo']}</FeedbackButton>
 				<button disabled style={{ fontSize: 30 }}>{editorCommands['undo']}</button>
 				<div style={{ display: 'flex', flex: 1, justifyContent: 'center' }}>
 					<h1 className={fonts[FONT_GEMUNU_LIBRE].font.className + ' appTitleVisibility'}
