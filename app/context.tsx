@@ -83,7 +83,13 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 		if (!currentDocument) return
 		if(!currentDocument.editor?.state) setEditorActions([['clear']])
 		setClones(currentDocument.clones) // avoid focus jumps when working with clones
+		setSelectedClone(currentDocument.clones[0])
 	}, [currentDocument])
+
+	useEffect(() => {
+		// if(!clones) return
+		// setSelectedClone(clones[0])
+	}, [clones])
 
 	function setEditorState(editorState: string) {
 		log('context/setEditorState/editorState', editorState)

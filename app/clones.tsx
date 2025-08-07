@@ -7,7 +7,7 @@ import { log } from '../static/constants'
 import { useClipboard } from './hooks'
 import { NumButton } from '../components/NumButton'
 
-function Controller({clone}: {clone: CloneModel}) {
+function Controller({ clone }: { clone: CloneModel }) {
 
 	const { settings, plainText, updateEffectCommand, cloneIdChanged, sourceIdChanged } = useCloneEditContext()
 
@@ -23,11 +23,12 @@ function Controller({clone}: {clone: CloneModel}) {
 	useEffect(() => {
 		if (!clone) return
 		setCloneId(clone.id)
+		setSourceId(clone.sourceId)
 		setCommand(lib.toTextEffects(clone.effects))
 	}, [clone])
 
 	useEffect(() => {
-		if(!clone) return
+		if (!clone) return
 		// if(command.endsWith(' ')) return
 		log('Controller/commandChanged', command)
 
@@ -60,12 +61,8 @@ function Controller({clone}: {clone: CloneModel}) {
 
 	}
 
-	function positionChanged(name: string) {
-
-	}
-
-	function formValueChanged(ix: number, value: string) {
-
+	function runCommand() {
+		
 	}
 
 	return (
@@ -73,7 +70,7 @@ function Controller({clone}: {clone: CloneModel}) {
 			<div style={{ display: 'flex', gap: '0.1rem', flexWrap: 'wrap' }}>
 				<NumButton value={cloneId} onChange={id => setCloneId(id)} />
 				<NumButton value={sourceId} onChange={id => setSourceId(id)} />
-				<input disabled style={{ flexGrow: 1 }} type='text' value={clone ? clone.name : ''} onChange={e => nameChanged(e.target.value)} />
+				<input style={{ flexGrow: 1 }} type='text' value={clone ? clone.name : ''} onChange={e => nameChanged(e.target.value)} />
 				<div style={{ display: 'flex', gap: 1 }}>
 					<button disabled style={{ flex: 1, fontSize: 30 }}>{cloneCommands['new']}</button>
 					<button disabled style={{ flex: 1, fontSize: 30 }}>{cloneCommands['duplicate']}</button>
@@ -91,7 +88,7 @@ function Controller({clone}: {clone: CloneModel}) {
 					placeholder={'Type Effect'}
 					style={{
 						height: '100%',
-						width: '100%',
+						flex: 1,
 						resize: 'none',
 						background: settings.effectEditorBackground, // Gradient background
 						color: settings.effectEditorColor, // Text color
@@ -102,6 +99,7 @@ function Controller({clone}: {clone: CloneModel}) {
 						// cursor: 'progress',
 					}}
 				/>
+				<button style={{ flex: 0, fontSize: 30, height: 42, minWidth: 50, marginTop: 1 }} onClick={runCommand}>{cloneCommands['run']}</button>
 			</div>
 		</div>
 	)
@@ -112,6 +110,7 @@ const cloneCommands: Record<string, string> = {
 	['duplicate']: '拷', // 名 Duplizieren ( Kopieren )
 	['delete']: '删', // 删 Löschen
 	['copy']: '复', // 删 Kopieren ( Zwischenspeicher )
+	['run']: '⏵',
 }
 
 function Clone({ clone }: { clone?: CloneModel }) {
@@ -119,7 +118,7 @@ function Clone({ clone }: { clone?: CloneModel }) {
 	const { copyToClipboard } = useClipboard()
 
 	useEffect(() => {
-		if(!clone || !selectedClone) return
+		if (!clone || !selectedClone) return
 		log('Clone/[clone]/clone, selectedClone', clone, selectedClone.id)
 	}, [clone, selectedClone])
 

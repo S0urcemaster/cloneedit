@@ -29,7 +29,7 @@ export function FeedbackButton({ children, disabled, style, className, mouseDown
             success === true ? 
                <button disabled={disabled} className={className} style={{ ...style }}>☺</button>
                :
-               <button disabled={disabled} className={className} style={{ ...style }}>☻</button>
+               <button disabled={disabled} className={className} style={{ ...style }}>☹</button>
             :
             mouseDown ?
                <button disabled={disabled} className={className} style={{ ...style }} onMouseDown={evaluate}>{children}</button>
