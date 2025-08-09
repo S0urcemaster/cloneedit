@@ -28,7 +28,7 @@ const editorCommands: Record<string, string> = {
 }
 
 const menuCommands: Record<string, string> = {
-	['clone']: '克',
+	['char']: '字',
 	['file']: '文',
 	['info']: '信',
 }
@@ -36,7 +36,7 @@ const menuCommands: Record<string, string> = {
 function Head() {
 	const { settings, currentFolder, currentFile, setEditorActions } = useCloneEditContext()
 
-	const [tab, setTab] = useState('克')
+	const [tab, setTab] = useState(menuCommands['char'])
 
 	function history(direction: string) {
 	}
@@ -69,20 +69,20 @@ function Head() {
 						</div>
 					</h1>
 				</div>
-				<button className='blueButton' style={{ fontSize: 30 }} onMouseDown={() => setTab(menuCommands['clone'])}>{menuCommands['clone']}</button>
+				<button className='blueButton' style={{ fontSize: 30 }} onMouseDown={() => setTab(menuCommands['char'])}>{menuCommands['char']}</button>
 				<button className='yellowButton' style={{ fontSize: 30 }} onMouseDown={() => setTab(menuCommands['file'])}>{menuCommands['file']}</button>
 				<button className='whiteButton' style={{ fontSize: 30 }} onMouseDown={() => setTab(menuCommands['info'])}>{menuCommands['info']}</button>
 			</div>
-			{tab === '克' &&
+			{tab === menuCommands['char'] &&
 				<EditForm />
 			}
-			{tab === '文' &&
+			{tab === menuCommands['file'] &&
 				<FilesForm />
 			}
 			{/* {tab === 'Dcmnt' &&
 				<SettingsForm />
 			} */}
-			{tab === '信' &&
+			{tab === menuCommands['info'] &&
 				<InfoForm />
 			}
 		</div>

@@ -1,6 +1,7 @@
 
 export type App = {
 	// Multi Document
+	version: string
 	documents: Document[]
 	settings: Settings // Globale Einstellungen : Schriftart , Rand
 }

@@ -67,7 +67,8 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 		log('✅ useEffect: mounted')
 		const storage = loadStorage()
 		log('context/storage', storage)
-		// setState(storage.state)
+		// if(state.version === defaultState.version) setState(storage.state)
+		// else setState(defaultState)
 		setState(defaultState) // dev
 	}, [])
 

@@ -10,8 +10,14 @@ export function useClipboard() {
       .catch(err => console.error("Failed to copy text: ", err))
   }
 
+  function getFromClipboard(): any {
+    return navigator.clipboard.readText()
+    .then(() => console.log("Text copied from clipboard"))
+    .catch(err => console.error("Failed to copy from clipboard: ", err))
+  }
+
   return {
-    copyToClipboard
+    copyToClipboard, getFromClipboard
   }
 
 }

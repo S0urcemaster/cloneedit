@@ -4,6 +4,10 @@ import { log } from './constants'
 
 export const lib = {
 
+	getRotatedOffset: (range: number, value: number, offset: number): number => {
+		return (offset +range +value) % range;
+	},
+
 	updateEach: (source: string, effects: Effect[]): string => {
 		if(!effects || effects.length === 0) {
 			return 'no valid effect name'
