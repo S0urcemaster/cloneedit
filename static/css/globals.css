@@ -192,6 +192,23 @@ button:disabled {
 
 }
 
+.bigSmileyButton {
+	padding: 0px 1px 1px 0px;
+}
+
+.bigSmileyButton:hover {
+	padding: 1px 2px 0px 0px;
+}
+
+.bigSmileyButton:active {
+	padding: 1px 0px 0px 2px;
+
+}
+
+.chineseButton {
+	font-size: 30;
+}
+
 input,
 select {
 	font-family: inherit;

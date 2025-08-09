@@ -1,7 +1,7 @@
 import { CSSProperties, ReactNode, useEffect, useRef, useState } from "react"
 import { log } from "../static/constants"
 
-export function FeedbackButton({ children, disabled, style, className, mouseDown, evaluation, evaluated }: { children: ReactNode, disabled?: boolean, style?: CSSProperties, className?: string, mouseDown?: boolean, evaluation: () => boolean, evaluated: (to: boolean) => void }) {
+export function FeedbackButton({ duration, children, disabled, style, className, mouseDown, successNode, failureNode, evaluation, evaluated }: { duration: number, children: ReactNode, disabled?: boolean, style?: CSSProperties, className?: string, mouseDown?: boolean, successNode: ReactNode, failureNode: ReactNode, evaluation: () => boolean, evaluated: (to: boolean) => void }) {
 
    const [success, setSuccess] = useState<boolean|undefined>()
 
@@ -13,23 +13,24 @@ export function FeedbackButton({ children, disabled, style, className, mouseDown
             timeoutRef.current = setTimeout(() => {
                setSuccess(undefined)
                timeoutRef.current = null
-            }, 1000)
+            }, duration)
          }
       }
    }, [success])
 
    function evaluate() {
-      setSuccess(evaluation())
-      evaluated(true)
+      const success = evaluation()
+      setSuccess(success)
+      evaluated(success)
    }
 
    return (
       <>
          {success !== undefined ?
             success === true ? 
-               <button disabled={disabled} className={className} style={{ ...style }}>☺</button>
+               <button disabled={disabled} className={className} style={{ ...style }}>{successNode}</button>
                :
-               <button disabled={disabled} className={className} style={{ ...style }}>☹</button>
+               <button disabled={disabled} className={className} style={{ ...style }}>{failureNode}</button>
             :
             mouseDown ?
                <button disabled={disabled} className={className} style={{ ...style }} onMouseDown={evaluate}>{children}</button>

@@ -19,6 +19,7 @@ import { $createRootNode } from 'lexical/nodes/LexicalRootNode'
 import { $generateHtmlFromNodes, $generateNodesFromDOM } from '@lexical/html'
 import { SafetyButton } from '../components/SafetyButton'
 import { FeedbackButton } from '../components/FeedbackButton'
+import ChineseButton from '../components/ChineseButton'
 
 
 const editorCommands: Record<string, string> = {
@@ -56,11 +57,11 @@ function Head() {
 	return (
 		<div className='head' style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', paddingTop: 1, paddingBottom: 0, flexGrow: 1 }}>
 			<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flex: 1, paddingBottom: 1, gap: 1 }}>
-				<button disabled style={{ fontSize: 30 }}>{editorCommands['selectall']}</button>
-				<SafetyButton className='redButton' style={{ fontSize: 30 }} onClick={() => setEditorActions([['clear']])}>{editorCommands['delete']}</SafetyButton>
+				<ChineseButton disabled style={{}}>{editorCommands['selectall']}</ChineseButton>
+				<SafetyButton className='chineseButton' style={{ color: settings.redColor, fontSize: 24 }} onClick={() => setEditorActions([['clear']])}>{menuCommands['info']}</SafetyButton>
 				{/* <button className='redButton' style={{ fontSize: 30 }} onClick={() => setEditorActions([['clear']])}>{editorCommands['delete']}</button> */}
-				<FeedbackButton style={{ fontSize: 30 }} evaluation={copyToClipboard} evaluated={copyFinished}>{editorCommands['undo']}</FeedbackButton>
-				<button disabled style={{ fontSize: 30 }}>{editorCommands['undo']}</button>
+				{/* <FeedbackButton style={{ fontSize: 30 }} evaluation={copyToClipboard} evaluated={copyFinished}>{editorCommands['undo']}</FeedbackButton> */}
+				<ChineseButton disabled style={{color: settings.cloneeditColor}}>{editorCommands['undo']}</ChineseButton>
 				<div style={{ display: 'flex', flex: 1, justifyContent: 'center' }}>
 					<h1 className={fonts[FONT_GEMUNU_LIBRE].font.className + ' appTitleVisibility'}
 						style={{ fontSize: 28, paddingLeft: 5, height: 25, marginTop: -8, color: settings.cloneeditColor, cursor: 'help', whiteSpace: 'nowrap' }} onClick={showDocs}>
@@ -69,9 +70,9 @@ function Head() {
 						</div>
 					</h1>
 				</div>
-				<button className='blueButton' style={{ fontSize: 30 }} onMouseDown={() => setTab(menuCommands['char'])}>{menuCommands['char']}</button>
-				<button className='yellowButton' style={{ fontSize: 30 }} onMouseDown={() => setTab(menuCommands['file'])}>{menuCommands['file']}</button>
-				<button className='whiteButton' style={{ fontSize: 30 }} onMouseDown={() => setTab(menuCommands['info'])}>{menuCommands['info']}</button>
+				<ChineseButton style={{color: settings.blueColor}} onMouseDown={() => setTab(menuCommands['char'])}>{menuCommands['char']}</ChineseButton>
+				<ChineseButton style={{color: settings.yellowColor}} onMouseDown={() => setTab(menuCommands['file'])}>{menuCommands['file']}</ChineseButton>
+				<ChineseButton style={{color: settings.cloneeditColor}} onMouseDown={() => setTab(menuCommands['info'])}>{menuCommands['info']}</ChineseButton>
 			</div>
 			{tab === menuCommands['char'] &&
 				<EditForm />

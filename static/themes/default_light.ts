@@ -22,7 +22,8 @@ export const settings_default_light = {
    selectedColor: '#d6efffff',
    width: 800,
 
-   redColor: '#a43434ff',   
-   blueColor: '#3457a4ff',   
-   yellowColor: '#a48a34ff',   
+   redColor: '#a43434ff',
+   blueColor: '#3457a4ff',
+   yellowColor: '#a48a34ff',
+   greenColor: '#0b7233ff',
 }

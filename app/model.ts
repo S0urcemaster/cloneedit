@@ -56,6 +56,7 @@ export type Settings = {
 	redColor: string
 	blueColor: string
 	yellowColor: string
+	greenColor: string
 	selectedColor: string
 	width: number // probably percent
 }

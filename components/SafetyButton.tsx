@@ -34,9 +34,9 @@ export function SafetyButton({ children, disabled, style, className, onClick, on
       <>
          {safety ?
             onMouseDown ? 
-               <button disabled={disabled} className={className} style={{ ...style }} onMouseDown={safetyDown}>⚠</button>
+               <button disabled={disabled} className={className} style={{ ...style, fontSize: 30 }} onMouseDown={safetyDown}>⚠</button>
                :
-               <button disabled={disabled} className={className} style={{ ...style }} onClick={safetyClick}>⚠</button>
+               <button disabled={disabled} className={className} style={{ ...style, fontSize: 30 }} onClick={safetyClick}>⚠</button>
             :
             onMouseDown ?
                <button disabled={disabled} className={className} style={{ ...style }} onMouseDown={() => setSafety(true)}>{children}</button>

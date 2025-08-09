@@ -6,6 +6,7 @@ import { lib } from '../static/lib'
 import { log } from '../static/constants'
 import { useClipboard } from './hooks'
 import { NumButton } from '../components/NumButton'
+import ChineseButton from '../components/ChineseButton'
 
 function Controller({ clone }: { clone: CloneModel }) {
 
@@ -62,7 +63,7 @@ function Controller({ clone }: { clone: CloneModel }) {
 	}
 
 	function runCommand() {
-		
+
 	}
 
 	return (
@@ -72,10 +73,15 @@ function Controller({ clone }: { clone: CloneModel }) {
 				<NumButton value={sourceId} onChange={id => setSourceId(id)} />
 				<input style={{ flexGrow: 1 }} type='text' value={clone ? clone.name : ''} onChange={e => nameChanged(e.target.value)} />
 				<div style={{ display: 'flex', gap: 1 }}>
-					<button disabled style={{ flex: 1, fontSize: 30 }}>{cloneCommands['new']}</button>
-					<button disabled style={{ flex: 1, fontSize: 30 }}>{cloneCommands['duplicate']}</button>
-					<button disabled style={{ flex: 1, fontSize: 30, color: settings.redColor }}>{cloneCommands['delete']}</button>
-					<button style={{ fontSize: 30 }} onClick={() => copyToClipboard(lib.updateEach(plainText, clone.effects))}>{cloneCommands['copy']}</button>
+					<ChineseButton disabled style={{flex: 1}}>{cloneCommands['new']}</ChineseButton>
+					<ChineseButton disabled style={{flex: 1}}>{cloneCommands['duplicate']}</ChineseButton>
+					<ChineseButton disabled style={{flex: 1, color: settings.redColor}}>{cloneCommands['delete']}</ChineseButton>
+					<ChineseButton disabled style={{flex: 1}} onClick={() => copyToClipboard(lib.updateEach(plainText, clone.effects))}>{cloneCommands['copy']}</ChineseButton>
+
+					{/* <button disabled className='chineseButton' style={{ flex: 1, }}>{cloneCommands['new']}</button>
+					<button disabled className='chineseButton' style={{ flex: 1, }}>{cloneCommands['duplicate']}</button>
+					<button disabled className='chineseButton' style={{ flex: 1, color: settings.redColor }}>{cloneCommands['delete']}</button>
+					<button className='chineseButton' style={{}} onClick={() => copyToClipboard(lib.updateEach(plainText, clone.effects))}>{cloneCommands['copy']}</button> */}
 				</div>
 			</div>
 
@@ -99,7 +105,7 @@ function Controller({ clone }: { clone: CloneModel }) {
 						// cursor: 'progress',
 					}}
 				/>
-				<button style={{ flex: 0, fontSize: 30, height: 42, minWidth: 50, marginTop: 1 }} onClick={runCommand}>{cloneCommands['run']}</button>
+				<button className='chineseButton' style={{ flex: 0, height: 42, minWidth: 50, marginTop: 1 }} onClick={runCommand}>{cloneCommands['run']}</button>
 			</div>
 		</div>
 	)
