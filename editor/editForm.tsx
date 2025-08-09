@@ -48,8 +48,7 @@ export function EditForm() {
 			</div>
 			<div style={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
 				{charsets.smileys[currentSubmenu][1].map((smiley, ix) => (
-					<FeedbackButton duration={500} className="bigSmileyButton" style={{ fontSize: 26 }} evaluation={() => true} evaluated={(to) => insertSmiley(smiley)} successNode={<span style={{color: settings.greenColor}}>☺</span>} failureNode={<span style={{color: settings.redColor}}>☹</span>}>{smiley}</FeedbackButton>
-
+					<FeedbackButton key={ix} duration={500} className="bigSmileyButton" style={{ fontSize: 26 }} evaluation={() => true} evaluated={(to) => insertSmiley(smiley)} successNode={<span style={{color: settings.greenColor}}>☺</span>} failureNode={<span style={{color: settings.redColor}}>☹</span>}>{smiley}</FeedbackButton>
 					// <button key={ix}>{smiley}</button>
 				))}
 			</div>

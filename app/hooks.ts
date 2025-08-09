@@ -1,6 +1,29 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { App as AppModel, Document } from './model'
 import { lib } from '../static/lib'
+
+export function useSimpleTokenBuffer({ tokenSize, onToken }: {tokenSize: number, onToken: (token: string) => void}) {
+
+  const bufferRef = useRef<string>("")
+  
+  function addChar(char: string) {
+    bufferRef.current += char
+
+    if (bufferRef.current.length >= tokenSize) {
+      onToken(bufferRef.current)
+      bufferRef.current = ""
+    }
+  }
+
+  function flush() {
+    if (bufferRef.current.length > 0) {
+      onToken(bufferRef.current)
+      bufferRef.current = ""
+    }
+  }
+
+  return { addChar, flush }
+}
 
 export function useClipboard() {
 
@@ -79,3 +102,4 @@ export function useFolderAndFileManagement(state: AppModel) {
     setCurrentDocument,
   }
 }
+

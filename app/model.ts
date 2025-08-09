@@ -4,6 +4,14 @@ export type App = {
 	version: string
 	documents: Document[]
 	settings: Settings // Globale Einstellungen : Schriftart , Rand
+	account: Account
+}
+
+export type Account = {
+	name: string
+	id: string
+	type: string
+	tokens: number
 }
 
 export type Document = {

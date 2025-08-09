@@ -9,11 +9,19 @@ import { settings_default_light } from './themes/default_light'
 import { App } from '../app/model'
 
 export const log = (...args) => {
-   // console.log(...args)
+   console.log(...args)
 }
+
+export const account_section_height = 200
 
 export const defaultState: App = {
    version: '0.13',
+   account: {
+      name: 'NewUser',
+      id: 'NewUser' +Math.floor((new Date()).getMilliseconds() *Math.random()),
+      type: 'Test User',
+      tokens: 0,
+   },
    documents: [
       document_default,
       document_bluesky_x,

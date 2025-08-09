@@ -1,6 +1,6 @@
 'use client'
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react'
-import { App as AppModel, Clone as CloneModel, Document, Settings } from './model'
+import { Account, App as AppModel, Clone as CloneModel, Document, Settings } from './model'
 import { lib } from '../static/lib'
 import { useFolderAndFileManagement } from './hooks'
 import { defaultState, log } from '../static/constants'
@@ -8,6 +8,7 @@ import { effects } from '../static/effects'
 import { loadStorage, saveStorage } from './localStorage'
 
 export type CloneEditContext = {
+	account: Account
 	currentDocument?: Document
 	clones: CloneModel[]
 	settings: Settings
@@ -18,6 +19,7 @@ export type CloneEditContext = {
 	selectedClone?: CloneModel
 	editorActions: EditorAction[]
 	plainText: string
+	setAccount: (account: Account) => void
 	folderChanged: (folder: string) => void
 	fileChanged: (file: string) => void
 	setCurrentFile: (file: string) => void
@@ -40,6 +42,8 @@ export type EditorAction = [
 export function CloneEditContextProvider({ children }: { children: ReactNode }) {
 
 	const [state, setState] = useState<AppModel | undefined>()
+
+	const [account, setAccount] = useState<Account>()
 
 	const {
 		currentDocument,
@@ -74,6 +78,7 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 
 	useEffect(() => {
 		if (!state) return
+		setAccount(state.account)
 		setCurrentDocument(state.documents[0])
 		setSettings(state.settings)
 		log('context/[state]/state', state)
@@ -153,6 +158,7 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 
 	return (
 		<CloneEditContext.Provider value={{
+			account,
 			currentDocument,
 			clones,
 			settings,
@@ -163,6 +169,7 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 			selectedClone,
 			editorActions,
 			plainText,
+			setAccount,
 			updateEffectCommand,
 			folderChanged,
 			fileChanged,

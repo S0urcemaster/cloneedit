@@ -20,6 +20,8 @@ import { $generateHtmlFromNodes, $generateNodesFromDOM } from '@lexical/html'
 import { SafetyButton } from '../components/SafetyButton'
 import { FeedbackButton } from '../components/FeedbackButton'
 import ChineseButton from '../components/ChineseButton'
+import AccountForm from '../editor/accountForm'
+import { useSimpleTokenBuffer } from './hooks'
 
 
 const editorCommands: Record<string, string> = {
@@ -31,6 +33,7 @@ const editorCommands: Record<string, string> = {
 const menuCommands: Record<string, string> = {
 	['char']: '字',
 	['file']: '文',
+	['ich']: '我',
 	['info']: '信',
 }
 
@@ -72,7 +75,8 @@ function Head() {
 				</div>
 				<ChineseButton style={{color: settings.blueColor}} onMouseDown={() => setTab(menuCommands['char'])}>{menuCommands['char']}</ChineseButton>
 				<ChineseButton style={{color: settings.yellowColor}} onMouseDown={() => setTab(menuCommands['file'])}>{menuCommands['file']}</ChineseButton>
-				<ChineseButton style={{color: settings.cloneeditColor}} onMouseDown={() => setTab(menuCommands['info'])}>{menuCommands['info']}</ChineseButton>
+				<ChineseButton style={{color: settings.cloneeditColor}} onMouseDown={() => setTab(menuCommands['ich'])}>{menuCommands['ich']}</ChineseButton>
+				<ChineseButton style={{color: settings.mezzoDarkColor}} onMouseDown={() => setTab(menuCommands['info'])}>{menuCommands['info']}</ChineseButton>
 			</div>
 			{tab === menuCommands['char'] &&
 				<EditForm />
@@ -80,9 +84,9 @@ function Head() {
 			{tab === menuCommands['file'] &&
 				<FilesForm />
 			}
-			{/* {tab === 'Dcmnt' &&
-				<SettingsForm />
-			} */}
+			{tab === menuCommands['ich'] &&
+				<AccountForm />
+			}
 			{tab === menuCommands['info'] &&
 				<InfoForm />
 			}
@@ -120,10 +124,17 @@ function OnChangePlugin({ onChange }) {
 
 function EditorContent({ }) {
 	const [editor] = useLexicalComposerContext()
-	const { settings, editorActions, currentDocument, setPlainText, setEditorState } = useCloneEditContext()
+	const { account, settings, editorActions, currentDocument, setPlainText, setEditorState, setAccount } = useCloneEditContext()
 	const contentEditable = useRef<HTMLDivElement>(null)
 
 	const emptyEditor = useRef(true)
+
+	const { addChar, flush } = useSimpleTokenBuffer({
+		tokenSize: 4,
+		onToken: (token) => {
+		  setAccount({...account, tokens: account.tokens +1})
+		},
+	 })
 
 	useEffect(() => {
 		if (!currentDocument || !currentDocument.editor) return
@@ -230,7 +241,7 @@ function EditorContent({ }) {
 		>
 			<RichTextPlugin
 				contentEditable={
-					<ContentEditable style={{ outline: 'none' }} tabIndex={-1} disabled ref={contentEditable} />
+					<ContentEditable style={{ outline: 'none' }} tabIndex={-1} disabled ref={contentEditable} onKeyDown={() => addChar('x')} />
 				}
 				ErrorBoundary={LexicalErrorBoundary}
 			/>
