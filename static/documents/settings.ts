@@ -14,10 +14,9 @@ editorBackground: #654654
    clones: [
       {
          id: 1,
+         sourceId: 0,
          name: 'tldr',
-         effects: [{
-            ...effects[TLDR_EFFECT], args: []
-         }],
+         effects: 'tldr'
       },
    ]
 }

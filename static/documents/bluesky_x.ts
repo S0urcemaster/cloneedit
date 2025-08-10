@@ -1,6 +1,7 @@
+import { Document } from "../../app/model";
 import { effects, SUBSTRING_EFFECT } from "../effects";
 
-export const document_bluesky_x = {
+export const document_bluesky_x: Document = {
          name: 'X and Bluesky Split',
          folderName: 'Examples',
          editor: {
@@ -12,45 +13,39 @@ export const document_bluesky_x = {
          clones: [
             {
                id: 1,
+               sourceId: 0,
                name: 'X Part 1',
-               effects: [{
-                  ...effects[SUBSTRING_EFFECT], args: ['0', '280']
-               }],
+               effects: 'substring 0 280',
             },
             {
                id: 2,
+               sourceId: 0,
                name: 'X Part 2',
-               effects: [{
-                  ...effects[SUBSTRING_EFFECT], args: ['280', '560']
-               }],
+               effects: 'substring 280 560',
             },
             {
                id: 3,
+               sourceId: 0,
                name: 'X Part 3',
-               effects: [{
-                  ...effects[SUBSTRING_EFFECT], args: ['560', '840']
-               }],
+               effects: 'substring 560 840',
             },
             {
                id: 4,
+               sourceId: 0,
                name: 'Bluesky Part 1',
-               effects: [{
-                  ...effects[SUBSTRING_EFFECT], args: ['0', '300']
-               }],
+               effects: 'substring 0 300',
             },
             {
                id: 5,
+               sourceId: 0,
                name: 'Bluesky Part 2',
-               effects: [{
-                  ...effects[SUBSTRING_EFFECT], args: ['300', '600']
-               }],
+               effects: 'substring 300 600',
             },
             {
                id: 6,
+               sourceId: 0,
                name: 'Bluesky Part 3',
-               effects: [{
-                  ...effects[SUBSTRING_EFFECT], args: ['600', '900']
-               }],
+               effects: 'substring 600 900',
             },
          ]
       }

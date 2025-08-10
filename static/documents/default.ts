@@ -12,24 +12,21 @@ export const document_default = {
          clones: [
             {
                id: 1,
+               sourceId: 0,
                name: 'Influenza',
-               effects: [{
-                  ...effects[REPLACE_CHARS_EFFECT], args: ['.·']
-               }],
+               effects: 'replacechars .·'
             },
             {
                id: 2,
+               sourceId: 0,
                name: 'Welcome',
-               effects: [{
-                  ...effects[WELCOME_EFFECT]
-               }],
+               effects: 'welcome'
             },
             {
                id: 3,
+               sourceId: 0,
                name: 'Effects Help',
-               effects: [{
-                  ...effects[HELP_EFFECT]
-               }],
+               effects: 'help'
             },
          ]
       }

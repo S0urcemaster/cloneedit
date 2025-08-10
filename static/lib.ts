@@ -1,5 +1,5 @@
-import { effects as storedEffects } from './effects'
-import { App as AppModel, Document, Effect } from '../app/model'
+import { Effect, effects as storedEffects } from './effects'
+import { App as AppModel, Document } from '../app/model'
 import { log } from './constants'
 
 export const lib = {
@@ -8,7 +8,8 @@ export const lib = {
 		return (offset +range +value) % range;
 	},
 
-	updateEach: (source: string, effects: Effect[]): string => {
+	updateEach: (source: string, effectStr: string): string => {
+		const effects = lib.fromTextEffects(effectStr)
 		if(!effects || effects.length === 0) {
 			return 'no valid effect name'
 		}
@@ -40,21 +41,6 @@ export const lib = {
 			const items = line.trim().split(' ')
 			return {...Object.values(storedEffects).find(e => e.name === items[0]), name: items[0], args: items.splice(1)} // add update()
 		})
-	},
-
-	reviveEffects: (state: AppModel): AppModel => {
-		return {...state, documents: state.documents.map((doc) => {
-				doc.clones = doc.clones.map(clone => {
-					return {
-						...clone, effects: clone.effects.map(eff => {
-							const proto = Object.values(storedEffects).find(ef => eff.name == ef.name)
-							return { ...proto, name: eff.name, args: eff.args }
-						})
-					}
-				})
-				return doc
-			})
-		}
 	},
 
 	findDoc: (state: AppModel, folder: string, file: string): Document => {

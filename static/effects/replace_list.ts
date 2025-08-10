@@ -1,4 +1,4 @@
-import { Effect } from "../../app/model"
+import { Effect } from "../effects"
 
 export const effect_replace_list: Effect = {
    name: 'replacelist',

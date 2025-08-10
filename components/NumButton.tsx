@@ -1,8 +1,17 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export function NumButton({ value, disabled, onChange }: { value: number, disabled?: boolean, onChange: (value: number) => void }) {
 
-   const [state, setState] = useState(value)
+   const [state, setState] = useState<string>()
+
+   useEffect(() => {
+      if (!state || !value) return
+      setState(value.toString())
+   }, [state, value])
+
+   function getState() {
+      return parseInt(state)
+   }
 
    function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
       // Erlaube nur Ziffern, Enter, Done, Go, Backspace, Delete, Tab, Pfeiltasten
@@ -27,12 +36,12 @@ export function NumButton({ value, disabled, onChange }: { value: number, disabl
 
       // Bei Enter, Done oder Go die Eingabe abschicken
       if (e.key === 'Enter' || e.key === 'Done' || e.key === 'Go') {
-         onChange(parseInt(e.key))
+         onChange(getState())
       }
    }
 
    return (
-      <input disabled={disabled} style={{ width: 49, paddingLeft: 18 }} type='text' value={state} onChange={e => setState(parseInt(e.target.value))} onKeyDown={handleKeyDown} onFocus={(e) => {
+      <input disabled={disabled} style={{ width: 49, paddingLeft: 18 }} type='text' value={state} onChange={e => setState(e.target.value)} onKeyDown={handleKeyDown} onFocus={(e) => {
          e.target.scrollIntoView({ behavior: 'smooth', block: 'center' })
          e.target.select() // Wählt den gesamten Text im Input aus
       }} />

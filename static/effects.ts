@@ -1,4 +1,3 @@
-import { Effect } from '../app/model'
 import { effect_caesar_cypher } from '../static/effects/caesar_cypher'
 import { effect_welcome } from '../static/effects/welcome'
 import { effect_replace_text } from '../static/effects/replace_text'
@@ -9,8 +8,8 @@ import { effect_tldr } from './effects/tldr'
 import { replace_chars } from './effects/replace_chars'
 import { effect_help } from './effects/effects_help'
 
-export const CAESAR_EFFECT = 'caesar'
-export const HELP_EFFECT = 'effectshelp'
+export const CAESAR_CIPHER_EFFECT = 'caesarcipher'
+export const HELP_EFFECT = 'help'
 export const NO_WHITESPACE_EFFECT = 'nowhitespace'
 export const REPLACE_CHARS_EFFECT = 'replacechars'
 export const SUBSTRING_EFFECT = 'substring'
@@ -19,8 +18,15 @@ export const REPLACE_TEXT_EFFECT = 'replacetext'
 export const TLDR_EFFECT = 'tldr'
 export const WELCOME_EFFECT = 'welcome'
 
+export type Effect = {
+	name: string
+	args?: string[]
+	update: (text: string, ...args: string[]) => string
+   // doc: () => void
+}
+
 export const effects: Record<string, Effect> = {
-   [CAESAR_EFFECT]: effect_caesar_cypher,
+   [CAESAR_CIPHER_EFFECT]: effect_caesar_cypher,
    [HELP_EFFECT]: effect_help,
    [WELCOME_EFFECT]: effect_welcome,
    [REPLACE_TEXT_EFFECT]: effect_replace_text,

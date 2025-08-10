@@ -4,32 +4,31 @@ import { Account, App as AppModel, Clone as CloneModel, Document, Settings } fro
 import { lib } from '../static/lib'
 import { useFolderAndFileManagement } from './hooks'
 import { defaultState, log } from '../static/constants'
-import { effects } from '../static/effects'
+import { Effect } from '../static/effects'
 import { loadStorage, saveStorage } from './localStorage'
 
 export type CloneEditContext = {
 	account: Account
-	currentDocument?: Document
-	clones: CloneModel[]
-	settings: Settings
-	availableFolders: string[]
-	currentFolder: string
 	availableFiles: string[]
+	availableFolders: string[]
+	clones: CloneModel[]
+	currentDocument?: Document
 	currentFile: string
-	selectedClone?: CloneModel
+	currentFolder: string
 	editorActions: EditorAction[]
 	plainText: string
-	setAccount: (account: Account) => void
+	selectedClone?: CloneModel
+	settings: Settings
+	addClone: (clone: CloneModel) => void
 	folderChanged: (folder: string) => void
 	fileChanged: (file: string) => void
+	setAccount: (account: Account) => void
 	setCurrentFile: (file: string) => void
-	setSelectedClone: (clone: CloneModel) => void
 	setEditorActions: (actions: EditorAction[]) => void
 	setEditorState: (state: any) => void
 	setPlainText: (text: string) => void
-	updateEffectCommand: (command: string) => void
-	cloneIdChanged: (id: number) => void
-	sourceIdChanged: (id: number) => void
+	setSelectedClone: (clone: CloneModel) => void
+	updateSelectedClone: ({ id, sourceId, name, effects }: { id?: number, sourceId?: number, name?: string, effects?: string }) => void
 }
 
 const CloneEditContext = createContext<CloneEditContext>({} as CloneEditContext)
@@ -87,7 +86,7 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 	useEffect(() => {
 		log('context/[currentDocument]/currentDocument', currentDocument)
 		if (!currentDocument) return
-		if(!currentDocument.editor?.state) setEditorActions([['clear']])
+		if (!currentDocument.editor?.state) setEditorActions([['clear']])
 		setClones(currentDocument.clones) // avoid focus jumps when working with clones
 		setSelectedClone(currentDocument.clones[0])
 	}, [currentDocument])
@@ -97,6 +96,10 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 		// setSelectedClone(clones[0])
 	}, [clones])
 
+	function addClone(clone: CloneModel) {
+
+	}
+
 	function setEditorState(editorState: string) {
 		log('context/setEditorState/editorState', editorState)
 		// if (editorState.startsWith('{"root":{"children":[{"children":[]')) return
@@ -105,26 +108,45 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 		log('context/setEditorState/loadStorage', loadStorage())
 	}
 
-	function updateEffectCommand(command: string) {
-		if(!command) return
-		log('context/updateEffectCommand/clone, command', selectedClone, `"${command}"`)
+	function updateEffect(effectStr: string) {
+		if (!effectStr) return
+		log('context/updateEffect/selectedClone, effectStr', selectedClone, `"${effectStr}"`)
 		let id = -1
 		const ourClone = currentDocument.clones.find((c, ix) => {
-			if(c.id === selectedClone.id) {
+			if (c.id === selectedClone.id) {
 				id = ix
 				return true
 			}
 		})
-		const effs = lib.fromTextEffects(command)
-		ourClone.effects = effs
-		clones.splice(id, 1, ourClone)
-		setClones([...clones])
-		setSelectedClone({...ourClone})
-		// setCurrentDocument({ ...currentDocument, clones: updatedClones })
+		// const effs = lib.fromTextEffects(effectStr)
+		selectedClone.effects = effectStr
+		currentDocument.clones.splice(id, 1, selectedClone)
+		// setClones({...currentDocument.clones})
+		setSelectedClone({ ...selectedClone })
+		setCurrentDocument({ ...currentDocument })
+	}
+
+	function updateSelectedClone(data: { id?: number, sourceId?: number, name?: string, effects?: string }) {
+		if (data.id && data.id !== selectedClone.id) {
+			cloneIdChanged(data.id)
+		}
+		else if (data.sourceId && data.sourceId !== selectedClone.sourceId) {
+			selectedClone.sourceId = data.sourceId < 0 ? 0 : data.sourceId > clones.length ? 0 : data.sourceId
+		}
+		else if (data.name && data.name !== selectedClone.name) {
+			selectedClone.name = data.name
+		}
+		if (data.effects && data.effects !== selectedClone.effects) {
+			updateEffect(data.effects)
+			setClones([...clones])
+		}
+		log('updateSelectedClone/selectedClone', selectedClone)
+		setSelectedClone({ ...selectedClone })
 	}
 
 	function cloneIdChanged(newId: number) {
-		if(!currentDocument) return
+		if (!currentDocument) return
+		log('context/cloneIdChanged/newId', newId)
 		// Handle edge cases for newId
 		const maxId = currentDocument.clones.length
 		const adjustedId = Math.max(0, Math.min(newId, maxId)) // Clamp ID between 0 and list length
@@ -152,34 +174,29 @@ export function CloneEditContextProvider({ children }: { children: ReactNode }) 
 		}
 	}
 
-	function sourceIdChanged(newId: number) {
-
-	}
-
 	return (
 		<CloneEditContext.Provider value={{
 			account,
+			availableFiles,
+			availableFolders,
 			currentDocument,
 			clones,
-			settings,
-			availableFolders,
-			currentFolder,
-			availableFiles,
 			currentFile,
-			selectedClone,
+			currentFolder,
 			editorActions,
 			plainText,
-			setAccount,
-			updateEffectCommand,
-			folderChanged,
+			selectedClone,
+			settings,
+			addClone,
 			fileChanged,
+			folderChanged,
+			setAccount,
 			setCurrentFile,
-			setSelectedClone,
 			setEditorActions,
 			setEditorState,
 			setPlainText,
-			cloneIdChanged,
-			sourceIdChanged,
+			setSelectedClone,
+			updateSelectedClone,
 		}}>
 			{children}
 		</ CloneEditContext.Provider>

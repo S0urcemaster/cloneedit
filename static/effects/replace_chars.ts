@@ -1,4 +1,4 @@
-import { Effect } from "../../app/model"
+import { Effect } from "../effects"
 
 const usage = `Usage : replacechars ab xy 12`
 

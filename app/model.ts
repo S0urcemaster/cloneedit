@@ -31,14 +31,8 @@ export type Editor = {
 export type Clone = {
 	id: number // unique id benötigt pro Objekt
 	name: string
-	sourceId?: number // one source per Clone
-	effects: Effect[]
-}
-
-export type Effect = {
-	name: string
-	args?: string[]
-	update: (text: string, ...args: string[]) => string
+	sourceId: number // one source per Clone
+	effects: string
 }
 
 export type Settings = {

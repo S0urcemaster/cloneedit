@@ -1,8 +1,11 @@
-import { Effect } from "../../app/model"
+import { Effect } from "../effects"
 
 export const effect_caesar_cypher: Effect = {
       name: 'caesarcipher',
-      update: (text: string, offset: string) => {
+      update: (text: string, [offset]) => {
+         if(!offset || offset === '?') {
+            return 'Caesar Cypher usage : caesarcipher n'
+         }
          const shiftValue = Number(offset)
          if (isNaN(shiftValue) || !Number.isInteger(shiftValue)) {
             return 'command not valid'

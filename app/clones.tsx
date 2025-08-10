@@ -8,54 +8,43 @@ import { useClipboard } from './hooks'
 import { NumButton } from '../components/NumButton'
 import ChineseButton from '../components/ChineseButton'
 
-function Controller({ clone }: { clone: CloneModel }) {
+function Controller({ selectedClone }: { selectedClone: CloneModel }) {
 
-	const { settings, plainText, updateEffectCommand, cloneIdChanged, sourceIdChanged } = useCloneEditContext()
+	const { settings, plainText, updateSelectedClone } = useCloneEditContext()
 
 	const { copyToClipboard } = useClipboard()
 
 	const [cloneId, setCloneId] = useState(0)
 	const [sourceId, setSourceId] = useState(0)
-
-	const [command, setCommand] = useState('')
-
-	const timeoutId = useRef<NodeJS.Timeout | null>(null)
-
-	useEffect(() => {
-		if (!clone) return
-		setCloneId(clone.id)
-		setSourceId(clone.sourceId)
-		setCommand(lib.toTextEffects(clone.effects))
-	}, [clone])
+	const [name, setName] = useState('')
+	const [effectStr, setEffectStr] = useState('')
+	const [prevEffect, setPrevEffect] = useState<string>()
+	const [changed, setChanged] = useState(false)
 
 	useEffect(() => {
-		if (!clone) return
-		// if(command.endsWith(' ')) return
-		log('Controller/commandChanged', command)
-
-		if (timeoutId.current !== null) {
-			clearTimeout(timeoutId.current)
-			log('Previous timeout cancelled')
-		}
-
-		timeoutId.current = setTimeout(() => {
-			log(`Controller/commandChanged called with: ${command}`)
-			updateEffectCommand(command)
-			timeoutId.current = null
-		}, 500)
-
-		log(`Timeout set for updateCommand with: ${command}`)
-		return () => {
-			clearTimeout(timeoutId.current)
-		}
-	}, [command])
+		log('cloneId, sourcId', cloneId, sourceId)
+		updateSelectedClone({ id: cloneId, sourceId: sourceId })
+	}, [cloneId, sourceId])
 
 	useEffect(() => {
-		cloneIdChanged(cloneId)
+		log('Controller/[selectedClone]/selectedClone', selectedClone)
+		if (!selectedClone) return
+		setCloneId(selectedClone.id || 0)
+		setSourceId(selectedClone.sourceId || 0)
+		setName(selectedClone.name || '')
+		setEffectStr(selectedClone.effects || '')
+		setPrevEffect(selectedClone.effects || '')
+		setChanged(false)
+	}, [selectedClone])
+
+	useEffect(() => {
+		if(prevEffect !== effectStr) setChanged(true)
+	}, [effectStr])
+
+	useEffect(() => {
 	}, [cloneId])
 
 	useEffect(() => {
-		sourceIdChanged(cloneId)
 	}, [sourceId])
 
 	function nameChanged(name: string) {
@@ -63,7 +52,11 @@ function Controller({ clone }: { clone: CloneModel }) {
 	}
 
 	function runCommand() {
-
+		if(changed) {
+			updateSelectedClone({ effects: effectStr })
+			setPrevEffect(effectStr)
+			setChanged(false)
+		}
 	}
 
 	return (
@@ -71,25 +64,20 @@ function Controller({ clone }: { clone: CloneModel }) {
 			<div style={{ display: 'flex', gap: '0.1rem', flexWrap: 'wrap' }}>
 				<NumButton value={cloneId} onChange={id => setCloneId(id)} />
 				<NumButton value={sourceId} onChange={id => setSourceId(id)} />
-				<input style={{ flexGrow: 1 }} type='text' value={clone ? clone.name : ''} onChange={e => nameChanged(e.target.value)} />
+				<input style={{ flexGrow: 1 }} type='text' value={name} onChange={e => nameChanged(e.target.value)} />
 				<div style={{ display: 'flex', gap: 1 }}>
-					<ChineseButton disabled style={{flex: 1}}>{cloneCommands['new']}</ChineseButton>
-					<ChineseButton disabled style={{flex: 1}}>{cloneCommands['duplicate']}</ChineseButton>
-					<ChineseButton disabled style={{flex: 1, color: settings.redColor}}>{cloneCommands['delete']}</ChineseButton>
-					<ChineseButton disabled style={{flex: 1}} onClick={() => copyToClipboard(lib.updateEach(plainText, clone.effects))}>{cloneCommands['copy']}</ChineseButton>
-
-					{/* <button disabled className='chineseButton' style={{ flex: 1, }}>{cloneCommands['new']}</button>
-					<button disabled className='chineseButton' style={{ flex: 1, }}>{cloneCommands['duplicate']}</button>
-					<button disabled className='chineseButton' style={{ flex: 1, color: settings.redColor }}>{cloneCommands['delete']}</button>
-					<button className='chineseButton' style={{}} onClick={() => copyToClipboard(lib.updateEach(plainText, clone.effects))}>{cloneCommands['copy']}</button> */}
+					<ChineseButton disabled style={{ flex: 1 }}>{cloneCommands['new']}</ChineseButton>
+					<ChineseButton disabled style={{ flex: 1 }}>{cloneCommands['duplicate']}</ChineseButton>
+					<ChineseButton disabled style={{ flex: 1, color: settings.redColor }}>{cloneCommands['delete']}</ChineseButton>
+					<ChineseButton disabled style={{ flex: 1 }} onClick={() => copyToClipboard(lib.updateEach(plainText, selectedClone.effects))}>{cloneCommands['copy']}</ChineseButton>
 				</div>
 			</div>
 
 			<div style={{ display: 'flex' }}>
-				<textarea disabled={!clone && true}
+				<textarea disabled={!selectedClone && true}
 					spellCheck={false}
-					value={command}
-					onChange={e => setCommand(e.target.value)}
+					value={effectStr}
+					onChange={e => setEffectStr(e.target.value)}
 					rows={2}
 					placeholder={'Type Effect'}
 					style={{
@@ -105,7 +93,7 @@ function Controller({ clone }: { clone: CloneModel }) {
 						// cursor: 'progress',
 					}}
 				/>
-				<button className='chineseButton' style={{ flex: 0, height: 42, minWidth: 50, marginTop: 1 }} onClick={runCommand}>{cloneCommands['run']}</button>
+				<button className='chineseButton' style={{ flex: 0, height: 42, minWidth: 50, marginTop: 1, fontSize: 26, border: changed ? `1px solid ${settings.greenColor}` : 'none' }} onClick={runCommand}>{cloneCommands['run']}</button>
 			</div>
 		</div>
 	)
@@ -116,7 +104,7 @@ const cloneCommands: Record<string, string> = {
 	['duplicate']: '拷', // 名 Duplizieren ( Kopieren )
 	['delete']: '删', // 删 Löschen
 	['copy']: '复', // 删 Kopieren ( Zwischenspeicher )
-	['run']: '⏵',
+	['run']: '⤷',
 }
 
 function Clone({ clone }: { clone?: CloneModel }) {
@@ -125,8 +113,8 @@ function Clone({ clone }: { clone?: CloneModel }) {
 
 	useEffect(() => {
 		if (!clone || !selectedClone) return
-		log('Clone/[clone]/clone, selectedClone', clone, selectedClone.id)
-	}, [clone, selectedClone])
+		log('Clone/[clone]/clone', clone)
+	}, [clone])
 
 	function deselect() {
 		setSelectedClone(undefined)
@@ -167,7 +155,7 @@ export default function Clones() {
 
 	return (
 		<div id='clones' style={{ background: settings.material }}>
-			<Controller clone={selectedClone} />
+			<Controller selectedClone={selectedClone} />
 			<div style={{ display: 'flex', flexDirection: 'column', height: 250, overflowY: 'scroll' }}>
 				{clones?.map((clone, ix) => (
 					<Clone key={ix} clone={clone} />
