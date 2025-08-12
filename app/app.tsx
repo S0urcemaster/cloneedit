@@ -1,6 +1,6 @@
 'use client'
 import Editor from './editor'
-import Effects from './clones'
+import Effects from './effects'
 import { useCloneEditContext } from './context'
 import { Player } from './player'
 

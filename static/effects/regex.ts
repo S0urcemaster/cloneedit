@@ -1,6 +1,6 @@
-import { Effect } from "../../app/model"
+import { Instruction } from "../../app/model"
 
-export const effect_regex: Effect = {
+export const effect_regex: Instruction = {
    name: 'regex',
    update: (text: string) => {
       return 'not implemented'

@@ -1,6 +1,6 @@
-import { effects, CAESAR_CIPHER_EFFECT } from "../effects";
+import { Document } from "../../app/model";
 
-export const document_caesar_cypher = {
+export const document_caesar_cypher: Document = {
    name: 'Caesar Cypher',
    folderName: 'Examples',
    editor: {
@@ -9,29 +9,11 @@ export const document_caesar_cypher = {
       snippets: [],
       plainText: ''
    },
-   clones: [
-      {
-         id: 1,
-         sourceId: 0,
-         name: '1',
-         effects: 'caesarcipher 1'
-      },
-      {
-         id: 2,
-         sourceId: 0,
-         name: '2',
-         effects: 'caesarcipher 2'
-      },
-      {
-         id: 3,
-         sourceId: 0,
-         name: '3',
-         effects: 'caesarcipher 3'
-      },
-      {
-         id: 4,
-         name: '4',
-         effects: 'caesarcipher 4'
-      },
+   effects: [
+      '1 0\ncaesarcipher 1',
+      '2 0\ncaesarcipher 2',
+      '3 0\ncaesarcipher 3',
+      '4 0\ncaesarcipher 4',
+      '5 0\ncaesarcipher 5',
    ]
 }

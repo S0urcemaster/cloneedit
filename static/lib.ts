@@ -9,6 +9,7 @@ export const lib = {
 	},
 
 	updateEach: (source: string, insts: Instruction[]): string => {
+		log(source, insts)
 		if(!insts || insts.length === 0) {
 			return 'no valid effect name'
 		}
@@ -36,16 +37,27 @@ export const lib = {
 	},
 
 	fromTextInstructions: (text: string): Instruction[] => {
+		log('fromTextIntructions', text)
 		if(!text) return undefined
 		const split = text.split('\n')
-		const nameLineItems = split[0].trim().split(' ')
-		if(nameLineItems.length < 2) return null
-		if(!Number.isInteger(nameLineItems[1])) return null
-		return [{name: nameLineItems[0], args: [nameLineItems[1]], update: () => nameLineItems[0]}, ...split.splice(1).map(line => {
+		log('split', split)
+		const line0 = split[0].trim()
+		const sourceId = line0.substring(line0.lastIndexOf(' ')).trim()
+		const name = line0.substring(0, line0.lastIndexOf(' ')).trim()
+		if(!name || !sourceId) return null
+		if(Number.isNaN(sourceId)) return null
+		const result = [{name: name, args: [sourceId], update: (text) => name}, ...split.splice(1).map(line => {
 			const items = line.trim().split(' ')
-			if(items.length < 1) return
-			return {...Object.values(storedEffects).find(e => e.name === items[0]), name: split[0], args: items.splice(1)}
+			log('items', items)
+			// if(items.length < 1) return
+			const effect = Object.values(storedEffects).find(e => e.name === items[0])
+			log('name->effect', name, effect)
+			const result = {...effect, name: items[0], args: items.splice(1)}
+			log('res', result)
+			return result
 		})]
+		log('result', result)
+		return result
 	},
 
 	findDoc: (state: AppModel, folder: string, file: string): Document => {

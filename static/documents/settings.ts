@@ -1,6 +1,6 @@
-import { effects, TLDR_EFFECT } from "../effects";
+import { Document } from "../../app/model";
 
-export const document_settings = {
+export const document_settings: Document = {
    name: 'Settings',
    folderName: 'System',
    editor: {
@@ -11,12 +11,7 @@ editorBackground: #654654
       memory: [],
       snippets: [],
    },
-   clones: [
-      {
-         id: 1,
-         sourceId: 0,
-         name: 'tldr',
-         effects: 'tldr'
-      },
+   effects: [
+      'TLDR\ntldr',
    ]
 }

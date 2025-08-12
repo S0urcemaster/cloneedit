@@ -9,11 +9,11 @@ export type CloneEditContext = {
 	account: Account
 	availableFiles: string[]
 	availableFolders: string[]
-	effects: string[]
 	currentDocument?: Document
 	currentFile: string
 	currentFolder: string
 	editorActions: EditorAction[]
+	effects: string[]
 	plainText: string
 	selectedEffectId?: number
 	settings: Settings

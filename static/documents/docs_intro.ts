@@ -1,18 +1,19 @@
-import { effects, TLDR_EFFECT } from "../effects";
+import { Document } from "../../app/model";
 
-export const document_docs_intro = {
+export const document_docs_intro:Document = {
          name: 'doc_intro',
          folderName: 'System',
          editor: {
-            state: `<p class="editor-paragraph" dir="ltr">
-<span style="white-space: pre-wrap;">Clone Edit Manual</span></p>
-<p class="editor-paragraph" dir="ltr"><span style="white-space: pre-wrap;">Symbols</span></p>
-<p class="editor-paragraph" dir="ltr"><span style="white-space: pre-wrap;">克 - Clone</span></p>
-<p class="editor-paragraph" dir="ltr"><span style="white-space: pre-wrap;">文 - File</span></p>
-<p class="editor-paragraph" dir="ltr"><span style="white-space: pre-wrap;">信 - Info</span></p>
-<p class="editor-paragraph" dir="ltr"><span>删 - Clear / Delete</span></p>
-<p class="editor-paragraph" dir="ltr"><span style="white-space: pre-wrap;">复 - Copy</span></p>
-`,
+            state: '',
+// `<p class="editor-paragraph" dir="ltr">
+// <span style="white-space: pre-wrap;">Clone Edit Manual</span></p>
+// <p class="editor-paragraph" dir="ltr"><span style="white-space: pre-wrap;">Symbols</span></p>
+// <p class="editor-paragraph" dir="ltr"><span style="white-space: pre-wrap;">克 - Clone</span></p>
+// <p class="editor-paragraph" dir="ltr"><span style="white-space: pre-wrap;">文 - File</span></p>
+// <p class="editor-paragraph" dir="ltr"><span style="white-space: pre-wrap;">信 - Info</span></p>
+// <p class="editor-paragraph" dir="ltr"><span>删 - Clear / Delete</span></p>
+// <p class="editor-paragraph" dir="ltr"><span style="white-space: pre-wrap;">复 - Copy</span></p>
+// `,
 
             plainText: `Clone Edit Manual
 Symbols
@@ -27,12 +28,7 @@ Clone Edit is a DTW - Digital Text Workstation ( from DAW : Digital Audio Workst
             memory: [],
             snippets: [],
          },
-         clones: [
-            {
-               id: 1,
-               sourceId: 0,
-               name: 'tldr',
-               effects: 'tldr'
-            },
+         effects: [
+            'TLDR\ntldr'
          ]
       }

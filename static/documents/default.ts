@@ -1,32 +1,17 @@
-import { effects, HELP_EFFECT, REPLACE_CHARS_EFFECT, WELCOME_EFFECT } from "../effects";
+import { Document } from "../../app/model";
 
-export const document_default = {
+export const document_default: Document = {
          name: 'Default',
          folderName: 'User',
          editor: {
-            state: '',
             memory: [],
-            snippets: [],
             plainText: '',
+            snippets: [],
+            state: '',
          },
-         clones: [
-            {
-               id: 1,
-               sourceId: 0,
-               name: 'Influenza',
-               effects: 'Influenza 0\nreplacechars .·'
-            },
-            {
-               id: 2,
-               sourceId: 0,
-               name: 'Welcome',
-               effects: 'welcome'
-            },
-            {
-               id: 3,
-               sourceId: 0,
-               name: 'Effects Help',
-               effects: 'help'
-            },
+         effects: [
+            'Influenza 0\nreplacechars .·',
+            'Welcome 0\nwelcome',
+            'Effects Help 0\nhelp',
          ]
       }

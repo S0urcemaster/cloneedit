@@ -4,7 +4,6 @@ import { useCloneEditContext } from './context'
 import { lib } from '../static/lib'
 import { log } from '../static/constants'
 import { useClipboard } from './hooks'
-import { NumButton } from '../components/NumButton'
 import ChineseButton from '../components/ChineseButton'
 import { Effect as EffectModel, Instruction } from './model'
 
@@ -108,19 +107,25 @@ function Effect({ id, instructionsString }: { id: number, instructionsString?: s
 		// if (!instructionString) return
 		log('Effect/[instructionsString]/instructionsString', instructionsString)
 		const all = lib.fromTextInstructions(instructionsString)
+		log('all' ,all)
+		if(!all) return
 		setName(all[0].name)
 		setSourceId(parseInt(all[0].args[0]))
 		setInstructions(all.splice(1))
 	}, [instructionsString, plainText])
+
+	useEffect(() => {
+		log('Effect/[instructions]/instructions', instructions)
+	}, [instructions])
 
 	function deselect() {
 		setSelectedEffectId(undefined)
 	}
 
 	return (
-		<div className='clone' style={{}}>
+		<div className='effect' style={{}}>
 			<div style={{ display: 'flex', overflow: 'hidden', padding: '0px 0px 0px 0px', gap: 1 }} onClick={deselect}>
-				<div style={{ width: '100%', background: settings.cloneTitleBackground, color: settings.darkColor, padding: '2px 0 3px 5px' }}>{instructions[0].name}</div>
+				<div style={{ width: '100%', background: settings.cloneTitleBackground, color: settings.darkColor, padding: '2px 0 3px 5px' }}>{instructions[0]?.name}</div>
 				<button style={{ width: 99, minWidth: 99, height: 25, flex: 0, fontSize: 19 }} onClick={() => copyToClipboard(lib.updateEach(plainText, instructions))}>{cloneCommands['copy']}</button>
 			</div>
 			<div style={{ flexGrow: 1, }}>
