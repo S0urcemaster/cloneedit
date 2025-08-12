@@ -1,6 +1,6 @@
-import { Effect } from "../effects"
+import { Instruction } from "../../app/model"
 
-export const effect_tldr: Effect = {
+export const effect_tldr: Instruction = {
    name: 'tldr',
    update: () => {
       return 'not implemented'

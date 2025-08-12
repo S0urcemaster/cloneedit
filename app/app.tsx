@@ -1,6 +1,6 @@
 'use client'
 import Editor from './editor'
-import Clones from './clones'
+import Effects from './clones'
 import { useCloneEditContext } from './context'
 import { Player } from './player'
 
@@ -14,7 +14,7 @@ export default function App() {
 			<div style={{ borderTop: `1px solid ${settings.lightDarkColor}`, borderBottom: `1px solid ${settings.selectedColor}`}}></div>
 			<Editor />
 			<div style={{ borderTop: `1px solid ${settings.lightDarkColor}`, borderBottom: `1px solid ${settings.effectEditorColor}`}}></div>
-			<Clones />
+			<Effects />
 		</>
 	)
 }

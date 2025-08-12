@@ -18,21 +18,27 @@ export type Document = {
 	name: string
 	folderName: string
 	editor: Editor
-	clones: Clone[]
+	effects: string[]
 }
 
 export type Editor = {
-	state: string
-	plainText: string
+	state: string // lexical html serialized
+	plainText: string // for hardcoded stuff
 	memory: string[]
 	snippets: string[]
 }
 
-export type Clone = {
-	id: number // unique id benötigt pro Objekt
+export type Effect = {
 	name: string
-	sourceId: number // one source per Clone
-	effects: string
+	sourceId: number
+	instructions: string // string because it should be stored even if the input is incorrect
+}
+
+export interface Instruction { // the string 
+	name: string
+	args?: string[]
+	update: (text: string, ...args: string[]) => string
+	// doc: () => void
 }
 
 export type Settings = {

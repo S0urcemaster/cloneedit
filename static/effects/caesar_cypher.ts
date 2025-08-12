@@ -1,10 +1,10 @@
-import { Effect } from "../effects"
+import { Instruction } from "../../app/model"
 
-export const effect_caesar_cypher: Effect = {
+export const effect_caesar_cypher: Instruction = {
       name: 'caesarcipher',
       update: (text: string, [offset]) => {
          if(!offset || offset === '?') {
-            return 'Caesar Cypher usage : caesarcipher n'
+            return 'Caesar Cypher usage : caesarcipher n - while n is the positive or negative offset'
          }
          const shiftValue = Number(offset)
          if (isNaN(shiftValue) || !Number.isInteger(shiftValue)) {

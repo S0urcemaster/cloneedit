@@ -1,6 +1,6 @@
-import { Effect } from "../effects"
+import { Instruction } from "../../app/model"
 
-export const effect_replace_text: Effect = {
+export const effect_replace_text: Instruction = {
       name: 'replacetext',
       update: (text: string, search: string, replace: string) => {
          return 'Replace Text not implemented yet' // Implementierung fehlt

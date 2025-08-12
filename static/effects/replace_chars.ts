@@ -1,8 +1,8 @@
-import { Effect } from "../effects"
+import { Instruction } from "../../app/model"
 
 const usage = `Usage : replacechars ab xy 12`
 
-export const replace_chars: Effect = {
+export const replace_chars: Instruction = {
    name: 'replacechars',
    update: (text: string, ...args: string[]) => {
       const map: Record<string, string> = {}

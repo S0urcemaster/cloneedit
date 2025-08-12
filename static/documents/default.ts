@@ -14,7 +14,7 @@ export const document_default = {
                id: 1,
                sourceId: 0,
                name: 'Influenza',
-               effects: 'replacechars .·'
+               effects: 'Influenza 0\nreplacechars .·'
             },
             {
                id: 2,

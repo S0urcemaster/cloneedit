@@ -1,6 +1,6 @@
-import { Effect } from "../effects"
+import { Instruction } from "../../app/model"
 
-export const effect_replace_list: Effect = {
+export const effect_replace_list: Instruction = {
    name: 'replacelist',
    update: (text: string, searchList: string, replaceList: string) => {
       return 'Replace List not implemented yet' // Implementierung fehlt

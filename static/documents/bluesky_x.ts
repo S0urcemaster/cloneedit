@@ -10,7 +10,7 @@ export const document_bluesky_x: Document = {
             snippets: [],
             plainText: '',
          },
-         clones: [
+         effects: [
             {
                id: 1,
                sourceId: 0,

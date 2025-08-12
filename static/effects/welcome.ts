@@ -1,6 +1,6 @@
-import { Effect } from "../effects"
+import { Instruction } from "../../app/model"
 
-export const effect_welcome: Effect = {
+export const effect_welcome: Instruction = {
       name: 'welcome',
       update: (text: string) => {
          if(text) {

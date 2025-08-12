@@ -1,5 +1,5 @@
-import { Effect, effects as storedEffects } from './effects'
-import { App as AppModel, Document } from '../app/model'
+import { effects as storedEffects } from './effects'
+import { App as AppModel, Document, Effect, Instruction } from '../app/model'
 import { log } from './constants'
 
 export const lib = {
@@ -8,14 +8,13 @@ export const lib = {
 		return (offset +range +value) % range;
 	},
 
-	updateEach: (source: string, effectStr: string): string => {
-		const effects = lib.fromTextEffects(effectStr)
-		if(!effects || effects.length === 0) {
+	updateEach: (source: string, insts: Instruction[]): string => {
+		if(!insts || insts.length === 0) {
 			return 'no valid effect name'
 		}
 		let result = source
 		let errors = ''
-		effects.map(effect => {
+		insts.map(effect => {
 			const eff = storedEffects[effect.name]
 			if(!eff) {
 				errors += 'no such effect : ' +effect.name +' ' +storedEffects[effect.name]
@@ -26,9 +25,9 @@ export const lib = {
 		return errors ? errors +'\n' +result : result
 	},
 
-	toTextEffects: (effects: Effect[]): string => {
-		return effects.map(eff => {
-			log('lib/toTextEffects', effects)
+	toTextInstructions: (inst: Instruction[]): string => {
+		return inst.map(eff => {
+			log('lib/toTextEffects', inst)
 			if(eff.args) {
 				return `${eff.name} ${eff.args?.join(' ')}`
 			}
@@ -36,11 +35,17 @@ export const lib = {
 		}).join('\n')
 	},
 
-	fromTextEffects: (text: string): Effect[] => {
-		return text.split('\n').map(line => {
+	fromTextInstructions: (text: string): Instruction[] => {
+		if(!text) return undefined
+		const split = text.split('\n')
+		const nameLineItems = split[0].trim().split(' ')
+		if(nameLineItems.length < 2) return null
+		if(!Number.isInteger(nameLineItems[1])) return null
+		return [{name: nameLineItems[0], args: [nameLineItems[1]], update: () => nameLineItems[0]}, ...split.splice(1).map(line => {
 			const items = line.trim().split(' ')
-			return {...Object.values(storedEffects).find(e => e.name === items[0]), name: items[0], args: items.splice(1)} // add update()
-		})
+			if(items.length < 1) return
+			return {...Object.values(storedEffects).find(e => e.name === items[0]), name: split[0], args: items.splice(1)}
+		})]
 	},
 
 	findDoc: (state: AppModel, folder: string, file: string): Document => {
@@ -63,7 +68,7 @@ export const lib = {
 		return true
 	},
 
-	parseCommand: (command: string): Effect => {
+	parseInstruction: (command: string): Instruction => {
 		if (!lib.validateCommand(command)) return null
 		const split = command.trim().split(/\s+/)
 		const effect = Object.values(storedEffects).find(effect => {
@@ -74,7 +79,7 @@ export const lib = {
 		return effect
 	},
 
-	joinCommand: (effect: Effect): string => {
+	joinInstruction: (effect: Instruction): string => {
 		if(effect.args) {
 			return effect.name + ' ' + effect.args.join(' ')
 		}

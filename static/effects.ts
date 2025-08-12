@@ -7,6 +7,7 @@ import { effect_substring } from '../static/effects/substring'
 import { effect_tldr } from './effects/tldr'
 import { replace_chars } from './effects/replace_chars'
 import { effect_help } from './effects/effects_help'
+import { Effect, Instruction } from '../app/model'
 
 export const CAESAR_CIPHER_EFFECT = 'caesarcipher'
 export const HELP_EFFECT = 'help'
@@ -18,14 +19,7 @@ export const REPLACE_TEXT_EFFECT = 'replacetext'
 export const TLDR_EFFECT = 'tldr'
 export const WELCOME_EFFECT = 'welcome'
 
-export type Effect = {
-	name: string
-	args?: string[]
-	update: (text: string, ...args: string[]) => string
-   // doc: () => void
-}
-
-export const effects: Record<string, Effect> = {
+export const effects: Record<string, Instruction> = {
    [CAESAR_CIPHER_EFFECT]: effect_caesar_cypher,
    [HELP_EFFECT]: effect_help,
    [WELCOME_EFFECT]: effect_welcome,

@@ -69,7 +69,8 @@ function Head() {
 					<h1 className={fonts[FONT_GEMUNU_LIBRE].font.className + ' appTitleVisibility'}
 						style={{ fontSize: 28, paddingLeft: 5, height: 25, marginTop: -8, color: settings.cloneeditColor, cursor: 'help', whiteSpace: 'nowrap' }} onClick={showDocs}>
 						<div style={{ display: 'flex' }}>
-							<div>Cl</div><div style={{ fontSize: 'normal', marginTop: 4 }}>克</div><div>ne Edit</div>
+							{/* <div>Cl</div><div style={{ fontSize: 'normal', marginTop: 4 }}>克</div><div>ne Edit</div> */}
+							<div>T e x 𝑓 𝑥</div>
 						</div>
 					</h1>
 				</div>
