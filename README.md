@@ -17,6 +17,13 @@ Early development Pre-alpha
 
 User Documentation built-in and updated from time to time
 
+> discontinued in favor for a private project
+
+You can use cloneedit freely for your own work under MIT License ( Attribution ) :
+Idea : Sebastian Teister sourcemaster@digi-craft.de
+
+如果没有规则，就不会有规则。
+
 Screenshot
 
 ![05.08.25](screenshot.png)

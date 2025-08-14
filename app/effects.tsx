@@ -22,7 +22,7 @@ function Controller() {
 
 	useEffect(() => {
 		log('Controller/[selectedEffect]/selectedEffectId', selectedEffectId)
-		if (!selectedEffectId) return
+		if (!currentDocument || selectedEffectId !== undefined) return
 		setSelectedEffect(currentDocument.effects[selectedEffectId])
 	}, [selectedEffectId])
 
